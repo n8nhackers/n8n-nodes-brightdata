@@ -5,7 +5,7 @@ import type {
 	ILoadOptionsFunctions,
 	JsonObject,
 	IHttpRequestMethods,
-	IRequestOptions,
+	IHttpRequestOptions,
 } from 'n8n-workflow';
 import { NodeApiError } from 'n8n-workflow';
 
@@ -21,14 +21,14 @@ export async function brightdataApiRequest(
 	query?: IDataObject,
 	option: IDataObject = {},
 ): Promise<any> {
-	const options: IRequestOptions = {
+	const options: IHttpRequestOptions = {
 		method,
 		headers: {
 			'User-Agent': 'n8n',
 		},
 		body,
 		qs: query,
-		uri: '',
+		url: 'https://api.brightdata.com',
 		json: true,
 	};
 
@@ -36,23 +36,12 @@ export async function brightdataApiRequest(
 		Object.assign(options, option);
 	}
 
+	options.url += endpoint;
+
+	console.log(options);
+
 	try {
-		const authenticationMethod = this.getNodeParameter(
-			'authentication',
-			0,
-			'bearerToken',
-		) as string;
-		let credentialType = '';
-
-		if (authenticationMethod === 'bearerToken') {
-			const credentials = await this.getCredentials('brightdataApi');
-			credentialType = 'brightdataApi';
-
-			const baseUrl = credentials.server || 'https://api.brightdata.com';
-			options.uri = `${baseUrl}${endpoint}`;
-		}
-
-		return await this.helpers.requestWithAuthentication.call(this, credentialType, options);
+		return await this.helpers.requestWithAuthentication.call(this, 'brightdataApi', options);
 	} catch (error) {
 		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
