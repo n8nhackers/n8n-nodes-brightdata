@@ -1,5 +1,5 @@
 import { INodeType, INodeTypeDescription } from 'n8n-workflow';
-import { webUnlockerFields, webUnlockerOperations } from './WebUnlockerDescription';
+import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
 
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {

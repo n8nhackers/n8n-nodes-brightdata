@@ -1,6 +1,5 @@
 import {
 	IAuthenticateGeneric,
-	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
 } from 'n8n-workflow';
@@ -8,20 +7,14 @@ import {
 export class BrightDataApi implements ICredentialType {
 	name = 'brightDataApi';
 	displayName = 'BrightData API';
-	documentationUrl = '<your-docs-url>';
+	documentationUrl = 'https://docs.brightdata.com/api-reference/introduction';
 	properties: INodeProperties[] = [
 		{
 			displayName: 'Token',
 			name: 'token',
 			type: 'string',
 			default: '',
-		},
-		{
-			displayName: 'Domain',
-			name: 'domain',
-			type: 'string',
-			default: 'https://brightdata.com',
-		},
+		}
 	];
 
 	// This allows the credential to be used by other parts of n8n
@@ -34,14 +27,6 @@ export class BrightDataApi implements ICredentialType {
 			headers: {
 				Authorization: '={{"Bearer " + $credentials.token}}',
 			},
-		},
-	};
-
-	// The block below tells how this credential can be tested
-	test: ICredentialTestRequest = {
-		request: {
-			baseURL: '={{$credentials?.domain}}',
-			url: '/bearer',
 		},
 	};
 }
