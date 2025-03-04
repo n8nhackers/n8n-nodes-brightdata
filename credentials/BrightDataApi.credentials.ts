@@ -5,7 +5,7 @@ import {
 } from 'n8n-workflow';
 
 export class BrightDataApi implements ICredentialType {
-	name = 'brightDataApi';
+	name = 'brightdataApi';
 	displayName = 'BrightData API';
 	documentationUrl = 'https://docs.brightdata.com/api-reference/introduction';
 	properties: INodeProperties[] = [

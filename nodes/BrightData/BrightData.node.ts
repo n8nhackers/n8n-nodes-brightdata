@@ -1,10 +1,11 @@
 import { INodeType, INodeTypeDescription } from 'n8n-workflow';
 import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
+import { getActiveZones } from './SearchFunctions';
 
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'BrightData',
-		name: 'brightData',
+		name: 'brightdata',
 		icon: 'file:brightdata.svg',
 		group: ['transform'],
 		version: 1,
@@ -17,7 +18,7 @@ export class BrightData implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'brightDataApi',
+				name: 'brightdataApi',
 				required: false,
 			},
 		],
@@ -58,5 +59,11 @@ export class BrightData implements INodeType {
 			...webUnlockerOperations,
 			...webUnlockerFields,
 		],
+	};
+
+	methods = {
+		listSearch: {
+			getActiveZones: getActiveZones
+		}
 	};
 }
