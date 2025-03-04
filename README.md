@@ -8,17 +8,13 @@ If you have any questions or remarks please [contact me](mailto:contact@n8nhacke
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-## TL;DR
-Don't want to read? Import the sample workflow () to test this node with random samples.
-![Generate dynamic contents for EMAILS or HTML pages](images/workflow-sample.png?raw=true "Generate dynamic contents for EMAILS or HTML pages")
-
 ## Installation
 
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
 ## Compatibility
 
-This node was developed and tested with version 1.81.4
+This node was developed and tested with n8n version 1.81.4
 
 ## Resources
 
@@ -43,6 +39,10 @@ Ideal for:
 Please, follow [specification](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction) to setup this API.
 
 #### Usage
+
+##### TL;DR
+Don't want to read? Import the sample workflow () to test this node with random samples.
+![Generate dynamic contents for EMAILS or HTML pages](images/workflow-sample.png?raw=true "Generate dynamic contents for EMAILS or HTML pages")
 
 ##### Operation
 This resource exposes the operation "Send a Request" to call the API.
