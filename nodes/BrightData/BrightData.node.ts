@@ -1,28 +1,28 @@
 import { INodeType, INodeTypeDescription } from 'n8n-workflow';
-import { httpVerbFields, httpVerbOperations } from './HttpVerbDescription';
+import { webUnlockerFields, webUnlockerOperations } from './WebUnlockerDescription';
 
-export class HttpBin implements INodeType {
+export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'HttpBin',
-		name: 'httpBin',
-		icon: 'file:httpbin.svg',
+		displayName: 'BrightData',
+		name: 'brightData',
+		icon: 'file:brightdata.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with HttpBin API',
+		description: 'Interact with BrightData API',
 		defaults: {
-			name: 'HttpBin',
+			name: 'BrightData',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'httpbinApi',
+				name: 'brightDataApi',
 				required: false,
 			},
 		],
 		requestDefaults: {
-			baseURL: 'https://httpbin.org',
+			baseURL: 'https://api.brightdata.com',
 			url: '',
 			headers: {
 				Accept: 'application/json',
@@ -48,15 +48,15 @@ export class HttpBin implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'HTTP Verb',
-						value: 'httpVerb',
+						name: 'Web Unlocker',
+						value: 'webUnlocker',
 					},
 				],
-				default: 'httpVerb',
+				default: 'webUnlocker',
 			},
 
-			...httpVerbOperations,
-			...httpVerbFields,
+			...webUnlockerOperations,
+			...webUnlockerFields,
 		],
 	};
 }
