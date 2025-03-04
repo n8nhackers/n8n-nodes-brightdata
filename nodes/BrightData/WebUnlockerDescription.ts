@@ -22,11 +22,11 @@ export const webUnlockerOperations: INodeProperties[] = [
 						method: 'POST',
 						url: '/request',
 						body: {
-							zone: '{{$json["zone"]}}',
-							url: '{{$json["url"]}}',
-							format: '{{$json["format"]}}',
-							method: '{{$json["method"]}}',
-							country: '{{$json["country"]}}',
+							zone: '={{$parameters["zone"]}}',
+							url: '={{$parameters["url"]}}',
+							format: '={{$parameters["format"]}}',
+							method: '={{$parameters["method"]}}',
+							country: '={{$parameters["country"]}}',
 						},
 					},
 				},
@@ -39,37 +39,13 @@ export const webUnlockerOperations: INodeProperties[] = [
 // Here we define what to show when the `get` operation is selected.
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
 const requestOperation: INodeProperties[] = [
-	// {
-	// 	displayName: 'Zone',
-	// 	name: 'zone',
-	// 	type: 'options',
-	// 	options: [
-	// 		{
-	// 			name: 'Zone 1',
-	// 			value: 'zone1',
-	// 		},
-	// 		{
-	// 			name: 'Zone 2',
-	// 			value: 'zone2',
-	// 		},
-	// 	],
-	// 	default: 'zone1',
-	// 	required: true,
-	// 	description: 'Select the zone',
-	// 	displayOptions: {
-	// 		show: {
-	// 			resource: ['webUnlocker'],
-	// 			operation: ['request'],
-	// 		},
-	// 	},
-	// },
 	{
 		displayName: 'Zone',
 		name: 'zone',
 		type: 'resourceLocator',
 		default: {
 			mode: 'list',
-			value: ''
+			value: 'web_unlocker1'
 		},
 		modes: [
 			{

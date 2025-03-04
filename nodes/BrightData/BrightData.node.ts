@@ -1,6 +1,6 @@
 import { INodeType, INodeTypeDescription } from 'n8n-workflow';
 import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
-import { getActiveZones } from './SearchFunctions';
+import { getActiveZones, getCountries } from './SearchFunctions';
 
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
@@ -9,7 +9,8 @@ export class BrightData implements INodeType {
 		icon: 'file:brightdata.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		//subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		subtitle: '={{$parameter["zone"] + ": " + $parameter["country"]}}',
 		description: 'Interact with BrightData API',
 		defaults: {
 			name: 'BrightData',
@@ -23,7 +24,8 @@ export class BrightData implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: 'https://api.brightdata.com',
+			//baseURL: 'https://api.brightdata.com',
+			baseURL: 'https://brightdata.free.beeceptor.com',
 			url: '',
 			headers: {
 				Accept: 'application/json',
@@ -55,7 +57,6 @@ export class BrightData implements INodeType {
 				],
 				default: 'webUnlocker',
 			},
-
 			...webUnlockerOperations,
 			...webUnlockerFields,
 		],
@@ -63,7 +64,8 @@ export class BrightData implements INodeType {
 
 	methods = {
 		listSearch: {
-			getActiveZones: getActiveZones
+			getActiveZones: getActiveZones,
+			getCountries: getCountries,
 		}
 	};
 }
