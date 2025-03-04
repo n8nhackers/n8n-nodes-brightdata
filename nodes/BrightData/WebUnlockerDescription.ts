@@ -21,13 +21,16 @@ export const webUnlockerOperations: INodeProperties[] = [
 					request: {
 						method: 'POST',
 						url: '/request',
-						body: {
-							zone: '={{$parameters["zone"]}}',
-							url: '={{$parameters["url"]}}',
-							format: '={{$parameters["format"]}}',
-							method: '={{$parameters["method"]}}',
-							country: '={{$parameters["country"]}}',
-						},
+					},
+					output: {
+						postReceive: [
+							{
+								type: 'set',
+								properties: {
+									value: '={{ {"code": $response["statusCode"], "data": $response["body"]} }}'
+								},
+							},
+						],
 					},
 				},
 			},
@@ -58,6 +61,12 @@ const requestOperation: INodeProperties[] = [
 				},
 			}
 		],
+		routing: {
+			send: {
+				type: 'body',
+				property: 'zone',
+			}
+		},
 		required: true,
 		description: 'Select the zone',
 		displayOptions: {
@@ -86,6 +95,12 @@ const requestOperation: INodeProperties[] = [
 				},
 			}
 		],
+		routing: {
+			send: {
+				type: 'body',
+				property: 'country',
+			}
+		},
 		required: true,
 		description: 'Select the country',
 		displayOptions: {
@@ -125,6 +140,12 @@ const requestOperation: INodeProperties[] = [
 				value: 'PUT',
 			},
 		],
+		routing: {
+			send: {
+				type: 'body',
+				property: 'method',
+			}
+		},
 		default: 'GET',
 		required: true,
 		description: 'The HTTP method to use',
@@ -140,6 +161,12 @@ const requestOperation: INodeProperties[] = [
 		name: 'url',
 		type: 'string',
 		default: '',
+		routing: {
+			send: {
+				type: 'body',
+				property: 'url',
+			}
+		},
 		required: true,
 		description: 'The URL to send the request to',
 		displayOptions: {
@@ -164,6 +191,12 @@ const requestOperation: INodeProperties[] = [
 				value: 'json',
 			},
 		],
+		routing: {
+			send: {
+				type: 'body',
+				property: 'format',
+			}
+		},
 		default: 'raw',
 		required: true,
 		description: 'The format of the response',
