@@ -22,16 +22,16 @@ export const webUnlockerOperations: INodeProperties[] = [
 						method: 'POST',
 						url: '/request',
 					},
-					output: {
-						postReceive: [
-							{
-								type: 'set',
-								properties: {
-									value: '={{ {"code": $response["statusCode"], "data": $response["body"]} }}'
-								},
-							},
-						],
-					},
+					// output: {
+					// 	postReceive: [
+					// 		{
+					// 			type: 'set',
+					// 			properties: {
+					// 				value: '={{ {"code": $response["statusCode"], "data": $response["body"]} }}'
+					// 			},
+					// 		},
+					// 	],
+					// },
 				},
 			},
 		],

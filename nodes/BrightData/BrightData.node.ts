@@ -9,8 +9,8 @@ export class BrightData implements INodeType {
 		icon: 'file:brightdata.svg',
 		group: ['transform'],
 		version: 1,
-		//subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		subtitle: '={{$parameter["zone"] + ": " + $parameter["country"]}}',
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		//subtitle: '={{$parameter["zone"] + ": " + $parameter["country"]}}',
 		description: 'Interact with BrightData API',
 		defaults: {
 			name: 'BrightData',
