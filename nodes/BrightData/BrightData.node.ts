@@ -25,7 +25,6 @@ export class BrightData implements INodeType {
 		],
 		requestDefaults: {
 			baseURL: 'https://api.brightdata.com',
-			//baseURL: 'https://brightdata.free.beeceptor.com',
 			url: '',
 			headers: {
 				Accept: 'application/json',
