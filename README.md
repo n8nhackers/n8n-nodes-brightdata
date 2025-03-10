@@ -40,14 +40,14 @@ Please, follow [specification](https://docs.brightdata.com/scraping-automation/w
 
 #### Usage
 
-##### TL;DR
+- TL;DR
 Don't want to read? Import the sample workflow () to test this node with random samples.
 ![Generate dynamic contents for EMAILS or HTML pages](images/workflow-sample.png?raw=true "Generate dynamic contents for EMAILS or HTML pages")
 
-##### Operation
+- Operation
 This resource exposes the operation "Send a Request" to call the API.
 
-##### Properties
+- Properties
 The next properties are included:
 - zone: You can choose between your existing zone names.
 - url: The target URL you wish to access via Web Unlocker API.
