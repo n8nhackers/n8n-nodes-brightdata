@@ -51,7 +51,10 @@ Please, follow [documentation](https://docs.brightdata.com/scraping-automation/w
 			- country: The country you will use to access the target URL.
 
 ### TL;DR
+![Get deals of the day](images/workflow-sample.png?raw=true "Get deals of the day")
+
 Don't want to read? Import the [Get deals of the day](use-cases/workflow-sample.json?raw=true "Get deals of the day").
+
 This n8n workflow automates the process of collecting and delivering the "Deals of the Day" from MediaMarkt, specifically tailored to user preferences, and sends those deals via email.
 
 #### Workflow Overview:
@@ -70,7 +73,6 @@ This n8n workflow automates the process of collecting and delivering the "Deals 
     - Using **Document Generator** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
 7. **Email Delivery**:
     - The document containing the recommended deals is sent to the user's email via **SMTP email send** with a personalized message that includes the list of deals.
-![Get deals of the day](images/workflow-sample.png?raw=true "Get deals of the day")
 
 
 # Contribution
