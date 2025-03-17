@@ -78,6 +78,26 @@ This n8n workflow automates the process of collecting and delivering the "Deals 
 7. **Email Delivery**:
     - The document containing the recommended deals is sent to the user's email via **SMTP email send** with a personalized message that includes the list of deals.
 
+#### Workflow Connections:
+
+1. **Form Submission** → **BrightData (Scrape Deals)**: The form triggers the request to scrape the MediaMarkt deals page.
+2. **BrightData** → **HTML Extraction**: The scraped content is processed to extract key page data.
+3. **HTML Extraction** → **OpenAI (Deal Generation)**: The extracted content is used as input for GPT-4o-mini to generate deal recommendations.
+4. **OpenAI** → **SplitOut**: The results are split into individual deal items.
+5. **SplitOut** → **DocumentGenerator**: The items are formatted into an HTML document.
+6. **DocumentGenerator** → **Send Email**: The document is emailed to the user.
+
+#### Final Output:
+
+- The user receives an email with a personalized list of the best deals based on their selected categories.
+
+#### Credentials Used:
+
+- **BrightData API**: For scraping data from MediaMarkt.
+- **OpenAI API**: To generate the list of recommended deals using GPT-4o-mini.
+- **SMTP**: For sending the email with the deals.
+
+This workflow is useful for automating product deal recommendations based on user input and sending personalized emails with the best deals available.
 
 # Contribution
 
