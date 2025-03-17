@@ -25,6 +25,7 @@ Bright Data’s Web Unlocker API makes data collection easy by managing proxies 
 Just send an API request with the target website, and get clean HTML/JSON responses.
 
 The Web Unlocker handles:
+
 - Optimal proxy selection
 - Custom headers
 - Fingerprinting
@@ -32,6 +33,7 @@ The Web Unlocker handles:
 
 
 Ideal for:
+
 - Scraping any website without blocks
 - Emulating real-user behavior
 - Teams without proxy infrastructure
