@@ -61,12 +61,14 @@ Don't want to read? Import the [Get deals of the day](use-cases/workflow-sample.
 
 This n8n workflow automates the process of collecting and delivering the "Deals of the Day" from MediaMarkt, specifically tailored to user preferences, and sends those deals via email.
 
+This workflow is useful for automating product deal recommendations based on user input and sending personalized emails with the best deals available.
+
 #### Workflow Overview:
 
 1. **User Interaction via Form**:
     - The user submits a form where they can select categories (such as appliances, cell phones, etc.) and provide their email address. This triggers the workflow to gather personalized deals based on their input.
 2. **Data Extraction**:
-    - Once the form is submitted, the workflow calls **BrightData** to scrape data from the MediaMarkt website (`https://www.mediamarkt.es/es/campaign/campanas-y-ofertas`) using a proxy service. The data is retrieved in JSON format.
+    - Once the form is submitted, the workflow calls **BrightData** community node to scrape data from the MediaMarkt website (`https://www.mediamarkt.es/es/campaign/campanas-y-ofertas`) using a proxy service. The data is retrieved in JSON format.
 3. **HTML Content Extraction**:
     - The raw HTML content from the website is extracted, focusing on the title and body, which are key to processing the content for recommendation.
 4. **Recommendation Generation using OpenAI**:
@@ -74,7 +76,7 @@ This n8n workflow automates the process of collecting and delivering the "Deals 
 5. **Data Structuring**:
     - The generated list of deals is split into individual deal items using **SplitOut**.
 6. **Document Creation**:
-    - Using **Document Generator** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
+    - Using **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
 7. **Email Delivery**:
     - The document containing the recommended deals is sent to the user's email via **SMTP email send** with a personalized message that includes the list of deals.
 
@@ -97,7 +99,9 @@ This n8n workflow automates the process of collecting and delivering the "Deals 
 - **OpenAI API**: To generate the list of recommended deals using GPT-4o-mini.
 - **SMTP**: For sending the email with the deals.
 
-This workflow is useful for automating product deal recommendations based on user input and sending personalized emails with the best deals available.
+#### External nodes Used:
+
+- **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)**: For generating html output using templates.
 
 # Contribution
 
@@ -105,7 +109,7 @@ To make this node even better, please let us know, [how you use it](mailto:conta
 
 # Issues
 
-If you have any issues, please [let us know on GitHub](https://github.com/n8nhackers/n8n-nodes-document-generator/issues).
+If you have any issues, please [let us know on GitHub](https://github.com/n8nhackers/n8n-nodes-brightdata/issues).
 
 # About
 
