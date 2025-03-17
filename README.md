@@ -30,12 +30,14 @@ The Web Unlocker handles:
 - Fingerprinting
 - CAPTCHAs
 
+
 Ideal for:
 - Scraping any website without blocks
 - Emulating real-user behavior
 - Teams without proxy infrastructure
 - Paying only for successful requests
 - [Premium domains](https://docs.brightdata.com/scraping-automation/web-unlocker/features#current-list-of-premium-domains) hard to be scraped (MediaMarkt, Hermes... )
+
 
 Please, follow [documentation](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction) to setup this API.
 
