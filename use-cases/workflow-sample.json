@@ -1,0 +1,327 @@
+{
+  "name": "BrightData - MediaMarkt - Deals of the day",
+  "nodes": [
+    {
+      "parameters": {
+        "zone": {
+          "__rl": true,
+          "mode": "list",
+          "value": "web_unlocker1"
+        },
+        "country": {
+          "__rl": true,
+          "mode": "list",
+          "value": "us"
+        },
+        "url": "https://www.mediamarkt.es/es/campaign/campanas-y-ofertas",
+        "format": "json",
+        "requestOptions": {}
+      },
+      "type": "CUSTOM.brightdata",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -380
+      ],
+      "id": "88d7a58f-8c4d-432c-b003-5e75c3b3bc88",
+      "name": "BrightData - BestBuy",
+      "credentials": {
+        "brightdataApi": {
+          "id": "6Hg8aOf3170H8HGg",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "body",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "title"
+            },
+            {
+              "key": "body",
+              "cssSelector": "body"
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        920,
+        -380
+      ],
+      "id": "065ec662-fe53-4bcb-a568-5b187506eb03",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "formTitle": "Top deals",
+        "formDescription": "This form returns top deals by your preferences in the same page.\n\nYou can schedule your future deals once per day at the end of this test.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Category",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Appliances"
+                  },
+                  {
+                    "option": "Cameras, CamCorders & Drones"
+                  },
+                  {
+                    "option": "Car Electronics "
+                  },
+                  {
+                    "option": "Cell Phones"
+                  },
+                  {
+                    "option": "Computers & Tablets"
+                  },
+                  {
+                    "option": "TV & Home Theater"
+                  },
+                  {
+                    "option": "Video Games"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Complete your email",
+              "requiredField": true
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "buttonLabel": "Get Deals",
+          "path": "get-top-deals",
+          "ignoreBots": true
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        500,
+        -380
+      ],
+      "id": "376dd44f-6bd8-45d2-a143-053fb3a84c36",
+      "name": "On form submission",
+      "webhookId": "33e8f7c3-82fb-4339-9c91-4b19aa6c14ba"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Generate a list of recommended deals in json list. Classify items by category. Generate the next properties: name, description, price, link and category. All properties will be in a property called: results. Translate texts to english if required.",
+              "role": "system"
+            },
+            {
+              "content": "=The input text is:\n{{ $json.body }}"
+            },
+            {
+              "content": "=Categories to filter: {{ $('On form submission').item.json.Category.join(',') }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        160,
+        -120
+      ],
+      "id": "4404d3b7-e822-4207-a30e-0194b0d379c9",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "bspWRymWPLhxwKiI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Our recommended deals!",
+        "completionMessage": "=We have sent {{ $('Split Out').all().length }} recommended deals to your email!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        -120
+      ],
+      "id": "c5155b83-408f-4bcb-b62a-b9118ae3466e",
+      "name": "Form",
+      "webhookId": "a67843b4-3ab9-427b-8e52-dfc42831065d"
+    },
+    {
+      "parameters": {
+        "oneTemplate": true,
+        "template": "<br>\nThese are our recommended deals today:<br>\n<ul>\n{{#each items}}\n<li>{{category}}: <a href=\"https://www.bestbuy.com{{link}}\">{{name}}</a> for {{price}}€</li>\n{{/each}}\n</ul>\n<br>"
+      },
+      "type": "n8n-nodes-document-generator.documentGenerator",
+      "typeVersion": 1,
+      "position": [
+        740,
+        -120
+      ],
+      "id": "8fd3d29c-8d16-4a1f-9d91-dbbdc57dd2a7",
+      "name": "DocumentGenerator"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "message.content.results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        540,
+        -120
+      ],
+      "id": "c71e3978-c78c-4d2f-8f00-221bb0835d95",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fromEmail": "deals@n8nhackers.com",
+        "toEmail": "={{ $('On form submission').first().json.Email}}",
+        "subject": "Your last deals!",
+        "html": "=Hi!\n<br>\n{{ $json.text }}\n\nBest,\n<br>\nThe n8nhackers team!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        -120
+      ],
+      "id": "c9fb6c2f-e26c-47c0-ae58-3cdbfbea5b9c",
+      "name": "Send Email",
+      "webhookId": "626001db-5451-4225-bf98-cd74c3952754",
+      "credentials": {
+        "smtp": {
+          "id": "DCXTDpiP5ar3dZgq",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "BrightData - BestBuy": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "BrightData - BestBuy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DocumentGenerator": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "DocumentGenerator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "85f7363b-eac2-413f-a61b-3f246d94c648",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "891463e100334eb67827824d23933c03ba831b425e7dc4843734239bac8fe4cc"
+  },
+  "id": "mnwJLythsdLxjqEv",
+  "tags": []
+}
