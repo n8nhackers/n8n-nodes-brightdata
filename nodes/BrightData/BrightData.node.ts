@@ -5,7 +5,7 @@ import { getActiveZones, getCountries } from './SearchFunctions';
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'BrightData',
-		name: 'brightdata',
+		name: 'brightData',
 		icon: 'file:brightdata.svg',
 		group: ['transform'],
 		version: 1,
