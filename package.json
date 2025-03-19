@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-brightdata",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Community node to work with BrightData service for scraping purposes",
   "keywords": [
     "n8n-community-node-package",
@@ -8,7 +8,7 @@
     "n8nhackers"
   ],
   "license": "MIT",
-  "homepage": "https://brightdata.com/",
+  "homepage": "https://n8nhackers.com/",
   "author": {
     "name": "Miquel Colomer",
     "email": "miquel@n8nhackers.com"
