@@ -2,7 +2,7 @@ import { INodeType, INodeTypeDescription } from 'n8n-workflow';
 import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
 import { getActiveZones, getCountries } from './SearchFunctions';
 
-export class BrightData implements INodeType {
+export class Brightdata implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'BrightData',
 		name: 'brightdata',
