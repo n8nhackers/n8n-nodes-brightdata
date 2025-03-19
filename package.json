@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-brightdata",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Community node to work with BrightData service for scraping purposes",
   "keywords": [
     "n8n-community-node-package",
@@ -35,7 +35,7 @@
       "dist/credentials/BrightDataApi.credentials.ts"
     ],
     "nodes": [
-      "dist/nodes/BrightData/BrightData.node.ts"
+      "dist/nodes/BrightData/Brightdata.node.ts"
     ]
   },
   "devDependencies": {
