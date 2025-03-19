@@ -35,7 +35,7 @@
       "dist/credentials/BrightDataApi.credentials.ts"
     ],
     "nodes": [
-      "dist/nodes/BrightData/Brightdata.node.ts"
+      "dist/nodes/BrightData/BrightData.node.ts"
     ]
   },
   "devDependencies": {
