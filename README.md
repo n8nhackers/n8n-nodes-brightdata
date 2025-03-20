@@ -2,7 +2,7 @@
 
 # n8n-nodes-brightdata
 
-This is an n8n community node. It helps you to use [BrightData APIs](https://docs.brightdata.com/scraping-automation/introduction) from n8n.
+This is an n8n community node. It helps you to use [Bright Data APIs](https://docs.brightdata.com/scraping-automation/introduction) from n8n.
 
 If you have any questions or remarks please [contact me](mailto:contact@n8nhackers.com).
 
@@ -68,7 +68,7 @@ This workflow is useful for automating product deal recommendations based on use
 1. **User Interaction via Form**:
     - The user submits a form where they can select categories (such as appliances, cell phones, etc.) and provide their email address. This triggers the workflow to gather personalized deals based on their input.
 2. **Data Extraction**:
-    - Once the form is submitted, the workflow calls **BrightData** community node to scrape data from the MediaMarkt website (`https://www.mediamarkt.es/es/campaign/campanas-y-ofertas`) using a proxy service. The data is retrieved in JSON format.
+    - Once the form is submitted, the workflow calls **Bright Data** community node to scrape data from the MediaMarkt website (`https://www.mediamarkt.es/es/campaign/campanas-y-ofertas`) using a proxy service. The data is retrieved in JSON format.
 3. **HTML Content Extraction**:
     - The raw HTML content from the website is extracted, focusing on the title and body, which are key to processing the content for recommendation.
 4. **Recommendation Generation using OpenAI**:
@@ -82,8 +82,8 @@ This workflow is useful for automating product deal recommendations based on use
 
 #### Workflow Connections:
 
-1. **Form Submission** → **BrightData (Scrape Deals)**: The form triggers the request to scrape the MediaMarkt deals page.
-2. **BrightData** → **HTML Extraction**: The scraped content is processed to extract key page data.
+1. **Form Submission** → **Bright Data (Scrape Deals)**: The form triggers the request to scrape the MediaMarkt deals page.
+2. **Bright Data** → **HTML Extraction**: The scraped content is processed to extract key page data.
 3. **HTML Extraction** → **OpenAI (Deal Generation)**: The extracted content is used as input for GPT-4o-mini to generate deal recommendations.
 4. **OpenAI** → **SplitOut**: The results are split into individual deal items.
 5. **SplitOut** → **DocumentGenerator**: The items are formatted into an HTML document.
@@ -95,7 +95,7 @@ This workflow is useful for automating product deal recommendations based on use
 
 #### Credentials Used:
 
-- **BrightData API**: For scraping data from MediaMarkt.
+- **Bright Data API**: For scraping data from MediaMarkt.
 - **OpenAI API**: To generate the list of recommended deals using GPT-4o-mini.
 - **SMTP**: For sending the email with the deals.
 
