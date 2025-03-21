@@ -6,7 +6,7 @@ export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'BrightData',
 		name: 'brightData',
-		icon: 'file:brightdata.png',
+		icon: 'file:brightdata.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
