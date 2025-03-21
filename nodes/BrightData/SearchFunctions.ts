@@ -13,9 +13,7 @@ type ZoneSearchItem = {
 
 type ZoneSearchResponse = ZoneSearchItem[];
 
-export async function getActiveZones(
-	this: ILoadOptionsFunctions,
-): Promise<INodeListSearchResult> {
+export async function getActiveZones(this: ILoadOptionsFunctions): Promise<INodeListSearchResult> {
 	const responseData: ZoneSearchResponse = await brightdataApiRequest.call(
 		this,
 		'GET',
@@ -53,7 +51,7 @@ type CountrySearchResponse = {
 		ISP_dedicated_host: {
 			country_codes: string[];
 		};
-	}
+	};
 };
 
 // type Country = {
@@ -177,9 +175,7 @@ type CountrySearchResponse = {
 // 	return country ? country.name : undefined;
 // }
 
-export async function getCountries(
-	this: ILoadOptionsFunctions,
-): Promise<INodeListSearchResult> {
+export async function getCountries(this: ILoadOptionsFunctions): Promise<INodeListSearchResult> {
 	const responseData: CountrySearchResponse = await brightdataApiRequest.call(
 		this,
 		'GET',
@@ -188,11 +184,13 @@ export async function getCountries(
 		{},
 	);
 
-	const results: INodeListSearchItems[] = responseData.zone_type.DC_shared.country_codes.map((code: string) => ({
-		name: code,
-		value: code,
-		type: 'DC_shared',
-	}));
+	const results: INodeListSearchItems[] = responseData.zone_type.DC_shared.country_codes.map(
+		(code: string) => ({
+			name: code,
+			value: code,
+			type: 'DC_shared',
+		}),
+	);
 
 	// sort by name
 	results.sort((a, b) => a.name.localeCompare(b.name));

@@ -48,7 +48,7 @@ const requestOperation: INodeProperties[] = [
 		type: 'resourceLocator',
 		default: {
 			mode: 'list',
-			value: 'web_unlocker1'
+			value: 'web_unlocker1',
 		},
 		modes: [
 			{
@@ -59,13 +59,13 @@ const requestOperation: INodeProperties[] = [
 				typeOptions: {
 					searchListMethod: 'getActiveZones',
 				},
-			}
+			},
 		],
 		routing: {
 			send: {
 				type: 'body',
 				property: 'zone',
-			}
+			},
 		},
 		required: true,
 		description: 'Select the zone',
@@ -82,7 +82,7 @@ const requestOperation: INodeProperties[] = [
 		type: 'resourceLocator',
 		default: {
 			mode: 'list',
-			value: 'us'
+			value: 'us',
 		},
 		modes: [
 			{
@@ -93,13 +93,13 @@ const requestOperation: INodeProperties[] = [
 				typeOptions: {
 					searchListMethod: 'getCountries',
 				},
-			}
+			},
 		],
 		routing: {
 			send: {
 				type: 'body',
 				property: 'country',
-			}
+			},
 		},
 		required: true,
 		description: 'Select the country',
@@ -144,7 +144,7 @@ const requestOperation: INodeProperties[] = [
 			send: {
 				type: 'body',
 				property: 'method',
-			}
+			},
 		},
 		default: 'GET',
 		required: true,
@@ -165,7 +165,7 @@ const requestOperation: INodeProperties[] = [
 			send: {
 				type: 'body',
 				property: 'url',
-			}
+			},
 		},
 		required: true,
 		description: 'The URL to send the request to',
@@ -195,7 +195,7 @@ const requestOperation: INodeProperties[] = [
 			send: {
 				type: 'body',
 				property: 'format',
-			}
+			},
 		},
 		default: 'raw',
 		required: true,
@@ -207,8 +207,6 @@ const requestOperation: INodeProperties[] = [
 			},
 		},
 	},
-
-
 ];
 
 export const webUnlockerFields: INodeProperties[] = [...requestOperation];

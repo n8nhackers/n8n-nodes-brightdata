@@ -65,6 +65,6 @@ export class BrightData implements INodeType {
 		listSearch: {
 			getActiveZones: getActiveZones,
 			getCountries: getCountries,
-		}
+		},
 	};
 }

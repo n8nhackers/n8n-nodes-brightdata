@@ -1,8 +1,4 @@
-import {
-	IAuthenticateGeneric,
-	ICredentialType,
-	INodeProperties,
-} from 'n8n-workflow';
+import { IAuthenticateGeneric, ICredentialType, INodeProperties } from 'n8n-workflow';
 
 export class BrightDataApi implements ICredentialType {
 	name = 'brightdataApi';
@@ -14,7 +10,7 @@ export class BrightDataApi implements ICredentialType {
 			name: 'token',
 			type: 'string',
 			default: '',
-		}
+		},
 	];
 
 	// This allows the credential to be used by other parts of n8n
