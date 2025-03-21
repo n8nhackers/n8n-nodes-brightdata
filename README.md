@@ -55,7 +55,7 @@ Please, follow [documentation](https://docs.brightdata.com/scraping-automation/w
 ### TL;DR
 ![Get deals of the day](images/workflow-sample.png?raw=true "Get deals of the day")
 
-Don't want to read? Copy the URL of [Get deals of the day](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/workflow-sample.json "Get deals of the day") and paste into "Import for URL" submenu at n8n.
+Don't want to read? Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy the URL of [Get deals of the day](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/workflow-sample.json "Get deals of the day") and paste into "Import for URL" submenu at n8n.
 
 This n8n workflow automates the process of collecting and delivering the "Deals of the Day" from MediaMarkt, specifically tailored to user preferences, and sends those deals via email.
 
