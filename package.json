@@ -36,10 +36,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/BrightDataApi.credentials.ts"
+      "dist/credentials/BrightDataApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/BrightData/BrightData.node.ts"
+      "dist/nodes/BrightData/BrightData.node.js"
     ]
   },
   "devDependencies": {
