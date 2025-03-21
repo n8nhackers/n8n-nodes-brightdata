@@ -2,15 +2,15 @@
 
 # n8n-nodes-brightdata
 
-This is an n8n community node. It helps you to use [Bright Data APIs](https://docs.brightdata.com/scraping-automation/introduction){:target="_blank"} from n8n.
+This is an n8n community node. It helps you to use [Bright Data APIs](https://docs.brightdata.com/scraping-automation/introduction) from n8n.
 
-If you have any questions or remarks please [contact me](mailto:contact@n8nhackers.com){:target="_blank"}.
+If you have any questions or remarks please [contact me](mailto:contact@n8nhackers.com).
 
-[n8n](https://n8n.io/){:target="_blank"} is a [fair-code licensed](https://docs.n8n.io/reference/license/){:target="_blank"} workflow automation platform.
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/){:target="_blank"} in the n8n community nodes documentation.
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
 ## Compatibility
 
@@ -37,9 +37,9 @@ Ideal for:
 - Emulating real-user behavior
 - Teams without proxy infrastructure
 - Paying only for successful requests
-- [Premium domains](https://docs.brightdata.com/scraping-automation/web-unlocker/features#current-list-of-premium-domains){:target="_blank"} hard to be scraped (MediaMarkt, Hermes... )
+- [Premium domains](https://docs.brightdata.com/scraping-automation/web-unlocker/features#current-list-of-premium-domains) hard to be scraped (MediaMarkt, Hermes... )
 
-Please, follow [documentation](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction){:target="_blank"} to setup this API.
+Please, follow [documentation](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction) to setup this API.
 
 #### Usage
 
@@ -55,7 +55,7 @@ Please, follow [documentation](https://docs.brightdata.com/scraping-automation/w
 ### TL;DR
 ![Get deals of the day](images/workflow-sample.png?raw=true "Get deals of the day")
 
-Don't want to read? Copy the URL of [Get deals of the day](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/workflow-sample.json "Get deals of the day"){:target="_blank"} and paste into "Import for URL" submenu at n8n.
+Don't want to read? Copy the URL of [Get deals of the day](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/workflow-sample.json "Get deals of the day") and paste into "Import for URL" submenu at n8n.
 
 This n8n workflow automates the process of collecting and delivering the "Deals of the Day" from MediaMarkt, specifically tailored to user preferences, and sends those deals via email.
 
@@ -74,7 +74,7 @@ This workflow is useful for automating product deal recommendations based on use
 5. **Data Structuring**:
 	- The generated list of deals is split into individual deal items using **SplitOut**.
 6. **Document Creation**:
-	- Using **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator){:target="_blank"}** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
+	- Using **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
 7. **Email Delivery**:
 	- The document containing the recommended deals is sent to the user's email via **SMTP email send** with a personalized message that includes the list of deals.
 
@@ -99,22 +99,22 @@ This workflow is useful for automating product deal recommendations based on use
 
 #### External nodes Used:
 
-- **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator){:target="_blank"}**: For generating html output using templates.
+- **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)**: For generating html output using templates.
 
 # Contribution
 
-To make this node even better, please let us know, [how you use it](mailto:contact@n8nhackers.com){:target="_blank"}. Commits are always welcome.
+To make this node even better, please let us know, [how you use it](mailto:contact@n8nhackers.com). Commits are always welcome.
 
 # Issues
 
-If you have any issues, please [let us know on GitHub](https://github.com/n8nhackers/n8n-nodes-brightdata/issues){:target="_blank"}.
+If you have any issues, please [let us know on GitHub](https://github.com/n8nhackers/n8n-nodes-brightdata/issues).
 
 # About
 
-Nodes by [n8nhackers.com](https://n8nhackers.com){:target="_blank"}. For productive use and consulting on this, [contact us please](mailto:contact@n8nhackers.com){:target="_blank"}.
+Nodes by [n8nhackers.com](https://n8nhackers.com). For productive use and consulting on this, [contact us please](mailto:contact@n8nhackers.com).
 
-Special thanks to [N8n nodemation](https://n8n.io){:target="_blank"} workflow automation by Jan Oberhauser.
+Special thanks to [N8n nodemation](https://n8n.io) workflow automation by Jan Oberhauser.
 
 # License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md){:target="_blank"}
+[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
