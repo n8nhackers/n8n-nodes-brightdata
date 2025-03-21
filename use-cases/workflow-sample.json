@@ -1,5 +1,5 @@
 {
-  "name": "My workflow",
+  "name": "My workflow 5",
   "nodes": [
     {
       "parameters": {
@@ -24,10 +24,10 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        360,
-        -160
+        420,
+        0
       ],
-      "id": "b0f2d25b-6dab-4569-b32d-e5b0508c2807",
+      "id": "5af35a8b-149d-47f8-8a89-30fe7bab489d",
       "name": "HTML"
     },
     {
@@ -85,10 +85,10 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        -60,
-        -160
+        0,
+        0
       ],
-      "id": "81d17cc3-d220-4c82-9545-2b4aea60f7ec",
+      "id": "6e039d0b-2b2e-43b6-be8f-540e6d084f04",
       "name": "On form submission",
       "webhookId": "33e8f7c3-82fb-4339-9c91-4b19aa6c14ba"
     },
@@ -120,14 +120,14 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        -400,
-        100
+        -340,
+        260
       ],
-      "id": "78aecb73-4bbb-4025-b690-32918e259b54",
+      "id": "b6d16585-a991-47ba-94c7-9681e581c541",
       "name": "OpenAI1",
       "credentials": {
         "openAiApi": {
-          "id": "bspWRymWPLhxwKiI",
+          "id": "oKzfvOwieOm4upQ2",
           "name": "OpenAi account"
         }
       }
@@ -142,10 +142,10 @@
       "type": "n8n-nodes-base.form",
       "typeVersion": 1,
       "position": [
-        600,
-        100
+        660,
+        260
       ],
-      "id": "dde28f29-dd1e-4247-af23-d1919c195a47",
+      "id": "018c6f15-f0a8-409f-832f-ea6d70bd818a",
       "name": "Form",
       "webhookId": "a67843b4-3ab9-427b-8e52-dfc42831065d"
     },
@@ -157,10 +157,10 @@
       "type": "n8n-nodes-document-generator.documentGenerator",
       "typeVersion": 1,
       "position": [
-        180,
-        100
+        240,
+        260
       ],
-      "id": "71940120-3cd9-4838-b1ff-a43998ae4c04",
+      "id": "89097434-ad6a-4de6-8191-37c94aa8207f",
       "name": "DocumentGenerator"
     },
     {
@@ -171,10 +171,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -20,
-        100
+        40,
+        260
       ],
-      "id": "7657a22b-a0b1-4587-913c-c59e9ae1e2ed",
+      "id": "2d880f5e-2f21-4d1d-a806-129ff7a358ab",
       "name": "Split Out"
     },
     {
@@ -188,15 +188,15 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        400,
-        100
+        460,
+        260
       ],
-      "id": "6574edca-1b50-4276-a040-63a8dc3a73b3",
+      "id": "4db0ba38-8d5e-49ee-8080-adc63848f010",
       "name": "Send Email",
       "webhookId": "626001db-5451-4225-bf98-cd74c3952754",
       "credentials": {
         "smtp": {
-          "id": "DCXTDpiP5ar3dZgq",
+          "id": "z3kiLWNZTH4wQaGy",
           "name": "SMTP account"
         }
       }
@@ -205,29 +205,31 @@
       "parameters": {
         "zone": {
           "__rl": true,
+          "value": "web_unlocker1",
           "mode": "list",
-          "value": "web_unlocker1"
+          "cachedResultName": "web_unlocker1"
         },
         "country": {
           "__rl": true,
+          "value": "es",
           "mode": "list",
-          "value": "us"
+          "cachedResultName": "es"
         },
         "url": "https://www.mediamarkt.es/es/campaign/campanas-y-ofertas",
         "format": "json",
         "requestOptions": {}
       },
-      "type": "CUSTOM.brightData",
+      "type": "n8n-nodes-brightdata.brightData",
       "typeVersion": 1,
       "position": [
-        140,
-        -160
+        220,
+        0
       ],
-      "id": "2cbeb49f-039b-46be-b5b7-9ffe4be663e2",
+      "id": "f05283a9-281d-4e5b-9f2d-6b604faad147",
       "name": "BrightData",
       "credentials": {
         "brightdataApi": {
-          "id": "6Hg8aOf3170H8HGg",
+          "id": "jk945kIuAFAo9bcg",
           "name": "BrightData account"
         }
       }
@@ -317,11 +319,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "0adc1629-ef55-483a-bc91-e8a938b3203e",
+  "versionId": "5b448645-20e7-463c-bbe9-d15149c41296",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "891463e100334eb67827824d23933c03ba831b425e7dc4843734239bac8fe4cc"
+    "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"
   },
-  "id": "FGF9jRM69tYKItbJ",
+  "id": "lE9vXok0PA2AME2C",
   "tags": []
 }
