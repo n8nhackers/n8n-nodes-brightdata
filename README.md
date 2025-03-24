@@ -99,6 +99,7 @@ This workflow is useful for automating product deal recommendations based on use
 
 #### External nodes Used:
 
+- **[Bright Data](https://www.npmjs.com/package/n8n-nodes-brightdata)**: For scrapping data from MediaMarkt.
 - **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)**: For generating html output using templates.
 
 # Contribution
