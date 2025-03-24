@@ -1,4 +1,7 @@
-import { INodeType, INodeTypeDescription } from 'n8n-workflow';
+import {
+	INodeType,
+	INodeTypeDescription,
+ } from 'n8n-workflow';
 import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
 import { getActiveZones, getCountries } from './SearchFunctions';
 
@@ -15,6 +18,7 @@ export class BrightData implements INodeType {
 		defaults: {
 			name: 'BrightData',
 		},
+		usableAsTool: true,
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [

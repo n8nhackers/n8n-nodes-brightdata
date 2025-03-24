@@ -102,6 +102,10 @@ This workflow is useful for automating product deal recommendations based on use
 - **[Bright Data](https://www.npmjs.com/package/n8n-nodes-brightdata)**: For scrapping data from MediaMarkt.
 - **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)**: For generating html output using templates.
 
+# Changelog
+Here you can find the list of changes applied to this node:
+- 1.0.11: Added support for using this node as tool from an Agent
+
 # Contribution
 
 To make this node even better, please let us know, [how you use it](mailto:contact@n8nhackers.com). Commits are always welcome.
