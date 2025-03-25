@@ -4,7 +4,7 @@
 
 This is an n8n community node. It helps you to use [Bright Data APIs](https://docs.brightdata.com/scraping-automation/introduction) from n8n.
 
-If you have any questions or remarks please [contact me](mailto:contact@n8nhackers.com).
+If you have any questions or remarks please [contact me](mailto:support@n8nhackers.com).
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
@@ -108,7 +108,7 @@ Here you can find the list of changes applied to this node:
 
 # Contribution
 
-To make this node even better, please let us know, [how you use it](mailto:contact@n8nhackers.com). Commits are always welcome.
+To make this node even better, please let us know, [how you use it](mailto:support@n8nhackers.com). Commits are always welcome.
 
 # Issues
 
@@ -116,7 +116,7 @@ If you have any issues, please [let us know on GitHub](https://github.com/n8nhac
 
 # About
 
-Nodes by [n8nhackers.com](https://n8nhackers.com). For productive use and consulting on this, [contact us please](mailto:contact@n8nhackers.com).
+Nodes by [n8nhackers.com](https://n8nhackers.com). For productive use and consulting on this, [contact us please](mailto:support@n8nhackers.com).
 
 Special thanks to [N8n nodemation](https://n8n.io) workflow automation by Jan Oberhauser.
 
