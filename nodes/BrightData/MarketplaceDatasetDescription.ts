@@ -239,7 +239,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	},
 
 	{
-		displayName: 'Parameters',
+		displayName: 'Webhook Parameters',
 		name: 'webhook_parameters',
 		type: 'collection',
 		placeholder: 'Add Webhook Options',
@@ -251,6 +251,19 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 		default: {},
 		options: [
+			{
+				displayName: 'Endpoint',
+				name: 'endpoint',
+				type: 'string',
+				default: '',
+				description: 'Webhook URL to send the data to',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.endpoint'
+					}
+				},
+			},
 			{
 				displayName: 'Filename Template',
 				name: 'template',

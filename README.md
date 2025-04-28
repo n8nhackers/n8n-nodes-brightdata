@@ -18,6 +18,30 @@ This node was developed and tested with n8n version 1.81.4
 
 ## Resources
 
+This node currently supports the next Resources:
+
+### Marketplace Dataset
+
+Bright Data’s Marketplace DataSet API allows access to a centralized platform providing regularly updated, ethically sourced datasets from multiple domains, offering flexible solutions for data customization and acquisition.
+
+The next operations are available:
+- Deliver Snapshot
+- Filter Dataset
+- Get Dataset Metadata
+- Get Snapshot Content
+- Get Snapshot Metadata
+- Get Snapshot Parts
+- List Datasets
+
+Ideal for:
+- Access to datasets across 120+ domains.
+- High-quality, ethically sourced data ensuring accuracy and compliance.
+- Regular updates from publicly available information.
+- Ready-to-use and on-demand solutions.
+- Flexible purchase options with comprehensive customization.
+- Suitable for various fields like social media, real estate, B2B data, and AI training.
+
+
 ### Web Unlocker
 
 Bright Data’s Web Unlocker API makes data collection easy by managing proxies and avoiding blocks. 
@@ -25,14 +49,12 @@ Bright Data’s Web Unlocker API makes data collection easy by managing proxies 
 Just send an API request with the target website, and get clean HTML/JSON responses.
 
 The Web Unlocker handles:
-
 - Optimal proxy selection
 - Custom headers
 - Fingerprinting
 - CAPTCHAs
 
 Ideal for:
-
 - Scraping any website without blocks
 - Emulating real-user behavior
 - Teams without proxy infrastructure
