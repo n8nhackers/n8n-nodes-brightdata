@@ -20,7 +20,7 @@ export class BrightData implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		//subtitle: '={{$parameter["zone"] + ": " + $parameter["country"]}}',
-		description: 'Interact with BrightData API',
+		description: 'Interact with BrightData to scrape websites or use existing datasets from the marketplace to generate adapted snapshots',
 		defaults: {
 			name: 'BrightData',
 		},
@@ -70,10 +70,10 @@ export class BrightData implements INodeType {
 				],
 				default: 'webUnlocker',
 			},
-			...webUnlockerOperations,
-			...webUnlockerFields,
 			...marketplaceDatasetOperations,
 			...marketplaceDatasetFields,
+			...webUnlockerOperations,
+			...webUnlockerFields,
 		],
 	};
 
