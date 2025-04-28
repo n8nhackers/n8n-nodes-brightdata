@@ -24,6 +24,7 @@ export class BrightData implements INodeType {
 		defaults: {
 			name: 'BrightData',
 		},
+		usableAsTool: true,
 		inputs: [{ type: NodeConnectionType.Main }],
 		outputs: [{ type: NodeConnectionType.Main }],
 		credentials: [

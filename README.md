@@ -126,6 +126,7 @@ This workflow is useful for automating product deal recommendations based on use
 
 # Changelog
 Here you can find the list of changes applied to this node:
+- 1.0.12: Added support for Marketplace DataSet endpoints
 - 1.0.11: Added support for using this node as tool from an Agent
 
 # Contribution
