@@ -249,7 +249,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				deliver_type: ['webhook'],
 			},
 		},
-		default: {},
+		default: {
+		},
 		options: [
 			{
 				displayName: 'Endpoint',
