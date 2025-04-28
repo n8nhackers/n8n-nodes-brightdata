@@ -41,7 +41,7 @@ export const webUnlockerOperations: INodeProperties[] = [
 
 // Here we define what to show when the `get` operation is selected.
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
-const requestOperation: INodeProperties[] = [
+const webUnlockerParameters: INodeProperties[] = [
 	{
 		displayName: 'Zone',
 		name: 'zone',
@@ -209,4 +209,4 @@ const requestOperation: INodeProperties[] = [
 	},
 ];
 
-export const webUnlockerFields: INodeProperties[] = [...requestOperation];
+export const webUnlockerFields: INodeProperties[] = [...webUnlockerParameters];

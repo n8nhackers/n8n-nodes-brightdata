@@ -94,10 +94,13 @@ export async function getDataSets(this: ILoadOptionsFunctions): Promise<INodeLis
 	);
 
 	const results: INodeListSearchItems[] = responseData.map((item: DataSetItem) => ({
-		name: item.id,
-		value: item.name,
+		name: item.name,
+		value: item.id,
 		type: item.id,
 	}));
+
+	// sort by name
+	results.sort((a, b) => a.name.localeCompare(b.name));
 
 	return { results };
 }
