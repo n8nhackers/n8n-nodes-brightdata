@@ -9,6 +9,9 @@ export class BrightDataApi implements ICredentialType {
 			displayName: 'Token',
 			name: 'token',
 			type: 'string',
+			typeOptions: {
+				password: true,
+			},
 			default: '',
 		},
 	];
