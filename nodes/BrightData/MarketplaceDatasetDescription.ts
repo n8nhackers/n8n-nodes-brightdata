@@ -418,6 +418,1005 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		],
 	},
 
+	{
+		displayName: 'Google Cloud PubSub Parameters',
+		name: 'pubsub_parameters',
+		type: 'collection',
+		placeholder: 'Add Google Cloud PubSub Options',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['pubsub'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Filename',
+				name: 'filename',
+				type: 'fixedCollection',
+				default: {},
+				typeOptions: {
+					multipleValues: false,
+				},
+				options: [
+					{
+						displayName: 'Filename Properties',
+						name: 'filenameProperties',
+						values: [
+							{
+								displayName: 'Template',
+								name: 'template',
+								type: 'string',
+								default: '',
+								description: 'Template for the filename, including placeholders',
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.filename.template',
+									},
+								},
+								required: true,
+							},
+							{
+								displayName: 'Extension',
+								name: 'extension',
+								type: 'options',
+								options: [
+									{
+										name: 'JSON',
+										value: 'json',
+									},
+									{
+										name: 'JSONL',
+										value: 'jsonl',
+									},
+									{
+										name: 'CSV',
+										value: 'csv',
+									},
+								],
+								default: 'json',
+								description: 'Available options: JSON, JSONL, CSV',
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.filename.extension',
+									},
+								},
+								required: true,
+							},
+						],
+					},
+				],
+			},
+			{
+				displayName: 'Topic ID',
+				name: 'topic_id',
+				type: 'string',
+				default: '',
+				description: 'The ID of the topic to publish to',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.topic_id',
+					},
+				},
+				required: true,
+			},
+			{
+				displayName: 'Credentials',
+				name: 'credentials',
+				type: 'fixedCollection',
+				default: {},
+				typeOptions: {
+					multipleValues: false,
+				},
+				options: [
+					{
+						displayName: 'Credential',
+						name: 'credential',
+						values: [
+							{
+								displayName: 'Client Email',
+								name: 'client_email',
+								type: 'string',
+								default: '',
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.client_email',
+									},
+								},
+								required: true,
+							},
+							{
+								displayName: 'Private Key',
+								name: 'private_key',
+								type: 'string',
+								typeOptions: {
+									password: true,
+								},
+								default: '',
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.private_key',
+									},
+								},
+								required: true,
+							},
+						],
+					},
+				],
+			},
+			{
+				displayName: 'Attributes',
+				name: 'attributes',
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				placeholder: 'Add Attribute',
+				default: {},
+				options: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'string',
+						default: '',
+						description: 'Attribute key',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.attributes[].key',
+							},
+						},
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+						description: 'Attribute value',
+						required: true,
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.attributes[].value',
+							},
+						},
+					},
+				],
+			},
+		],
+	},
+
+	{
+		displayName: 'S3 Parameters',
+		name: 's3_parameters',
+		type: 'collection',
+		placeholder: 'Add S3 Options',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['s3'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Bucket',
+				name: 'bucket',
+				type: 'string',
+				default: '',
+				description: 'Name of the bucket',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.bucket',
+					},
+				},
+			},
+			{
+				displayName: 'Credentials',
+				name: 'credentials',
+				type: 'collection',
+				placeholder: 'Add AWS Credentials',
+				default: {},
+				options: [
+					{
+						displayName: 'AWS Access Key',
+						name: 'aws-access-key',
+						type: 'string',
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.aws-access-key',
+							},
+						},
+					},
+					{
+						displayName: 'AWS Secret Key',
+						name: 'aws-secret-key',
+						type: 'string',
+						typeOptions: {
+							password: true,
+						},
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.aws-secret-key',
+							},
+						},
+					},
+					{
+						displayName: 'Role ARN',
+						name: 'role_arn',
+						type: 'string',
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.role_arn',
+							},
+						},
+					},
+					{
+						displayName: 'External ID',
+						name: 'external_id',
+						type: 'string',
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.external_id',
+							},
+						},
+					},
+				],
+				required: true,
+			},
+			{
+				displayName: 'Directory',
+				name: 'directory',
+				type: 'string',
+				default: '',
+				description: 'Target path',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.directory',
+					},
+				},
+			},
+			{
+				displayName: 'Filename',
+				name: 'filename',
+				type: 'collection',
+				placeholder: 'Add Filename Options',
+				default: {},
+				options: [
+					{
+						displayName: 'Template',
+						name: 'template',
+						type: 'string',
+						default: '',
+						description: 'Template for the filename, including placeholders',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.template',
+							},
+						},
+					},
+					{
+						displayName: 'Extension',
+						name: 'extension',
+						type: 'options',
+						options: [
+							{
+								name: 'JSON',
+								value: 'json',
+							},
+							{
+								name: 'JSONL',
+								value: 'jsonl',
+							},
+							{
+								name: 'CSV',
+								value: 'csv',
+							},
+						],
+						default: 'json',
+						description: 'Available options: JSON, jsonl, csv',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.extension',
+							},
+						},
+					},
+				],
+			},
+			{
+				displayName: 'Region',
+				name: 'region',
+				type: 'string',
+				default: '',
+				description: 'AWS Region',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.region',
+					},
+				},
+			},
+		],
+	},
+
+	{
+		displayName: 'Snowflake Parameters',
+		name: 'snowflake_parameters',
+		type: 'collection',
+		placeholder: 'Add Snowflake Options',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Credentials',
+				name: 'credentials',
+				type: 'collection',
+				placeholder: 'Add Snowflake Credentials',
+				default: {},
+				options: [
+					{
+						displayName: 'Account',
+						name: 'account',
+						type: 'string',
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.account',
+							},
+						},
+					},
+					{
+						displayName: 'User',
+						name: 'user',
+						type: 'string',
+						default: '',
+						required: true,
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.user',
+							},
+						},
+					},
+					{
+						displayName: 'Password',
+						name: 'password',
+						type: 'string',
+						typeOptions: {
+							password: true,
+						},
+						default: '',
+						required: true,
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.password',
+							},
+						},
+					},
+				],
+			},
+			{
+				displayName: 'Database',
+				name: 'database',
+				type: 'string',
+				default: '',
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.database',
+					},
+				},
+			},
+			{
+				displayName: 'Filename',
+				name: 'filename',
+				type: 'collection',
+				placeholder: 'Add Filename Options',
+				default: {},
+				options: [
+					{
+						displayName: 'Template',
+						name: 'template',
+						type: 'string',
+						default: '',
+						description: 'Template for the filename, including placeholders',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.template',
+							},
+						},
+					},
+					{
+						displayName: 'Extension',
+						name: 'extension',
+						type: 'options',
+						options: [
+							{
+								name: 'JSON',
+								value: 'json',
+							},
+							{
+								name: 'JSONL',
+								value: 'jsonl',
+							},
+							{
+								name: 'CSV',
+								value: 'csv',
+							},
+						],
+						default: 'json',
+						description: 'Available options: JSON, JSONL, CSV',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.extension',
+							},
+						},
+					},
+				],
+			},
+			{
+				displayName: 'Role',
+				name: 'role',
+				type: 'string',
+				default: '',
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.role',
+					},
+				},
+			},
+			{
+				displayName: 'Schema',
+				name: 'schema',
+				type: 'string',
+				default: '',
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.schema',
+					},
+				},
+			},
+			{
+				displayName: 'Stage',
+				name: 'stage',
+				type: 'string',
+				default: '',
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.stage',
+					},
+				},
+			},
+			{
+				displayName: 'Warehouse',
+				name: 'warehouse',
+				type: 'string',
+				default: '',
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.warehouse',
+					},
+				},
+			},
+		],
+	},
+
+	{
+		displayName: 'Aliyun OSS Parameters',
+		name: 'ali_oss_parameters',
+		type: 'collection',
+		placeholder: 'Add Aliyun OSS Options',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['ali_oss'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Bucket',
+				name: 'bucket',
+				type: 'string',
+				default: '',
+				description: 'Name of the bucket',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.bucket',
+					},
+				},
+			},
+			{
+				displayName: 'Credentials',
+				name: 'credentials',
+				type: 'fixedCollection',
+				default: {},
+				options: [
+					{
+						displayName: 'Credential',
+						name: 'credential',
+						values: [
+							{
+								displayName: 'Access Key',
+								name: 'access-key',
+								type: 'string',
+								default: '',
+								required: true,
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.access-key',
+									},
+								},
+							},
+							{
+								displayName: 'Secret Key',
+								name: 'secret-key',
+								type: 'string',
+								typeOptions: {
+									password: true,
+								},
+								default: '',
+								required: true,
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.secret-key',
+									},
+								},
+							},
+						],
+					},
+				],
+			},
+			{
+				displayName: 'Directory',
+				name: 'directory',
+				type: 'string',
+				default: '',
+				description: 'Target path',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.directory',
+					},
+				},
+			},
+			{
+				displayName: 'Filename',
+				name: 'filename',
+				type: 'collection',
+				placeholder: 'Add Filename Options',
+				default: {},
+				options: [
+					{
+						displayName: 'Extension',
+						name: 'extension',
+						type: 'options',
+						options: [
+							{
+								name: 'JSON',
+								value: 'json',
+							},
+							{
+								name: 'JSONL',
+								value: 'jsonl',
+							},
+							{
+								name: 'CSV',
+								value: 'csv',
+							},
+						],
+						default: 'json',
+						description: 'Available options: JSON, JSONL, CSV',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.extension',
+							},
+						},
+					},
+					{
+						displayName: 'Template',
+						name: 'template',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Template for the filename, including placeholders',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.template',
+							},
+						},
+					},
+				],
+			},
+			{
+				displayName: 'Region',
+				name: 'region',
+				type: 'string',
+				default: '',
+				required: true,
+				description: 'Region for the OSS',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.region',
+					},
+				},
+			},
+		],
+	},
+
+	{
+		displayName: 'SFTP Parameters',
+		name: 'sftp_parameters',
+		type: 'collection',
+		placeholder: 'Add SFTP Options',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Credentials',
+				name: 'credentials',
+				type: 'collection',
+				default: {},
+				options: [
+					{
+						displayName: 'Password',
+						name: 'password',
+						type: 'string',
+						typeOptions: {
+							password: true,
+						},
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.password',
+							},
+						},
+					},
+					{
+						displayName: 'Passphrase',
+						name: 'passphrase',
+						type: 'string',
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.passphrase',
+							},
+						},
+					},
+					{
+						displayName: 'SSH Key',
+						name: 'ssh_key',
+						type: 'string',
+						default: '',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.ssh_key',
+							},
+						},
+					},
+					{
+						displayName: 'Username',
+						name: 'username',
+						type: 'string',
+						default: '',
+						required: true,
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.credentials.username',
+							},
+						},
+					},
+				],
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.credentials',
+					},
+				},
+			},
+			{
+				displayName: 'Directory',
+				name: 'directory',
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.directory',
+					},
+				},
+			},
+			{
+				displayName: 'Filename',
+				name: 'filename',
+				type: 'collection',
+				placeholder: 'Add Filename Options',
+				default: {},
+				options: [
+					{
+						displayName: 'Extension',
+						name: 'extension',
+						type: 'options',
+						options: [
+							{
+								name: 'JSON',
+								value: 'json',
+							},
+							{
+								name: 'JSONL',
+								value: 'jsonl',
+							},
+							{
+								name: 'CSV',
+								value: 'csv',
+							},
+						],
+						default: 'json',
+						description: 'Available options: JSON, JSONL, CSV',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.extension',
+							},
+						},
+					},
+					{
+						displayName: 'Template',
+						name: 'template',
+						type: 'string',
+						default: '',
+						description: 'Template for the filename, including placeholders',
+						required: true,
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.template',
+							},
+						},
+					},
+				],
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.filename',
+					},
+				},
+			},
+			{
+				displayName: 'Path',
+				name: 'path',
+				type: 'string',
+				default: '',
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.path',
+					},
+				},
+			},
+			{
+				displayName: 'Port',
+				name: 'port',
+				type: 'number',
+				default: 22,
+				typeOptions: {
+					minValue: 0,
+					maxValue: 65535,
+				},
+				required: true,
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.port',
+					},
+				},
+			},
+		],
+	},
+
+	{
+		displayName: 'Microsoft Azure Parameters',
+		name: 'azure_parameters',
+		type: 'collection',
+		placeholder: 'Add Azure Options',
+		default: {},
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['azure'],
+			},
+		},
+		options: [
+			{
+				displayName: 'Container',
+				name: 'container',
+				type: 'string',
+				default: '',
+				typeOptions: {
+					minLength: 3,
+				},
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.container',
+					},
+				},
+			},
+			{
+				displayName: 'Credentials',
+				name: 'credentials',
+				type: 'fixedCollection',
+				default: {},
+				typeOptions: {
+					multipleValues: false,
+				},
+				options: [
+					{
+						displayName: 'Credential',
+						name: 'credential',
+						values: [
+							{
+								displayName: 'Account',
+								name: 'account',
+								type: 'string',
+								default: '',
+								required: true,
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.account',
+									},
+								},
+							},
+							{
+								displayName: 'SAS Token',
+								name: 'sas_token',
+								type: 'string',
+								typeOptions: {
+									password: true,
+								},
+								default: '',
+								required: true,
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.sas_token',
+									},
+								},
+							},
+							{
+								displayName: 'Key',
+								name: 'key',
+								type: 'string',
+								default: '',
+								routing: {
+									send: {
+										type: 'body',
+										property: 'deliver.credentials.key',
+									},
+								},
+							},
+						],
+					},
+				],
+			},
+			{
+				displayName: 'Directory',
+				name: 'directory',
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						property: 'deliver.directory',
+					},
+				},
+			},
+			{
+				displayName: 'Filename',
+				name: 'filename',
+				type: 'collection',
+				default: {},
+				required: true,
+				options: [
+					{
+						displayName: 'Template',
+						name: 'template',
+						type: 'string',
+						default: '',
+						description: 'Template for the filename, including placeholders',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.template',
+							},
+						},
+					},
+					{
+						displayName: 'Extension',
+						name: 'extension',
+						type: 'options',
+						options: [
+							{
+								name: 'JSON',
+								value: 'json',
+							},
+							{
+								name: 'JSONL',
+								value: 'jsonl',
+							},
+							{
+								name: 'CSV',
+								value: 'csv',
+							},
+						],
+						default: 'json',
+						required: true,
+						description: 'Available options: JSON, JSONL, CSV',
+						routing: {
+							send: {
+								type: 'body',
+								property: 'deliver.filename.extension',
+							},
+						},
+					},
+				],
+			},
+		],
+	},
 
 	//properties for snapshopContent
 	{
@@ -511,90 +1510,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	}
 
-
-	// {
-	// 	displayName: 'Format',
-	// 	name: 'format',
-	// 	type: 'options',
-	// 	options: [
-	// 		{
-	// 			name: 'JSON',
-	// 			value: 'json',
-	// 		},
-	// 		{
-	// 			name: 'JSONL',
-	// 			value: 'jsonl',
-	// 		},
-	// 		{
-	// 			name: 'CSV',
-	// 			value: 'csv',
-	// 		},
-	// 	],
-	// 	default: 'json',
-	// 	description: 'Format of the response. Available options: JSON, JSONL, CSV.',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		send: {
-	// 			type: 'query',
-	// 		},
-	// 	},
-	// },
-
-	// {
-	// 	displayName: 'Compress',
-	// 	name: 'compress',
-	// 	type: 'boolean',
-	// 	default: false,
-	// 	description: 'Whether to compress the response in gzip format',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		send: {
-	// 			type: 'query',
-	// 		},
-	// 	},
-	// },
-	// {
-	// 	displayName: 'Batch Size',
-	// 	name: 'batch_size',
-	// 	type: 'number',
-	// 	default: 100,
-	// 	description: 'Number of records to include in each response batch',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		send: {
-	// 			type: 'query',
-	// 		},
-	// 	},
-	// },
-	// {
-	// 	displayName: 'Part',
-	// 	name: 'part',
-	// 	type: 'number',
-	// 	default: 1,
-	// 	description: 'Number of batch to return. The numbering starts from 1.',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		send: {
-	// 			type: 'query',
-	// 		},
-	// 	},
-	// },
 
 ];
 
