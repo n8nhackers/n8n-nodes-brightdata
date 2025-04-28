@@ -4,7 +4,7 @@ import {
 	NodeConnectionType,
 } from 'n8n-workflow';
 import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
-// import { marketplaceDatasetOperations, marketplaceDatasetFields } from './MarketplaceDatasetDescription';
+import { marketplaceDatasetOperations, marketplaceDatasetFields } from './MarketplaceDatasetDescription';
 import { getActiveZones, getCountries } from './SearchFunctions';
 
 export class BrightData implements INodeType {
@@ -55,6 +55,19 @@ export class BrightData implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
+						name: 'Marketplace Dataset',
+						value: 'marketplaceDataset',
+					},
+				],
+				default: 'webUnlocker',
+			},
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{
 						name: 'Web Unlocker',
 						value: 'webUnlocker',
 					},
@@ -63,6 +76,8 @@ export class BrightData implements INodeType {
 			},
 			...webUnlockerOperations,
 			...webUnlockerFields,
+			...marketplaceDatasetOperations,
+			...marketplaceDatasetFields,
 		],
 	};
 

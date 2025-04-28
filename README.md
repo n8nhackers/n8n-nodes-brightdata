@@ -110,6 +110,21 @@ Here you can find the list of changes applied to this node:
 
 To make this node even better, please let us know, [how you use it](mailto:support@n8nhackers.com). Commits are always welcome.
 
+You can test this node following the next instructions:
+```sh
+git clone git@github.com:n8nhackers/n8n-nodes-brightdata.git
+cd n8n-nodes-brightdata
+nvm use
+npm install -g n8n
+yarn install
+npm run build
+npm link
+mkdir ~/.n8n/custom/
+cd ~/.n8n/custom/
+npm link n8n-nodes-brightdata
+cd ..
+n8n start
+```
 # Issues
 
 If you have any issues, please [let us know on GitHub](https://github.com/n8nhackers/n8n-nodes-brightdata/issues).
