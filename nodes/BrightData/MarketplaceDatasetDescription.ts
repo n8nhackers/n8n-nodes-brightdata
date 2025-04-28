@@ -14,64 +14,20 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'List Datasets',
-				value: 'list',
-				action: 'Retrieve a list of available datasets',
+				name: 'Deliver Snapshot',
+				value: 'deliverSnapshot',
+				action: 'Deliver the dataset snapshot',
 				routing: {
 					request: {
-						method: 'GET',
-						url: '/datasets/list',
+						method: 'POST',
+						url: '/datasets/snapshots/{{id}}/deliver',
+						body: {
+							deliver: '={{$parameter["deliver"]}}',
+							compress: '={{$parameter["compress"] || false}}',
+						},
 					},
 				},
 			},
-			{
-				name: 'Get Dataset Metadata',
-				value: 'getMetadata',
-				action: 'Retrieve detailed metadata for a specific dataset',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/{{dataset_id}}/metadata',
-					},
-				},
-			},
-
-			{
-				name: 'Get Snapshot Metadata',
-				value: 'getSnapshotMetadata',
-				action: 'Get dataset snapshot metadata',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/snapshots/{{id}}',
-					},
-				},
-			},
-
-			{
-				name: 'Get Snapshot Parts',
-				value: 'getSnapshotParts',
-				action: 'Get dataset snapshot delivery parts',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/snapshots/{{id}}/parts',
-					},
-				},
-			},
-
-			{
-				name: 'Get Snapshot Content',
-				value: 'getSnapshotContent',
-				action: 'Get dataset snapshot content',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/snapshots/{{id}}/download',
-					},
-				},
-			},
-
 			{
 				name: 'Filter Dataset',
 				value: 'filterDataset',
@@ -88,24 +44,63 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
-
 			{
-				name: 'Deliver Snapshot',
-				value: 'deliverSnapshot',
-				action: 'Deliver the dataset snapshot',
+				name: 'Get Snapshot Content',
+				value: 'getSnapshotContent',
+				action: 'Get dataset snapshot content',
 				routing: {
 					request: {
-						method: 'POST',
-						url: '/datasets/snapshots/{{id}}/deliver',
-						body: {
-							deliver: '={{$parameter["deliver"]}}',
-							compress: '={{$parameter["compress"] || false}}',
-						},
+						method: 'GET',
+						url: '/datasets/snapshots/{{id}}/download',
 					},
 				},
 			},
+			{
+				name: 'Get Dataset Metadata',
+				value: 'getDatasetMetadata',
+				action: 'Retrieve detailed metadata for a specific dataset',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/{{dataset_id}}/metadata',
+					},
+				},
+			},
+			{
+				name: 'Get Snapshot Metadata',
+				value: 'getSnapshotMetadata',
+				action: 'Get dataset snapshot metadata',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots/{{id}}',
+					},
+				},
+			},
+			{
+				name: 'Get Snapshot Parts',
+				value: 'getSnapshotParts',
+				action: 'Get dataset snapshot delivery parts',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots/{{id}}/parts',
+					},
+				},
+			},
+			{
+				name: 'List Datasets',
+				value: 'listDatasets',
+				action: 'Retrieve a list of available datasets',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/list',
+					},
+				},
+			}
 		],
-		default: 'list'
+		default: 'listDatasets'
 	},
 ];
 
@@ -113,7 +108,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
 const requestOperation: INodeProperties[] = [
 	{
-		displayName: 'Dataset ID',
+		displayName: 'Dataset',
 		name: 'dataset_id',
 		type: 'string',
 		default: '',
@@ -122,6 +117,17 @@ const requestOperation: INodeProperties[] = [
 				operation: ['getMetadata', 'filterDataset'],
 			},
 		},
+		modes: [
+			{
+				displayName: 'From List',
+				name: 'list',
+				type: 'list',
+				placeholder: 'Select a DataSet ...',
+				typeOptions: {
+					searchListMethod: 'getDataSets',
+				},
+			},
+		],
 		required: true,
 		description: 'The ID of the dataset to operate on',
 	},
@@ -161,7 +167,6 @@ const requestOperation: INodeProperties[] = [
 				operation: ['filterDataset'],
 			},
 		},
-		required: false,
 		description: 'The maximum number of records to include in the snapshot',
 	},
 	{
@@ -187,7 +192,6 @@ const requestOperation: INodeProperties[] = [
 				operation: ['deliverSnapshot'],
 			},
 		},
-		required: false,
 		description: 'Whether to compress the snapshot',
 	},
 
