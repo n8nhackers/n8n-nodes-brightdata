@@ -35,7 +35,12 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'POST',
-						url: '/datasets/filter'
+						url: '/datasets/filter',
+						body: {
+							records_limit: '={{$parameter["records_limit"]}}',
+							filter: '={{$parameter["filter"]}}',
+							dataset_id: '={{$parameter["dataset_id"]}}',
+						}
 					},
 				},
 			},
@@ -46,7 +51,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/datasets/{{dataset_id}}/metadata',
+						url: '/datasets/{{$parameter["dataset_id"]}}/metadata',
 					},
 				},
 			},
@@ -57,7 +62,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/datasets/snapshots/{{id}}/download',
+						url: '/datasets/snapshots/{{snapshot_id}}/download',
 						qs: {
 							format: '={{$parameter["format"]}}',
 							compress: '={{$parameter["compress"] || false}}',
@@ -74,7 +79,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/datasets/snapshots/{{id}}',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/metadata',
 					},
 				},
 			},
@@ -85,7 +90,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/datasets/snapshots/{{id}}/parts',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/parts',
 					},
 				},
 			},
@@ -114,7 +119,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		type: 'resourceLocator',
 		default: {
 			mode: 'list',
-			value: '',
 		},
 		modes: [
 			{
@@ -128,11 +132,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				},
 			},
 		],
-		routing: {
-			send: {
-				type: 'body'
-			},
-		},
 		required: true,
 		description: 'Select the DataSet',
 		displayOptions: {
@@ -170,57 +169,57 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 
 	},
 
-	// {
-	// 	displayName: 'Deliver Type',
-	// 	name: 'deliver_type',
-	// 	type: 'options',
-	// 	options: [
-	// 		{
-	// 			name: 'Aliyun Object Storage Service',
-	// 			value: 'ali_oss',
-	// 		},
-	// 		{
-	// 			name: 'Amazon S3',
-	// 			value: 's3',
-	// 		},
-	// 		{
-	// 			name: 'Google Cloud PubSub',
-	// 			value: 'pubsub',
-	// 		},
-	// 		{
-	// 			name: 'Google Cloud Storage',
-	// 			value: 'gcs',
-	// 		},
-	// 		{
-	// 			name: 'Microsoft Azure',
-	// 			value: 'azure',
-	// 		},
-	// 		{
-	// 			name: 'SFTP',
-	// 			value: 'sftp',
-	// 		},
-	// 		{
-	// 			name: 'Snowflake',
-	// 			value: 'snowflake',
-	// 		},
-	// 		{
-	// 			name: 'Webhook',
-	// 			value: 'webhook',
-	// 		},
-	// 	],
-	// 	default: 'webhook',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['deliverSnapshot'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		send: {
-	// 			type: 'body',
-	// 			property: 'deliver.type'
-	// 		}
-	// 	}
-	// },
+	{
+		displayName: 'Deliver Type',
+		name: 'deliver_type',
+		type: 'options',
+		options: [
+			{
+				name: 'Aliyun Object Storage Service',
+				value: 'ali_oss',
+			},
+			{
+				name: 'Amazon S3',
+				value: 's3',
+			},
+			{
+				name: 'Google Cloud PubSub',
+				value: 'pubsub',
+			},
+			{
+				name: 'Google Cloud Storage',
+				value: 'gcs',
+			},
+			{
+				name: 'Microsoft Azure',
+				value: 'azure',
+			},
+			{
+				name: 'SFTP',
+				value: 'sftp',
+			},
+			{
+				name: 'Snowflake',
+				value: 'snowflake',
+			},
+			{
+				name: 'Webhook',
+				value: 'webhook',
+			},
+		],
+		default: 'webhook',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				property: 'deliver.type'
+			}
+		}
+	},
 
 	// {
 	// 	displayName: 'Webhook Parameters',
@@ -233,8 +232,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	// 			deliver_type: ['webhook'],
 	// 		},
 	// 	},
-	// 	default: {
-	// 	},
+	// 	default: {},
 	// 	options: [
 	// 		{
 	// 			displayName: 'Endpoint',
@@ -1508,26 +1506,25 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	},
 
-	// {
-	// 	displayName: 'Filter',
-	// 	name: 'filter',
-	// 	type: 'json',
-	// 	placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
-	// 	default: '',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['filterDataset'],
-	// 		},
-	// 	},
-	// 	description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
-	// 	routing: {
-	// 		send: {
-	// 			type: 'body',
-	// 			property: 'filter'
-	// 		},
-	// 	},
-	// },
-
+	{
+		displayName: 'Filter',
+		name: 'filter',
+		type: 'json',
+		placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
+		default: '{}',
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+			},
+		},
+		description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
+		routing: {
+			send: {
+				type: 'body',
+				property: 'filter'
+			},
+		},
+	},
 	// {
 	// 	displayName: 'Filter Type',
 	// 	name: 'filter_type',
@@ -1658,29 +1655,26 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	// 		},
 	// 	},
 	// }
-	{
-		displayName: 'Filter',
-		name: 'filter',
-		type: 'json',
-		placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
-		default: '',
-		displayOptions: {
-			show: {
-				operation: ['filterDataset'],
-			},
-		},
-		description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
-		routing: {
-			send: {
-				type: 'body',
-				property: 'filter'
-			},
-		},
-	}
 
-
-
-
+	// {
+	// 	displayName: 'Filter',
+	// 	name: 'filter',
+	// 	type: 'json',
+	// 	placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
+	// 	default: '',
+	// 	displayOptions: {
+	// 		show: {
+	// 			operation: ['filterDataset'],
+	// 		},
+	// 	},
+	// 	description: 'JSON filter. Supports a single filter or a multiple filter (using "and" with filters array).',
+	// 	routing: {
+	// 		send: {
+	// 			type: 'body',
+	// 			property: 'filter'
+	// 		},
+	// 	},
+	// }
 
 ];
 
