@@ -102,7 +102,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					request: {
 						method: 'GET',
 						url: '/datasets/list',
-					}
+					},
 				},
 			}
 		],
