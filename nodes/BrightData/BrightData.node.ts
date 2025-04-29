@@ -25,7 +25,7 @@ export class BrightData implements INodeType {
 		defaults: {
 			name: 'BrightData',
 		},
-		usableAsTool: true,
+		// usableAsTool: true,
 		inputs: [{ type: NodeConnectionType.Main }],
 		outputs: [{ type: NodeConnectionType.Main }],
 		credentials: [
@@ -73,8 +73,8 @@ export class BrightData implements INodeType {
 			},
 			...webUnlockerOperations,
 			...webUnlockerFields,
-			// ...marketplaceDatasetOperations,
-			// ...marketplaceDatasetFields,
+			...marketplaceDatasetOperations,
+			...marketplaceDatasetFields,
 		],
 	};
 
