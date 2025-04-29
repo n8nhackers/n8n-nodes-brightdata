@@ -1,5 +1,4 @@
 import { BrightData } from '../nodes/BrightData/BrightData.node';
-import { NodeOperationError } from 'n8n-workflow';
 
 describe('BrightData', () => {
   let node: BrightData;
