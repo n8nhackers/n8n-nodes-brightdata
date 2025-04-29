@@ -71,10 +71,10 @@ export class BrightData implements INodeType {
 				],
 				default: 'webUnlocker',
 			},
-			...marketplaceDatasetOperations,
-			...marketplaceDatasetFields,
 			...webUnlockerOperations,
 			...webUnlockerFields,
+			// ...marketplaceDatasetOperations,
+			// ...marketplaceDatasetFields,
 		],
 	};
 
