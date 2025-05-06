@@ -102,6 +102,8 @@ export async function getDataSets(this: ILoadOptionsFunctions): Promise<INodeLis
 	// sort by name
 	results.sort((a, b) => a.name.localeCompare(b.name));
 
+	// console.log('results', results);
+
 	return { results };
 }
 

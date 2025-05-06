@@ -20,7 +20,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'POST',
-						url: '/datasets/snapshots/{{id}}/deliver',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/deliver',
 						body: {
 							deliver: '={{$parameter["deliver"]}}',
 							compress: '={{$parameter["compress"] || false}}',
@@ -51,10 +51,11 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/datasets/{{$parameter["dataset_id"]}}/metadata',
+						url: '=/datasets/{{$parameter["dataset_id"]}}/metadata',
 					},
-				},
+				}
 			},
+
 			{
 				name: 'Get Snapshot Content',
 				value: 'getSnapshotContent',
@@ -62,7 +63,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/datasets/snapshots/{{snapshot_id}}/download',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/content',
 						qs: {
 							format: '={{$parameter["format"]}}',
 							compress: '={{$parameter["compress"] || false}}',
@@ -102,7 +103,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					request: {
 						method: 'GET',
 						url: '/datasets/list',
-					},
+					}
 				},
 			}
 		],
@@ -137,37 +138,304 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['marketplaceDataset'],
-				operation: ['filterDataset', 'getDatasetMetadata'],
+				operation: ['getDatasetMetadata', 'filterDataset'],
 			},
 		},
 	},
-	// {
-	// 	displayName: 'Snapshot ID',
-	// 	name: 'id',
-	// 	type: 'string',
-	// 	default: '',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotMetadata', 'getSnapshotParts', 'getSnapshotContent', 'deliverSnapshot'],
-	// 		},
-	// 	},
-	// 	required: true,
-	// 	description: 'The ID of the snapshot to operate on',
-	// },
+
+	{
+		displayName: 'Snapshot ID',
+		name: 'snapshot_id',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['getSnapshotMetadata', 'getSnapshotParts', 'getSnapshotContent', 'deliverSnapshot'],
+			},
+		},
+		required: true,
+		description: 'The ID of the snapshot to operate on',
+	},
+
+	{
+		displayName: 'Records Limit',
+		name: 'records_limit',
+		type: 'number',
+		default: 100,
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+			},
+		},
+		description: 'The maximum number of records to include in the snapshot'
+	},
+
+	{
+		displayName: 'Compress',
+		name: 'compress',
+		type: 'boolean',
+		default: false,
+		description: 'Whether compress the response in gzip format',
+		displayOptions: {
+			show: {
+				operation: ['getSnapshotContent'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					compress: '={{$value}}',
+				},
+			}
+		},
+	},
+	{
+		displayName: 'Batch Size',
+		name: 'batch_size',
+		type: 'number',
+		default: 100,
+		description: 'Number of records to include in each response batch',
+		displayOptions: {
+			show: {
+				operation: ['getSnapshotContent'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					batch_size: '={{$value}}',
+				},
+			}
+		},
+	},
+	{
+		displayName: 'Part',
+		name: 'part',
+		type: 'number',
+		default: 1,
+		description: 'Number of batch to return. The numbering starts from 1.',
+		displayOptions: {
+			show: {
+				operation: ['getSnapshotContent'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					part: '={{$value}}',
+				},
+			}
+		},
+	},
+
+	{
+		displayName: 'Format',
+		name: 'format',
+		type: 'options',
+		options: [
+			{
+				name: 'JSON',
+				value: 'json',
+			},
+			{
+				name: 'JSONL',
+				value: 'jsonl',
+			},
+			{
+				name: 'CSV',
+				value: 'csv',
+			},
+		],
+		default: 'json',
+		description: 'Format of the response. Available options: JSON, JSONL, CSV.',
+		displayOptions: {
+			show: {
+				operation: ['getSnapshotContent'],
+			},
+		}
+	},
 
 	// {
-	// 	displayName: 'Records Limit',
-	// 	name: 'records_limit',
-	// 	type: 'number',
-	// 	default: 100,
+	// 	displayName: 'Filter',
+	// 	name: 'filter',
+	// 	type: 'json',
+	// 	placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
+	// 	default: '{"operator":"and","filters":[{"name":"id","value":"510864778","case_sensitive":true,"operator":"="}]}}',
 	// 	displayOptions: {
 	// 		show: {
 	// 			operation: ['filterDataset'],
 	// 		},
 	// 	},
-	// 	description: 'The maximum number of records to include in the snapshot'
-
+	// 	description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
 	// },
+
+	{
+		displayName: 'Filter Type',
+		name: 'filter_type',
+		type: 'options',
+		options: [
+			{
+				name: 'Group Filters',
+				value: 'filters_group',
+			},
+			{
+				name: 'Single Filter',
+				value: 'filter_single',
+			},
+
+		],
+		default: 'filter_single',
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+			},
+		},
+		description: 'Type of filter to apply. Simple filter or multiple filter (using "and" with filters array).',
+	},
+
+	{
+		displayName: 'Field Name',
+		name: 'field_name',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+				filter_type: ['filter_single'],
+			},
+		},
+		description: 'Field name to filter on',
+		routing: {
+			request: {
+				body: {
+					filter: {
+						name: '={{$parameter["field_name"]}}',
+					},
+				},
+			},
+		},
+	},
+
+	{
+		displayName: 'Operator',
+		name: 'field_operator',
+		type: 'options',
+		options: [
+			{
+				name: 'Array Includes',
+				value: 'array_includes',
+			},
+			{
+				name: 'Equals',
+				value: '=',
+			},
+			{
+				name: 'Greater Than',
+				value: '>',
+			},
+			{
+				name: 'Greater Than or Equal To',
+				value: '>=',
+			},
+			{
+				name: 'In',
+				value: 'in',
+			},
+			{
+				name: 'Includes',
+				value: 'includes',
+			},
+			{
+				name: 'Less Than',
+				value: '<',
+			},
+			{
+				name: 'Less Than or Equal To',
+				value: '<=',
+			},
+			{
+				name: 'Not Array Includes',
+				value: 'not_array_includes',
+			},
+			{
+				name: 'Not Equals',
+				value: '!=',
+			},
+			{
+				name: 'Not In',
+				value: 'not_in',
+			},
+			{
+				name: 'Not Includes',
+				value: 'not_includes',
+			},
+		],
+		default: '=',
+		noDataExpression: true,
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+				filter_type: ['filter_single'],
+			},
+		},
+		description: 'Operator to use for the filter',
+		routing: {
+			request: {
+				body: {
+					filter: {
+						operator: '={{$parameter["field_operator"]}}',
+					},
+				},
+			},
+		},
+	},
+
+	{
+		displayName: 'Field Value',
+		name: 'field_value',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+				filter_type: ['filter_single'],
+			},
+		},
+		description: 'Value to filter on',
+		routing: {
+			request: {
+				body: {
+					filter: {
+						value: '={{$parameter["field_value"]}}',
+					},
+				},
+			},
+		},
+	},
+
+	{
+		displayName: 'Filters Group',
+		name: 'filters_group',
+		type: 'json',
+		placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
+		default: '{"operator":"","filters":[{"name":"","operator":"","value":""}]}',
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+				filter_type: ['filters_group'],
+			},
+		},
+		description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
+		routing: {
+			request: {
+				body: {
+					filter_type: '={{$value}}',
+				},
+			},
+		},
+	},
+
+
 
 	// {
 	// 	displayName: 'Deliver Type',
@@ -1414,267 +1682,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	// 	],
 	// },
 
-	//properties for snapshopContent
-	// {
-	// 	displayName: 'Format',
-	// 	name: 'format',
-	// 	type: 'options',
-	// 	options: [
-	// 		{
-	// 			name: 'JSON',
-	// 			value: 'json',
-	// 		},
-	// 		{
-	// 			name: 'JSONL',
-	// 			value: 'jsonl',
-	// 		},
-	// 		{
-	// 			name: 'CSV',
-	// 			value: 'csv',
-	// 		},
-	// 	],
-	// 	default: 'json',
-	// 	description: 'Format of the response. Available options: JSON, JSONL, CSV.',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		request: {
-	// 			qs: {
-	// 				format: '={{$parameter["format"]}}',
-	// 			},
-	// 		},
-	// 	},
-	// },
-	// {
-	// 	displayName: 'Compress',
-	// 	name: 'compress',
-	// 	type: 'boolean',
-	// 	default: false,
-	// 	description: 'Whether compress the response in gzip format',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		request: {
-	// 			qs: {
-	// 				compress: '={{$parameter["compress"]}}',
-	// 			},
-	// 		}
-	// 	},
-	// },
-	// {
-	// 	displayName: 'Batch Size',
-	// 	name: 'batch_size',
-	// 	type: 'number',
-	// 	default: 100,
-	// 	description: 'Number of records to include in each response batch',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		request: {
-	// 			qs: {
-	// 				batch_size: '={{$parameter["batch_size"]}}',
-	// 			},
-	// 		}
-	// 	},
-	// },
-	// {
-	// 	displayName: 'Part',
-	// 	name: 'part',
-	// 	type: 'number',
-	// 	default: 1,
-	// 	description: 'Number of batch to return. The numbering starts from 1.',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['getSnapshotContent'],
-	// 		},
-	// 	},
-	// 	routing: {
-	// 		request: {
-	// 			qs: {
-	// 				part: '={{$parameter["part"]}}',
-	// 			},
-	// 		}
-	// 	},
-	// },
 
-	// {
-	// 	displayName: 'Filter',
-	// 	name: 'filter',
-	// 	type: 'json',
-	// 	placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
-	// 	default: '{}',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['filterDataset'],
-	// 		},
-	// 	},
-	// 	description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
-	// 	routing: {
-	// 		send: {
-	// 			type: 'body',
-	// 			property: 'filter'
-	// 		},
-	// 	},
-	// },
-	// {
-	// 	displayName: 'Filter Type',
-	// 	name: 'filter_type',
-	// 	type: 'options',
-	// 	options: [
-	// 		{
-	// 			name: 'Filters Group',
-	// 			value: 'filters_group',
-	// 		},
-	// 		{
-	// 			name: 'Single',
-	// 			value: 'single',
-	// 		},
-
-	// 	],
-	// 	default: 'single',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['filterDataset'],
-	// 			// deliver_type: ['s3', 'snowflake', 'ali_oss', 'azure', 'sftp'],
-	// 		},
-	// 	},
-	// 	description: 'Type of filter to apply. Simple filter or multiple filter (using "and" with filters array).',
-	// },
-
-
-	// {
-	// 	displayName: 'Filter',
-	// 	name: 'filter',
-	// 	type: 'collection',
-	// 	placeholder: 'Add Filter',
-	// 	default: {
-	// 		name: '',
-	// 		operator: '=',
-	// 		value: '',
-	// 	},
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['filterDataset'],
-	// 			filter_type: ['single'],
-	// 		},
-	// 	},
-	// 	options: [
-	// 		{
-	// 			displayName: 'Field Name',
-	// 			name: 'name',
-	// 			type: 'string',
-	// 			default: '',
-	// 			description: 'The field to filter on',
-	// 		},
-	// 		{
-	// 			displayName: 'Operator',
-	// 			name: 'operator',
-	// 			type: 'options',
-	// 			options: [
-	// 				{
-	// 					name: 'Array Includes',
-	// 					value: 'array_includes',
-	// 				},
-	// 				{
-	// 					name: 'Equal To',
-	// 					value: '=',
-	// 				},
-	// 				{
-	// 					name: 'Greater Than',
-	// 					value: '>',
-	// 				},
-	// 				{
-	// 					name: 'Greater Than Or Equal',
-	// 					value: '>=',
-	// 				},
-	// 				{
-	// 					name: 'In',
-	// 					value: 'in',
-	// 				},
-	// 				{
-	// 					name: 'Includes',
-	// 					value: 'includes',
-	// 				},
-	// 				{
-	// 					name: 'Is Not Null',
-	// 					value: 'is_not_null',
-	// 				},
-	// 				{
-	// 					name: 'Is Null',
-	// 					value: 'is_null',
-	// 				},
-	// 				{
-	// 					name: 'Lower Than',
-	// 					value: '<',
-	// 				},
-	// 				{
-	// 					name: 'Lower Than Or Equal',
-	// 					value: '<=',
-	// 				},
-	// 				{
-	// 					name: 'Not Array Includes',
-	// 					value: 'not_array_includes',
-	// 				},
-	// 				{
-	// 					name: 'Not Equal To',
-	// 					value: '!=',
-	// 				},
-	// 				{
-	// 					name: 'Not In',
-	// 					value: 'not_in',
-	// 				},
-	// 				{
-	// 					name: 'Not Includes',
-	// 					value: 'not_includes',
-	// 				},
-	// 			],
-	// 			default: '=',
-	// 			description: 'Operator to use for the filter',
-	// 		},
-	// 		{
-	// 			displayName: 'Value',
-	// 			name: 'value',
-	// 			type: 'string',
-	// 			default: '',
-	// 			description: 'Value to compare against. Not required for operators "is_null" or "is_not_null".',
-	// 		},
-	// 	],
-	// 	routing: {
-	// 		send: {
-	// 			type: 'body',
-	// 			property: 'filter',
-	// 		},
-	// 	},
-	// }
-
-	// {
-	// 	displayName: 'Filter',
-	// 	name: 'filter',
-	// 	type: 'json',
-	// 	placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
-	// 	default: '',
-	// 	displayOptions: {
-	// 		show: {
-	// 			operation: ['filterDataset'],
-	// 		},
-	// 	},
-	// 	description: 'JSON filter. Supports a single filter or a multiple filter (using "and" with filters array).',
-	// 	routing: {
-	// 		send: {
-	// 			type: 'body',
-	// 			property: 'filter'
-	// 		},
-	// 	},
-	// }
 
 ];
 
