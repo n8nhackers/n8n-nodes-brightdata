@@ -376,7 +376,14 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				name: 'Single Filter',
 				value: 'filter_single',
 			},
-
+			{
+				name: 'CSV Filter',
+				value: 'csv_filter',
+			},
+			{
+				name: 'JSON Filter',
+				value: 'json_filter',
+			}
 		],
 		default: 'filter_single',
 		displayOptions: {
@@ -392,6 +399,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		name: 'field_name',
 		type: 'string',
 		default: '',
+
 		displayOptions: {
 			show: {
 				operation: ['filterDataset'],
@@ -511,6 +519,9 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayName: 'Filters Group',
 		name: 'filters_group',
 		type: 'json',
+		typeOptions: {
+			rows: 4,
+		},
 		placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
 		default: '{"operator":"","filters":[{"name":"","operator":"","value":""}]}',
 		displayOptions: {
@@ -529,7 +540,51 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	},
 
+	{
+		displayName: 'CSV Filter',
+		name: 'csv_filter',
+		type: 'string',
+		typeOptions: {
+			rows: 4,
+		},
+		default: 'industries:value\nAccounting\nAd Network\nAdvertising\n',
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+				filter_type: ['csv_filter'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					filter_type: '={{$value}}',
+				},
+			},
+		},
+	},
 
+	{
+		displayName: 'JSON Filter',
+		name: 'json_filter',
+		type: 'json',
+		default: '[{"industries:value": "Accounting"},{"industries:value": "Ad Network"},{"industries:value": "Advertising"}]',
+		typeOptions: {
+			rows: 4,
+		},
+		displayOptions: {
+			show: {
+				operation: ['filterDataset'],
+				filter_type: ['json_filter'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					filter_type: '={{$value}}',
+				},
+			},
+		},
+	},
 
 	{
 		displayName: 'Deliver Type',
@@ -546,7 +601,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			},
 			{
 				name: 'Google Cloud PubSub',
-				value: 'pubsub',
+				value: 'gcs_pubsub',
 			},
 			{
 				name: 'Google Cloud Storage',
@@ -619,7 +674,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['webhook', 'ali_oss', 'pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
+				deliver_type: ['webhook', 'ali_oss', 'gcs_pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
 			},
 		},
 		routing: {
@@ -659,7 +714,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['webhook', 'ali_oss', 'pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
+				deliver_type: ['webhook', 'ali_oss', 'gcs_pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
 			},
 		},
 		routing: {
@@ -686,7 +741,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['pubsub'],
+				deliver_type: ['gcs_pubsub'],
 			},
 		},
 		routing: {
@@ -709,7 +764,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['pubsub', 'gcs'],
+				deliver_type: ['gcs_pubsub', 'gcs'],
 			},
 		},
 		routing: {
@@ -736,7 +791,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['pubsub', 'gcs'],
+				deliver_type: ['gcs_pubsub', 'gcs'],
 			},
 		},
 		routing: {
@@ -762,7 +817,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['pubsub'],
+				deliver_type: ['gcs_pubsub'],
 			},
 		},
 		routing: {
@@ -1057,28 +1112,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	},
 
-	{
-		displayName: 'Region',
-		name: 'region',
-		type: 'string',
-		default: '',
-		description: 'AWS Region',
-		displayOptions: {
-			show: {
-				operation: ['deliverSnapshot'],
-				deliver_type: ['s3'],
-			},
-		},
-		routing: {
-			request: {
-				body: {
-					deliver: {
-						region: '={{$parameter["region"]}}',
-					},
-				},
-			},
-		},
-	},
 
 	{
 		displayName: 'Directory',
@@ -1127,6 +1160,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	},
 
 	//specific properties for sftp
+
 	{
 		displayName: 'Host',
 		name: 'host',
@@ -1173,7 +1207,28 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			},
 		},
 	},
-
+	{
+		displayName: 'Path',
+		name: 'path',
+		type: 'string',
+		default: '',
+		description: 'Remote path on the SFTP server to store the file',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						path: '={{$parameter["path"]}}',
+					},
+				},
+			},
+		},
+	},
 	{
 		displayName: 'Username',
 		name: 'username',
