@@ -544,26 +544,26 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				name: 'Amazon S3',
 				value: 's3',
 			},
-			// {
-			// 	name: 'Google Cloud PubSub',
-			// 	value: 'pubsub',
-			// },
-			// {
-			// 	name: 'Google Cloud Storage',
-			// 	value: 'gcs',
-			// },
-			// {
-			// 	name: 'Microsoft Azure',
-			// 	value: 'azure',
-			// },
-			// {
-			// 	name: 'SFTP',
-			// 	value: 'sftp',
-			// },
-			// {
-			// 	name: 'Snowflake',
-			// 	value: 'snowflake',
-			// },
+			{
+				name: 'Google Cloud PubSub',
+				value: 'pubsub',
+			},
+			{
+				name: 'Google Cloud Storage',
+				value: 'gcs',
+			},
+			{
+				name: 'Microsoft Azure',
+				value: 'azure',
+			},
+			{
+				name: 'SFTP',
+				value: 'sftp',
+			},
+			{
+				name: 'Snowflake',
+				value: 'snowflake',
+			},
 			{
 				name: 'Webhook',
 				value: 'webhook',
@@ -575,6 +575,15 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				operation: ['deliverSnapshot'],
 			},
 		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						type: '={{$parameter["deliver_type"]}}',
+					}
+				}
+			}
+		}
 	},
 
 	{
@@ -593,7 +602,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			request: {
 				body: {
 					deliver: {
-						type: 'webhook',
 						endpoint: '={{$parameter["endpoint"]}}',
 					},
 				},
@@ -611,14 +619,13 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['webhook'],
+				deliver_type: ['webhook', 'ali_oss', 'pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
 			},
 		},
 		routing: {
 			request: {
 				body: {
 					deliver: {
-						type: 'webhook',
 						filename: {
 							template: '={{$parameter["filename_template"]}}',
 						}
@@ -652,7 +659,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['webhook'],
+				deliver_type: ['webhook', 'ali_oss', 'pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
 			},
 		},
 		routing: {
@@ -670,6 +677,128 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		required: true,
 	},
 
+	{
+		displayName: 'Topic ID',
+		name: 'topic_id',
+		type: 'string',
+		default: '',
+		description: 'Google PubSub topic ID',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['pubsub'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						topic_id: '={{$parameter["topic_id"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+	},
+
+	{
+		displayName: 'Client Email',
+		name: 'client_email',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['pubsub', 'gcs'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							client_email: '={{$parameter["client_email"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'Private Key',
+		name: 'private_key',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['pubsub', 'gcs'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							private_key: '={{$parameter["private_key"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+
+	{
+		displayName: 'Attributes',
+		name: 'attributes',
+		type: 'json',
+		default: '',
+		description: 'Attributes to include in the PubSub message',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['pubsub'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						attributes: '={{$parameter["attributes"]}}',
+					},
+				},
+			},
+		},
+	},
+
+	{
+		displayName: 'Container',
+		name: 'container',
+		type: 'string',
+		default: '',
+		description: 'Name of the Azure container',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['azure'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						container: '={{$parameter["container"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+	},
 
 	{
 		displayName: 'Bucket',
@@ -680,14 +809,13 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['s3'],
+				deliver_type: ['s3', 'ali_oss', 'gcs'],
 			},
 		},
 		routing: {
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						bucket: '={{$parameter["bucket"]}}',
 					},
 				},
@@ -711,7 +839,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						credentials: {
 							'aws-access-key': '={{$parameter["aws-access-key"]}}',
 						}
@@ -740,7 +867,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						credentials: {
 							'aws-secret-key': '={{$parameter["aws-secret-key"]}}',
 						}
@@ -750,6 +876,140 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 		required: true,
 	},
+	{
+		displayName: 'Access Key',
+		name: 'aws-access-key',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['ali_oss'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							'access-key': '={{$parameter["access-key"]}}',
+						}
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'Secret Key',
+		name: 'secret-key',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['ali_oss'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							'secret-key': '={{$parameter["secret-key"]}}',
+						}
+					},
+				},
+			},
+		},
+		required: true,
+	},
+
+	{
+		displayName: 'Account',
+		name: 'account',
+		type: 'string',
+		default: '',
+		description: 'Azure storage account',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['azure'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							account: '={{$parameter["account"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'Key',
+		name: 'key',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		description: 'Azure storage key',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['azure'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							key: '={{$parameter["key"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'SAS Token',
+		name: 'sas_token',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		description: 'Azure SAS token for access',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['azure'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							sas_token: '={{$parameter["sas_token"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+
 	{
 		displayName: 'Role ARN',
 		name: 'role_arn',
@@ -765,7 +1025,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						credentials: {
 							'role_arn': '={{$parameter["role_arn"]}}',
 						}
@@ -789,7 +1048,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						credentials: {
 							'external_id': '={{$parameter["external_id"]}}',
 						}
@@ -815,7 +1073,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						region: '={{$parameter["region"]}}',
 					},
 				},
@@ -832,14 +1089,13 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['s3'],
+				deliver_type: ['s3', 'ali_oss', 'gcs', 'azure', 'sftp', 'snowflake'],
 			},
 		},
 		routing: {
 			request: {
 				body: {
 					deliver: {
-						type: 's3',
 						directory: '={{$parameter["directory"]}}',
 					},
 				},
@@ -847,47 +1103,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	},
 
-	{
-		displayName: 'Template',
-		name: 'template',
-		type: 'string',
-		default: '',
-		description: 'Template for the filename, including placeholders',
-		displayOptions: {
-			show: {
-				operation: ['deliverSnapshot'],
-				deliver_type: ['s3'],
-			},
-		},
-	},
-	{
-		displayName: 'Extension',
-		name: 'extension',
-		type: 'options',
-		options: [
-			{
-				name: 'JSON',
-				value: 'json',
-			},
-			{
-				name: 'JSONL',
-				value: 'jsonl',
-			},
-			{
-				name: 'CSV',
-				value: 'csv',
-			},
-		],
-		default: 'json',
-		description: 'Available options: JSON, JSONL, CSV',
-		displayOptions: {
-			show: {
-				operation: ['deliverSnapshot'],
-				deliver_type: ['s3'],
-			},
-		},
-		required: true,
-	},
 	{
 		displayName: 'Region',
 		name: 'region',
@@ -897,11 +1112,371 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['s3'],
+				deliver_type: ['s3', 'ali_oss'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						region: '={{$parameter["region"]}}',
+					}
+				}
+			}
+		}
+	},
+
+	//specific properties for sftp
+	{
+		displayName: 'Host',
+		name: 'host',
+		type: 'string',
+		default: '',
+		description: 'SFTP server host',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						host: '={{$parameter["host"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+	},
+
+	{
+		displayName: 'Port',
+		name: 'port',
+		type: 'number',
+		default: 22,
+		description: 'SFTP server port',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						port: '={{$parameter["port"]}}',
+					},
+				},
 			},
 		},
 	},
 
+	{
+		displayName: 'Username',
+		name: 'username',
+		type: 'string',
+		default: '',
+		description: 'SFTP username',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							username: '={{$parameter["username"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'Password',
+		name: 'password',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		description: 'SFTP password',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							password: '={{$parameter["password"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'SSH Key',
+		name: 'ssh_key',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		description: 'SSH key for SFTP authentication',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							ssh_key: '={{$parameter["ssh_key"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+	},
+	{
+		displayName: 'Passphrase',
+		name: 'passphrase',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		description: 'Passphrase for the SSH key, if any',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['sftp'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							passphrase: '={{$parameter["passphrase"]}}',
+						},
+					},
+				},
+			},
+		},
+	},
+
+	//specific properties for snowflake
+	{
+		displayName: 'Database',
+		name: 'database',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						database: '={{$parameter["database"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake database name',
+	},
+	{
+		displayName: 'Schema',
+		name: 'schema',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						schema: '={{$parameter["schema"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake schema name',
+	},
+	{
+		displayName: 'Stage',
+		name: 'stage',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						stage: '={{$parameter["stage"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake stage name',
+	},
+	{
+		displayName: 'Role',
+		name: 'role',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						role: '={{$parameter["role"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake role',
+	},
+	{
+		displayName: 'Warehouse',
+		name: 'warehouse',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						warehouse: '={{$parameter["warehouse"]}}',
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake warehouse',
+	},
+	{
+		displayName: 'Account',
+		name: 'credentials.account',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							account: '={{$parameter["credentials.account"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake account',
+	},
+	{
+		displayName: 'User',
+		name: 'credentials.user',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							user: '={{$parameter["credentials.user"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake user',
+	},
+	{
+		displayName: 'Password',
+		name: 'credentials.password',
+		type: 'string',
+		typeOptions: {
+			password: true,
+		},
+		default: '',
+		displayOptions: {
+			show: {
+				operation: ['deliverSnapshot'],
+				deliver_type: ['snowflake'],
+			},
+		},
+		routing: {
+			request: {
+				body: {
+					deliver: {
+						credentials: {
+							password: '={{$parameter["credentials.password"]}}',
+						},
+					},
+				},
+			},
+		},
+		required: true,
+		description: 'Snowflake password',
+	},
 
 
 	{
