@@ -517,6 +517,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				},
 			},
 		},
+		required: true,
 	},
 
 	{
@@ -557,6 +558,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				},
 			},
 		},
+		required: true,
 	},
 
 
