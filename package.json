@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-brightdata",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "Community node to work with BrightData service for scraping purposes",
   "keywords": [
     "n8n",
