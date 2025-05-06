@@ -13,87 +13,87 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 			},
 		},
 		options: [
-			// {
-			// 	name: 'Deliver Snapshot',
-			// 	value: 'deliverSnapshot',
-			// 	action: 'Deliver the dataset snapshot',
-			// 	routing: {
-			// 		request: {
-			// 			method: 'POST',
-			// 			url: '/datasets/snapshots/{{id}}/deliver',
-			// 			body: {
-			// 				deliver: '={{$parameter["deliver"]}}',
-			// 				compress: '={{$parameter["compress"] || false}}',
-			// 			},
-			// 		},
-			// 	},
-			// },
-			// {
-			// 	name: 'Filter Dataset',
-			// 	value: 'filterDataset',
-			// 	action: 'Create a dataset snapshot based on a provided filter',
-			// 	routing: {
-			// 		request: {
-			// 			method: 'POST',
-			// 			url: '/datasets/filter',
-			// 			body: {
-			// 				records_limit: '={{$parameter["records_limit"]}}',
-			// 				filter: '={{$parameter["filter"]}}',
-			// 				dataset_id: '={{$parameter["dataset_id"]}}',
-			// 			}
-			// 		},
-			// 	},
-			// },
-			// {
-			// 	name: 'Get Dataset Metadata',
-			// 	value: 'getDatasetMetadata',
-			// 	action: 'Retrieve detailed metadata for a specific dataset',
-			// 	routing: {
-			// 		request: {
-			// 			method: 'GET',
-			// 			url: '/datasets/{{$parameter["dataset_id"]}}/metadata',
-			// 		},
-			// 	},
-			// },
-			// {
-			// 	name: 'Get Snapshot Content',
-			// 	value: 'getSnapshotContent',
-			// 	action: 'Get dataset snapshot content',
-			// 	routing: {
-			// 		request: {
-			// 			method: 'GET',
-			// 			url: '/datasets/snapshots/{{snapshot_id}}/download',
-			// 			qs: {
-			// 				format: '={{$parameter["format"]}}',
-			// 				compress: '={{$parameter["compress"] || false}}',
-			// 				batch_size: '={{$parameter["batch_size"]}}',
-			// 				part: '={{$parameter["part"]}}',
-			// 			},
-			// 		},
-			// 	},
-			// },
-			// {
-			// 	name: 'Get Snapshot Metadata',
-			// 	value: 'getSnapshotMetadata',
-			// 	action: 'Get dataset snapshot metadata',
-			// 	routing: {
-			// 		request: {
-			// 			method: 'GET',
-			// 			url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/metadata',
-			// 		},
-			// 	},
-			// },
-			// {
-			// 	name: 'Get Snapshot Parts',
-			// 	value: 'getSnapshotParts',
-			// 	action: 'Get dataset snapshot delivery parts',
-			// 	routing: {
-			// 		request: {
-			// 			method: 'GET',
-			// 			url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/parts',
-			// 		},
-			// 	},
-			// },
+			{
+				name: 'Deliver Snapshot',
+				value: 'deliverSnapshot',
+				action: 'Deliver the dataset snapshot',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/snapshots/{{id}}/deliver',
+						body: {
+							deliver: '={{$parameter["deliver"]}}',
+							compress: '={{$parameter["compress"] || false}}',
+						},
+					},
+				},
+			},
+			{
+				name: 'Filter Dataset',
+				value: 'filterDataset',
+				action: 'Create a dataset snapshot based on a provided filter',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/filter',
+						body: {
+							records_limit: '={{$parameter["records_limit"]}}',
+							filter: '={{$parameter["filter"]}}',
+							dataset_id: '={{$parameter["dataset_id"]}}',
+						}
+					},
+				},
+			},
+			{
+				name: 'Get Dataset Metadata',
+				value: 'getDatasetMetadata',
+				action: 'Retrieve detailed metadata for a specific dataset',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/{{$parameter["dataset_id"]}}/metadata',
+					},
+				},
+			},
+			{
+				name: 'Get Snapshot Content',
+				value: 'getSnapshotContent',
+				action: 'Get dataset snapshot content',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots/{{snapshot_id}}/download',
+						qs: {
+							format: '={{$parameter["format"]}}',
+							compress: '={{$parameter["compress"] || false}}',
+							batch_size: '={{$parameter["batch_size"]}}',
+							part: '={{$parameter["part"]}}',
+						},
+					},
+				},
+			},
+			{
+				name: 'Get Snapshot Metadata',
+				value: 'getSnapshotMetadata',
+				action: 'Get dataset snapshot metadata',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/metadata',
+					},
+				},
+			},
+			{
+				name: 'Get Snapshot Parts',
+				value: 'getSnapshotParts',
+				action: 'Get dataset snapshot delivery parts',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/parts',
+					},
+				},
+			},
 			{
 				name: 'List Datasets',
 				value: 'listDatasets',
