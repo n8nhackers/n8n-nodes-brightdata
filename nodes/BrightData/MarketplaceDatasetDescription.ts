@@ -95,6 +95,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
+
 			{
 				name: 'List Datasets',
 				value: 'listDatasets',
@@ -105,7 +106,25 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 						url: '/datasets/list',
 					}
 				},
-			}
+			},
+
+			{
+				name: 'List Snapshots',
+				value: 'listSnapshots',
+				action: 'Retrieve a list of snapshots',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots',
+						qs: {
+							dataset_id: '={{$parameter["dataset_id"]}}',
+							view_id: '={{$parameter["view_id"]}}',
+							status: '={{$parameter["status"]}}',
+						},
+					},
+				},
+			},
+
 		],
 		default: 'listDatasets'
 	},
@@ -141,6 +160,34 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				operation: ['getDatasetMetadata', 'filterDataset'],
 			},
 		},
+	},
+
+	{
+		displayName: 'View',
+		name: 'view_id',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['listSnapshots'],
+			},
+		},
+		description: 'The ID of the view to filter the snapshots',
+	},
+
+	{
+		displayName: 'Status',
+		name: 'status',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['listSnapshots'],
+			},
+		},
+		description: 'The status of the snapshot to filter the snapshots',
 	},
 
 	{
