@@ -536,10 +536,10 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		name: 'deliver_type',
 		type: 'options',
 		options: [
-			// {
-			// 	name: 'Aliyun Object Storage Service',
-			// 	value: 'ali_oss',
-			// },
+			{
+				name: 'Aliyun Object Storage Service',
+				value: 'ali_oss',
+			},
 			{
 				name: 'Amazon S3',
 				value: 's3',
