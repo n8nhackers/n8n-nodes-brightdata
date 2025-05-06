@@ -179,14 +179,76 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	{
 		displayName: 'Status',
 		name: 'status',
-		type: 'string',
-		default: '',
+		type: 'options',
+		default: 'ready',
 		displayOptions: {
 			show: {
 				resource: ['marketplaceDataset'],
 				operation: ['listSnapshots'],
 			},
 		},
+		options: [
+			{
+				name: 'Building',
+				value: 'building',
+			},
+			{
+				name: 'Canceled',
+				value: 'canceled',
+			},
+			{
+				name: 'Collecting',
+				value: 'collecting',
+			},
+			{
+				name: 'Delivering',
+				value: 'delivering',
+			},
+			{
+				name: 'Digesting',
+				value: 'digesting',
+			},
+			{
+				name: 'Failed',
+				value: 'failed',
+			},
+			{
+				name: 'Pending Developer Review',
+				value: 'pending_developer_review',
+			},
+			{
+				name: 'Pending Discovery Input',
+				value: 'pending_discovery_input',
+			},
+			{
+				name: 'Pending Owner Review',
+				value: 'pending_owner_review',
+			},
+			{
+				name: 'Pending PDP Input',
+				value: 'pending_pdp_input',
+			},
+			{
+				name: 'Queued For Developer Review',
+				value: 'queued_for_developer_review',
+			},
+			{
+				name: 'Ready',
+				value: 'ready',
+			},
+			{
+				name: 'Rolling Back',
+				value: 'rolling_back',
+			},
+			{
+				name: 'Scheduled',
+				value: 'scheduled',
+			},
+			{
+				name: 'Validating',
+				value: 'validating',
+			}
+		],
 		description: 'The status of the snapshot to filter the snapshots',
 	},
 
