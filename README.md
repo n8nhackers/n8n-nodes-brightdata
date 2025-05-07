@@ -126,7 +126,7 @@ This workflow is useful for automating product deal recommendations based on use
 
 # Changelog
 Here you can find the list of changes applied to this node:
-- 0.1.20: Added support to use Bright Data as AI Agent tool
+- 0.1.20: Added support to use Bright Data as an AI Agent tool
 - 0.1.19: Added support for Marketplace DataSet endpoints
 - 0.1.11: Added support for using this node as tool from an Agent
 
