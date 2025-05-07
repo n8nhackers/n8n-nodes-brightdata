@@ -14,18 +14,17 @@ import {
 
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'BrightData',
+		displayName: 'Bright Data',
 		name: 'brightData',
 		icon: 'file:brightdatasquared.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		//subtitle: '={{$parameter["zone"] + ": " + $parameter["country"]}}',
-		description: 'Interact with BrightData to scrape websites or use existing datasets from the marketplace to generate adapted snapshots',
+		description: 'Interact with Bright Data to scrape websites or use existing datasets from the marketplace to generate adapted snapshots',
 		defaults: {
-			name: 'BrightData',
+			name: 'Bright Data',
 		},
-		// usableAsTool: true,
+		usableAsTool: true,
 		inputs: [{ type: NodeConnectionType.Main }],
 		outputs: [{ type: NodeConnectionType.Main }],
 		credentials: [
