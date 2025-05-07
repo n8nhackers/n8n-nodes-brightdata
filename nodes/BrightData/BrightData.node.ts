@@ -14,7 +14,7 @@ import {
 
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Bright Data',
+		displayName: 'BrightData',
 		name: 'brightData',
 		icon: 'file:brightdatasquared.svg',
 		group: ['transform'],
@@ -22,7 +22,7 @@ export class BrightData implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Interact with Bright Data to scrape websites or use existing datasets from the marketplace to generate adapted snapshots',
 		defaults: {
-			name: 'Bright Data',
+			name: 'BrightData',
 		},
 		usableAsTool: true,
 		inputs: [{ type: NodeConnectionType.Main }],
