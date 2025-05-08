@@ -55,12 +55,9 @@ export async function brightdataApiRequest(
 		return response;
 	} catch (error) {
 		console.log('Error in brightdataApiRequest', error);
-		console.log('message', error.error);
 		return new NodeApiError(this.getNode(), {
-			 ...error,
-			 message: error.message,
-			 statusCode: error.statusCode,
-			 response: error.response
+			statusCode: error.httpCode,
+			description: error.description,
 			} as unknown as JsonObject);
 	}
 }
