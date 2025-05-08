@@ -14,9 +14,9 @@ type ZoneSearchItem = {
 type ZoneSearchResponse = ZoneSearchItem[];
 
 type DataSetItem = {
-	id: string
+	id: string;
 	name: string;
-}
+};
 
 type DataSetResponse = DataSetItem[];
 
@@ -103,4 +103,3 @@ export async function getDataSets(this: ILoadOptionsFunctions): Promise<INodeLis
 
 	return { results };
 }
-

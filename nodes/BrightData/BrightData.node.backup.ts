@@ -51,6 +51,10 @@ export class BrightData implements INodeType {
 						name: 'Web Unlocker',
 						value: 'webUnlocker',
 					},
+					{
+						name: 'Marketplace Dataset',
+						value: 'marketplaceDataset',
+					}
 				],
 				default: 'webUnlocker',
 			},
@@ -69,10 +73,42 @@ export class BrightData implements INodeType {
 						name: 'Send a Request',
 						value: 'request',
 						action: 'Perform a request',
-					},
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/request',
+							},
+						},
+					}
 				],
 				default: 'request',
 			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['marketplaceDataset'],
+					},
+				},
+				options: [
+					{
+						name: 'List Datasets',
+						value: 'listDatasets',
+						action: 'List datasets',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/datasets/list',
+							},
+						},
+					}
+				],
+				default: 'listDatasets',
+			},
+
 			{
 				displayName: 'Zone',
 				name: 'zone',
@@ -225,11 +261,30 @@ export class BrightData implements INodeType {
 		const resource = this.getNodeParameter('resource', 0) as string;
 		const operation = this.getNodeParameter('operation', 0) as string;
 
-		if (resource === 'webUnlocker') {
+		// Retrieve the routing info defined for the current operation from the node description
+		const operationProperty = this.getNodeParameter('operation', 0);
+
+		console.log('Routing:', operationProperty);
+
+		if (resource === 'marketplaceDataset') {
+			if (operation === 'listDatasets') {
+				for (let i = 0; i < items.length; i++) {
+					const body: IDataObject = {};
+					try {
+						const responseData = await brightdataApiRequest.call(this, 'GET', '/datasets/list', body);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
+			}
+		} else if (resource === 'webUnlocker') {
 			if (operation === 'request') {
 				for (let i = 0; i < items.length; i++) {
-					const zone = this.getNodeParameter('zone', i) as string;
-					const country = this.getNodeParameter('country', i) as string;
+					const zoneData = this.getNodeParameter('zone', i) as { value: string };
+					const countryData = this.getNodeParameter('country', i) as { value: string };
+					const zone = zoneData.value;
+					const country = countryData.value;
 					const method = this.getNodeParameter('method', i) as string;
 					const url = this.getNodeParameter('url', i) as string;
 					const format = this.getNodeParameter('format', i) as string;
@@ -241,6 +296,7 @@ export class BrightData implements INodeType {
 						url,
 						format,
 					};
+
 
 					try {
 						const responseData = await brightdataApiRequest.call(this, 'POST', '/request', body);

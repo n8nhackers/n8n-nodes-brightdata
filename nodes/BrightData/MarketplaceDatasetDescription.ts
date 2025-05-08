@@ -40,7 +40,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 							records_limit: '={{$parameter["records_limit"]}}',
 							filter: '={{$parameter["filter"]}}',
 							dataset_id: '={{$parameter["dataset_id"]}}',
-						}
+						},
 					},
 				},
 			},
@@ -53,7 +53,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 						method: 'GET',
 						url: '=/datasets/{{$parameter["dataset_id"]}}/metadata',
 					},
-				}
+				},
 			},
 
 			{
@@ -104,7 +104,7 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					request: {
 						method: 'GET',
 						url: '/datasets/list',
-					}
+					},
 				},
 			},
 
@@ -124,9 +124,8 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
-
 		],
-		default: 'listDatasets'
+		default: 'listDatasets',
 	},
 ];
 
@@ -247,7 +246,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			{
 				name: 'Validating',
 				value: 'validating',
-			}
+			},
 		],
 		description: 'The status of the snapshot to filter the snapshots',
 	},
@@ -259,7 +258,12 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				operation: ['getSnapshotMetadata', 'getSnapshotParts', 'getSnapshotContent', 'deliverSnapshot'],
+				operation: [
+					'getSnapshotMetadata',
+					'getSnapshotParts',
+					'getSnapshotContent',
+					'deliverSnapshot',
+				],
 			},
 		},
 		required: true,
@@ -276,7 +280,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				operation: ['filterDataset'],
 			},
 		},
-		description: 'The maximum number of records to include in the snapshot'
+		description: 'The maximum number of records to include in the snapshot',
 	},
 
 	{
@@ -295,7 +299,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				qs: {
 					compress: '={{$value}}',
 				},
-			}
+			},
 		},
 	},
 	{
@@ -314,7 +318,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				qs: {
 					batch_size: '={{$value}}',
 				},
-			}
+			},
 		},
 	},
 	{
@@ -333,7 +337,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				qs: {
 					part: '={{$value}}',
 				},
-			}
+			},
 		},
 	},
 
@@ -361,7 +365,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			show: {
 				operation: ['getSnapshotContent'],
 			},
-		}
+		},
 	},
 	{
 		displayName: 'Filter Type',
@@ -383,7 +387,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			{
 				name: 'JSON Filter',
 				value: 'json_filter',
-			}
+			},
 		],
 		default: 'filter_single',
 		displayOptions: {
@@ -391,7 +395,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				operation: ['filterDataset'],
 			},
 		},
-		description: 'Type of filter to apply. Simple filter or multiple filter (using "and" with filters array).',
+		description:
+			'Type of filter to apply. Simple filter or multiple filter (using "and" with filters array).',
 	},
 
 	{
@@ -522,7 +527,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		typeOptions: {
 			rows: 4,
 		},
-		placeholder: 'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
+		placeholder:
+			'Enter filter JSON. E.g.: {"name": "name", "operator": "=", "value": "John"} or {"operator": "and", "filters": [ {"name": "name", "operator": "=", "value": "John"}, {"name": "age", "operator": ">", "value": "30"} ] }',
 		default: '{"operator":"","filters":[{"name":"","operator":"","value":""}]}',
 		displayOptions: {
 			show: {
@@ -530,7 +536,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				filter_type: ['filters_group'],
 			},
 		},
-		description: 'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
+		description:
+			'JSON filter. Supports a simple filter or a composite filter (using "and" with filters array).',
 		routing: {
 			request: {
 				body: {
@@ -567,7 +574,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayName: 'JSON Filter',
 		name: 'json_filter',
 		type: 'json',
-		default: '[{"industries:value": "Accounting"},{"industries:value": "Ad Network"},{"industries:value": "Advertising"}]',
+		default:
+			'[{"industries:value": "Accounting"},{"industries:value": "Ad Network"},{"industries:value": "Advertising"}]',
 		typeOptions: {
 			rows: 4,
 		},
@@ -586,6 +594,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	},
 
+	// Deliver Snapshot
 	{
 		displayName: 'Deliver Type',
 		name: 'deliver_type',
@@ -635,10 +644,10 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				body: {
 					deliver: {
 						type: '={{$parameter["deliver_type"]}}',
-					}
-				}
-			}
-		}
+					},
+				},
+			},
+		},
 	},
 
 	{
@@ -665,7 +674,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		required: true,
 	},
 
-  {
+	{
 		displayName: 'Filename Template',
 		name: 'filename_template',
 		type: 'string',
@@ -674,7 +683,16 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['webhook', 'ali_oss', 'gcs_pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
+				deliver_type: [
+					'webhook',
+					'ali_oss',
+					'gcs_pubsub',
+					'gcs',
+					's3',
+					'azure',
+					'sftp',
+					'snowflake',
+				],
 			},
 		},
 		routing: {
@@ -683,7 +701,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					deliver: {
 						filename: {
 							template: '={{$parameter["filename_template"]}}',
-						}
+						},
 					},
 				},
 			},
@@ -714,7 +732,16 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				operation: ['deliverSnapshot'],
-				deliver_type: ['webhook', 'ali_oss', 'gcs_pubsub', 'gcs', 's3', 'azure', 'sftp', 'snowflake'],
+				deliver_type: [
+					'webhook',
+					'ali_oss',
+					'gcs_pubsub',
+					'gcs',
+					's3',
+					'azure',
+					'sftp',
+					'snowflake',
+				],
 			},
 		},
 		routing: {
@@ -896,7 +923,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					deliver: {
 						credentials: {
 							'aws-access-key': '={{$parameter["aws-access-key"]}}',
-						}
+						},
 					},
 				},
 			},
@@ -924,7 +951,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					deliver: {
 						credentials: {
 							'aws-secret-key': '={{$parameter["aws-secret-key"]}}',
-						}
+						},
 					},
 				},
 			},
@@ -948,7 +975,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					deliver: {
 						credentials: {
 							'access-key': '={{$parameter["access-key"]}}',
-						}
+						},
 					},
 				},
 			},
@@ -975,7 +1002,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					deliver: {
 						credentials: {
 							'secret-key': '={{$parameter["secret-key"]}}',
-						}
+						},
 					},
 				},
 			},
@@ -1081,8 +1108,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				body: {
 					deliver: {
 						credentials: {
-							'role_arn': '={{$parameter["role_arn"]}}',
-						}
+							role_arn: '={{$parameter["role_arn"]}}',
+						},
 					},
 				},
 			},
@@ -1104,14 +1131,13 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				body: {
 					deliver: {
 						credentials: {
-							'external_id': '={{$parameter["external_id"]}}',
-						}
+							external_id: '={{$parameter["external_id"]}}',
+						},
 					},
 				},
 			},
 		},
 	},
-
 
 	{
 		displayName: 'Directory',
@@ -1153,10 +1179,10 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				body: {
 					deliver: {
 						region: '={{$parameter["region"]}}',
-					}
-				}
-			}
-		}
+					},
+				},
+			},
+		},
 	},
 
 	//specific properties for sftp
@@ -1533,7 +1559,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Snowflake password',
 	},
 
-
 	{
 		displayName: 'Compress',
 		name: 'compress',
@@ -1550,11 +1575,9 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				body: {
 					compress: '={{$parameter["compress"]}}',
 				},
-			}
+			},
 		},
 	},
-
-
 ];
 
 export const marketplaceDatasetFields: INodeProperties[] = [...marketplaceDatasetParameters];
