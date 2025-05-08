@@ -37,7 +37,7 @@ export class BrightData implements INodeType {
 		credentials: [
 			{
 				name: 'brightdataApi',
-				required: false,
+				required: true,
 			},
 		],
 
