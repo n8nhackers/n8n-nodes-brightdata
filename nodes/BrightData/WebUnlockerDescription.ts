@@ -1,5 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 
+import { sendErrorPostReceive } from './GenericFunctions';
+
 export const webUnlockerOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -21,6 +23,7 @@ export const webUnlockerOperations: INodeProperties[] = [
 						method: 'POST',
 						url: '/request',
 					},
+					output: { postReceive: [sendErrorPostReceive] },
 				},
 			},
 		],
