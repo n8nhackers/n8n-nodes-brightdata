@@ -42,13 +42,9 @@ export async function brightdataApiRequest(
 
 	options.url += endpoint;
 	try {
+		console.log('Request to BrightData API:', options);
 		const response = await this.helpers.requestWithAuthentication.call(this, 'brightdataApi', options);
-
-		if (endpoint === '/datasets/filter') {
-			if (!options.headers) {
-				options.headers = {};
-			}
-			console.log('Request to BrightData API:', options);
+		if (endpoint.indexOf("filter") !== -1) {
 			console.log('Response from BrightData API:', response);
 		}
 
