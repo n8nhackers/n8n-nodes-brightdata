@@ -46,6 +46,7 @@ export async function brightdataApiRequest(
 		return await this.helpers.requestWithAuthentication.call(this, 'brightdataApi', options);
 		// return await this.helpers.request(options);
 	} catch (error) {
+		console.log('Error in brightdataApiRequest', error);
 		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }

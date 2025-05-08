@@ -97,18 +97,13 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 			{
 				name: 'Get Snapshots',
 				value: 'getSnapshots',
-				action: 'Get dataset snapshots',
+				action: 'Get filtered snapshots',
 				routing: {
 					request: {
 						method: 'GET',
 						url: '/datasets/v3/snapshots',
 						qs: {
-							dataset_id: '={{$parameter["dataset_id"]}}',
-							status: '={{$parameter["status"]}}',
-							skip: '={{$parameter["skip"]}}',
-							limit: '={{$parameter["limit"]}}',
-							from_date: '={{$parameter["from_date"]}}',
-							to_date: '={{$parameter["to_date"]}}',
+							dataset_id: '={{$parameter["dataset_id"]}}'
 						},
 					},
 				},
@@ -124,6 +119,19 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
+
+			{
+				name: 'Monitor Progress Snapshot',
+				value: 'monitorProgressSnapshot',
+				action: 'Monitor the progress of a snapshot',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/v3/progress/{{$parameter["snapshot_id"]}}',
+					},
+				},
+			},
+
 			{
 				name: 'Scrape Snapshot By URL',
 				value: 'scrapeSnapshotByUrl',
@@ -132,6 +140,9 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					request: {
 						method: 'POST',
 						url: '/datasets/v3/scrape',
+						qs: {
+							dataset_id: '={{$parameter["dataset_id"]}}'
+						},
 					},
 				},
 			},
@@ -143,6 +154,9 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					request: {
 						method: 'POST',
 						url: '/datasets/v3/trigger',
+						qs: {
+							dataset_id: '={{$parameter["dataset_id"]}}',
+						},
 					},
 				},
 			},
@@ -155,27 +169,8 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
 const marketplaceDatasetParameters: INodeProperties[] = [
 
-	{
-		displayName: 'URL',
-		name: 'url',
-		type: 'string',
-		default: 'https://www.linkedin.com/in/bulentakar',
-		placeholder: 'https://www.linkedin.com/in/bulentakar',
-		description: 'The URL to trigger the snapshot',
-		required: true,
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['triggerSnapshotByUrl', 'scrapeSnapshotByUrl'],
-			},
-		},
-		routing: {
-			send: {
-				type: 'body',
-				property: 'url',
-			},
-		},
-	},
+
+
 
 	{
 		displayName: 'Dataset',
@@ -201,7 +196,13 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['marketplaceDataset'],
-				operation: ['getDatasetMetadata', 'filterDataset', 'getSnapshots'],
+				operation: [
+					'getDatasetMetadata',
+					'filterDataset',
+					'getSnapshots',
+					'scrapeSnapshotByUrl',
+					'triggerSnapshotByUrl',
+				],
 			},
 		},
 	},
@@ -392,6 +393,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					'getSnapshotParts',
 					'getSnapshotContent',
 					'deliverSnapshot',
+					'monitorProgressSnapshot',
 				],
 			},
 		},
@@ -1707,6 +1709,49 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			},
 		},
 	},
+
+	{
+		displayName: 'URL',
+		name: 'url',
+		type: 'string',
+		default: 'https://www.linkedin.com/in/bulentakar',
+		placeholder: 'https://www.linkedin.com/in/bulentakar',
+		description: 'The URL to trigger the snapshot',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['triggerSnapshotByUrl', 'scrapeSnapshotByUrl'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				property: 'url',
+			},
+		},
+	},
+
+	{
+		displayName: 'Endpoint',
+		name: 'endpoint',
+		type: 'string',
+		default: 'https://brightdata-test.free.beeceptor.com',
+		description: 'The endpoint to send the data obtained from the snapshot',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['triggerSnapshotByUrl'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'query',
+				property: 'endpoint',
+			},
+		},
+	},
+
 ];
 
 export const marketplaceDatasetFields: INodeProperties[] = [...marketplaceDatasetParameters];

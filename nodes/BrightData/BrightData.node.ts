@@ -82,7 +82,26 @@ export class BrightData implements INodeType {
 
 		// Retrieve the routing info defined for the current operation from the node description
 		if (resource === 'marketplaceDataset') {
-			if (operation === 'getSnapshots') {
+			if (operation === 'monitorProgressSnapshot') {
+				for (let i = 0; i < items.length; i++) {
+					const snapshot_id = this.getNodeParameter('snapshot_id', i) as string;
+
+					if (!snapshot_id) {
+						throw new NodeOperationError(this.getNode(), 'Snapshot ID is required');
+					}
+					try {
+						const responseData = await brightdataApiRequest.call(
+							this,
+							'GET',
+							'/datasets/v3/progress/${snapshot_id}',
+							{}
+						);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
+			} else if (operation === 'getSnapshots') {
 				for (let i = 0; i < items.length; i++) {
 					const dataset_id = this.getNodeParameter('dataset_id', i) as string;
 					if (!dataset_id) {
@@ -134,9 +153,11 @@ export class BrightData implements INodeType {
 					if (!url) {
 						throw new NodeOperationError(this.getNode(), 'URL is required');
 					}
+					const endpoint = this.getNodeParameter('endpoint', i) as string;
 
 					const body: IDataObject = {
 						url,
+						endpoint,
 					};
 
 					try {
