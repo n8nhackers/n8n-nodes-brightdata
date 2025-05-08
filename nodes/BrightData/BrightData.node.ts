@@ -82,7 +82,71 @@ export class BrightData implements INodeType {
 
 		// Retrieve the routing info defined for the current operation from the node description
 		if (resource === 'marketplaceDataset') {
-			if (operation === 'listDatasets') {
+			if (operation === 'getSnapshots') {
+				for (let i = 0; i < items.length; i++) {
+					const dataset_id = this.getNodeParameter('dataset_id', i) as string;
+					if (!dataset_id) {
+						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
+					}
+					const qs: IDataObject = {
+						dataset_id,
+						status: this.getNodeParameter('status', i) as string,
+						skip: this.getNodeParameter('skip', i) as number,
+						limit: this.getNodeParameter('limit', i) as number,
+						from_date: this.getNodeParameter('from_date', i) as string,
+						to_date: this.getNodeParameter('to_date', i) as string,
+					};
+					try {
+						const responseData = await brightdataApiRequest.call(
+							this,
+							'GET',
+							'/datasets/v3/snapshots',
+							{},
+							qs,
+						);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
+			} else if (operation === 'scrapeSnapshotByUrl') {
+				for (let i = 0; i < items.length; i++) {
+					const url = this.getNodeParameter('url', i) as string;
+
+					if (!url) {
+						throw new NodeOperationError(this.getNode(), 'URL is required');
+					}
+
+					const body: IDataObject = {
+						url,
+					};
+
+					try {
+						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/scrape', body);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
+			} else if (operation === 'triggerSnapshotByUrl') {
+				for (let i = 0; i < items.length; i++) {
+					const url = this.getNodeParameter('url', i) as string;
+					if (!url) {
+						throw new NodeOperationError(this.getNode(), 'URL is required');
+					}
+
+					const body: IDataObject = {
+						url,
+					};
+
+					try {
+						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/trigger', body);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
+			} else if (operation === 'getSnapshot') {
 				for (let i = 0; i < items.length; i++) {
 					try {
 						const responseData = await brightdataApiRequest.call(this, 'GET', '/datasets/list', {});

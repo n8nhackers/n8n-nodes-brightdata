@@ -55,7 +55,6 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
-
 			{
 				name: 'Get Snapshot Content',
 				value: 'getSnapshotContent',
@@ -95,7 +94,25 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
-
+			{
+				name: 'Get Snapshots',
+				value: 'getSnapshots',
+				action: 'Get dataset snapshots',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/v3/snapshots',
+						qs: {
+							dataset_id: '={{$parameter["dataset_id"]}}',
+							status: '={{$parameter["status"]}}',
+							skip: '={{$parameter["skip"]}}',
+							limit: '={{$parameter["limit"]}}',
+							from_date: '={{$parameter["from_date"]}}',
+							to_date: '={{$parameter["to_date"]}}',
+						},
+					},
+				},
+			},
 			{
 				name: 'List Datasets',
 				value: 'listDatasets',
@@ -107,20 +124,25 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
-
 			{
-				name: 'List Snapshots',
-				value: 'listSnapshots',
-				action: 'Retrieve a list of snapshots',
+				name: 'Scrape Snapshot By URL',
+				value: 'scrapeSnapshotByUrl',
+				action: 'Create a snapshot by URL',
 				routing: {
 					request: {
-						method: 'GET',
-						url: '/datasets/snapshots',
-						qs: {
-							dataset_id: '={{$parameter["dataset_id"]}}',
-							view_id: '={{$parameter["view_id"]}}',
-							status: '={{$parameter["status"]}}',
-						},
+						method: 'POST',
+						url: '/datasets/v3/scrape',
+					},
+				},
+			},
+			{
+				name: 'Trigger Snapshot By URL',
+				value: 'triggerSnapshotByUrl',
+				action: 'Trigger a snapshot by URL',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/v3/trigger',
 					},
 				},
 			},
@@ -132,6 +154,29 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 // Here we define what to show when the `get` operation is selected.
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
 const marketplaceDatasetParameters: INodeProperties[] = [
+
+	{
+		displayName: 'URL',
+		name: 'url',
+		type: 'string',
+		default: 'https://www.linkedin.com/in/bulentakar',
+		placeholder: 'https://www.linkedin.com/in/bulentakar',
+		description: 'The URL to trigger the snapshot',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['triggerSnapshotByUrl', 'scrapeSnapshotByUrl'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				property: 'url',
+			},
+		},
+	},
+
 	{
 		displayName: 'Dataset',
 		name: 'dataset_id',
@@ -156,7 +201,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['marketplaceDataset'],
-				operation: ['getDatasetMetadata', 'filterDataset'],
+				operation: ['getDatasetMetadata', 'filterDataset', 'getSnapshots'],
 			},
 		},
 	},
@@ -183,7 +228,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['marketplaceDataset'],
-				operation: ['listSnapshots'],
+				operation: ['listSnapshots', 'getSnapshots'],
 			},
 		},
 		options: [
@@ -249,6 +294,90 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			},
 		],
 		description: 'The status of the snapshot to filter the snapshots',
+	},
+
+	{
+		displayName: 'Skip',
+		name: 'skip',
+		type: 'number',
+		default: 0,
+		description: 'Number of snapshots to skip',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['getSnapshots'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					skip: '={{$value}}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		typeOptions: {
+			minValue: 1,
+		},
+		default: 50,
+		description: 'Max number of results to return',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['getSnapshots'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					limit: '={{$value}}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'From Date',
+		name: 'from_date',
+		type: 'dateTime',
+		default: '',
+		description: 'Start date to filter snapshots (ISO 8601 format)',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['getSnapshots'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					from_date: '={{$value}}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'To Date',
+		name: 'to_date',
+		type: 'dateTime',
+		default: '',
+		description: 'End date to filter snapshots (ISO 8601 format)',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['getSnapshots'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					to_date: '={{$value}}',
+				},
+			},
+		},
 	},
 
 	{
