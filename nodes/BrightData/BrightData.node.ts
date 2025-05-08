@@ -86,7 +86,7 @@ export class BrightData implements INodeType {
 				for (let i = 0; i < items.length; i++) {
 					try {
 						const responseData = await brightdataApiRequest.call(this, 'GET', '/datasets/list', {});
-						returnData.push(responseData.response);
+						returnData.push(responseData);
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
 					}
@@ -417,6 +417,10 @@ export class BrightData implements INodeType {
 			}
 		}
 
-		return [this.helpers.returnJsonArray(returnData)];
+		console.log('returnData', returnData);
+		const converted = this.helpers.returnJsonArray(returnData);
+		console.log('converted', converted);
+
+		return [converted];
 	}
 }
