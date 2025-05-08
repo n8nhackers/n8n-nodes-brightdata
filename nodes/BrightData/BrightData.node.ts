@@ -86,17 +86,25 @@ export class BrightData implements INodeType {
 				for (let i = 0; i < items.length; i++) {
 					try {
 						const responseData = await brightdataApiRequest.call(this, 'GET', '/datasets/list', {});
-						console.log('responseData', responseData);
-						returnData.push(...responseData.data);
+						returnData.push({
+							datasets: responseData,
+						});
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
 					}
 				}
 			} else if (operation === 'filterDataset') {
 				for (let i = 0; i < items.length; i++) {
-					const dataset_id = this.getNodeParameter('dataset_id', i) as string;
+					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
+					if (dataset === undefined) {
+						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
+					}
+					// Check if dataset_id is a string
+					const dataset_id = dataset.value;
 					const records_limit = this.getNodeParameter('records_limit', i) as number;
 					const filter = this.getNodeParameter('filter', i) as IDataObject;
+					console.log('filter', filter);
+
 					const body: IDataObject = {
 						dataset_id,
 						records_limit,
@@ -116,7 +124,12 @@ export class BrightData implements INodeType {
 				}
 			} else if (operation === 'getDatasetMetadata') {
 				for (let i = 0; i < items.length; i++) {
-					const dataset_id = this.getNodeParameter('dataset_id', i) as string;
+					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
+					if (dataset === undefined) {
+						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
+					}
+					// Check if dataset_id is a string
+					const dataset_id = dataset.value;
 					try {
 						const responseData = await brightdataApiRequest.call(
 							this,
@@ -124,7 +137,6 @@ export class BrightData implements INodeType {
 							`/datasets/${dataset_id}/metadata`,
 							{},
 						);
-						console.log('responseData', responseData);
 						returnData.push(responseData);
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
@@ -184,7 +196,12 @@ export class BrightData implements INodeType {
 				}
 			} else if (operation === 'listSnapshots') {
 				for (let i = 0; i < items.length; i++) {
-					const dataset_id = this.getNodeParameter('dataset_id', i) as string;
+					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
+					if (dataset === undefined) {
+						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
+					}
+					// Check if dataset_id is a string
+					const dataset_id = dataset.value;
 					const view_id = this.getNodeParameter('view_id', i) as string;
 					const status = this.getNodeParameter('status', i) as string;
 					const qs: IDataObject = {
@@ -418,6 +435,6 @@ export class BrightData implements INodeType {
 			}
 		}
 
-		return [this.helpers.returnJsonArray(returnData)];
+		return this.prepareOutputData(this.helpers.returnJsonArray(returnData));
 	}
 }
