@@ -1,6 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
 
-// When the resource `` is selected, this `operation` parameter will be shown.
 export const webUnlockerOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -22,16 +21,6 @@ export const webUnlockerOperations: INodeProperties[] = [
 						method: 'POST',
 						url: '/request',
 					},
-					// output: {
-					// 	postReceive: [
-					// 		{
-					// 			type: 'set',
-					// 			properties: {
-					// 				value: '={{ {"code": $response["statusCode"], "data": $response["body"]} }}'
-					// 			},
-					// 		},
-					// 	],
-					// },
 				},
 			},
 		],
@@ -39,8 +28,6 @@ export const webUnlockerOperations: INodeProperties[] = [
 	},
 ];
 
-// Here we define what to show when the `get` operation is selected.
-// We do that by adding `operation: ["get"]` to `displayOptions.show`
 const webUnlockerParameters: INodeProperties[] = [
 	{
 		displayName: 'Zone',

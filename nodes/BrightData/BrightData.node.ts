@@ -1,7 +1,7 @@
 import {
 	INodeType,
 	INodeTypeDescription,
-	NodeConnectionType,
+	NodeConnectionType
 } from 'n8n-workflow';
 
 import { webUnlockerOperations, webUnlockerFields } from './WebUnlockerDescription';
@@ -25,8 +25,8 @@ export class BrightData implements INodeType {
 			name: 'BrightData',
 		},
 		usableAsTool: true,
-		inputs: [{ type: NodeConnectionType.Main }],
-		outputs: [{ type: NodeConnectionType.Main }],
+		inputs: [NodeConnectionType.Main],
+		outputs: [NodeConnectionType.Main],
 		credentials: [
 			{
 				name: 'brightdataApi',
@@ -41,17 +41,7 @@ export class BrightData implements INodeType {
 				'Content-Type': 'application/json',
 			},
 		},
-		/**
-		 * In the properties array we have two mandatory options objects required
-		 *
-		 * [Resource & Operation]
-		 *
-		 * https://docs.n8n.io/integrations/creating-nodes/code/create-first-node/#resources-and-operations
-		 *
-		 * In our example, the operations are separated into their own file (HTTPVerbDescription.ts)
-		 * to keep this class easy to read.
-		 *
-		 */
+
 		properties: [
 			{
 				displayName: 'Resource',

@@ -38,6 +38,8 @@ export async function brightdataApiRequest(
 
 	options.url += endpoint;
 
+	console.log('Request Options:', options);
+
 	try {
 		return await this.helpers.requestWithAuthentication.call(this, 'brightdataApi', options);
 	} catch (error) {
