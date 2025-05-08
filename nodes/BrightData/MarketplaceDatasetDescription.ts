@@ -512,14 +512,14 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				name: 'Single Filter',
 				value: 'filter_single',
 			},
-			{
-				name: 'CSV Filter',
-				value: 'csv_filter',
-			},
-			{
-				name: 'JSON Filter',
-				value: 'json_filter',
-			},
+			// {
+			// 	name: 'CSV Filter',
+			// 	value: 'csv_filter',
+			// },
+			// {
+			// 	name: 'JSON Filter',
+			// 	value: 'json_filter',
+			// },
 		],
 		default: 'filter_single',
 		displayOptions: {

@@ -239,11 +239,12 @@ export class BrightData implements INodeType {
 							operator,
 							value: fieldValue,
 						}
+						console.log('Filter:', body.filter);
 
 					} else if (filterType === 'filters_group') {
-						let filtersGroup: IDataObject;
+						let filtersGroup : IDataObject;
 						try {
-							filtersGroup = JSON.parse(this.getNodeParameter('filters_group', i) as string);
+							filtersGroup = JSON.parse(this.getNodeParameter('filters_group', i) as string) as IDataObject;
 						} catch (error) {
 							throw new NodeOperationError(this.getNode(), 'Invalid JSON format for filters group');
 						}
@@ -251,13 +252,17 @@ export class BrightData implements INodeType {
 					} else if (filterType === 'csv_filter') {
 						body.filter = this.getNodeParameter('csv_filter', i) as string;
 					} else if (filterType === 'json_filter') {
-						let jsonFilter: IDataObject | IDataObject[];
+						let jsonFilter: IDataObject;
 						try {
-							jsonFilter = JSON.parse(this.getNodeParameter('json_filter', i) as string);
+							jsonFilter = JSON.parse(this.getNodeParameter('json_filter', i) as string) as IDataObject;
+							console.log (jsonFilter);
 						} catch (error) {
 							throw new NodeOperationError(this.getNode(), 'Invalid JSON format for JSON filter');
 						}
-						body.filter = jsonFilter;
+						body.filter = {
+							operator: jsonFilter.operator,
+							filters: jsonFilter.filters,
+						};
 					}
 
 					try {
