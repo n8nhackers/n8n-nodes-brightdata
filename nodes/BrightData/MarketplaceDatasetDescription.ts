@@ -437,7 +437,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayName: 'Batch Size',
 		name: 'batch_size',
 		type: 'number',
-		default: 100,
+		default: 1000,
 		description: 'Number of records to include in each response batch',
 		displayOptions: {
 			show: {
@@ -1711,12 +1711,11 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 	},
 
 	{
-		displayName: 'URL',
-		name: 'url',
-		type: 'string',
-		default: 'https://www.linkedin.com/in/bulentakar',
-		placeholder: 'https://www.linkedin.com/in/bulentakar',
-		description: 'The URL to trigger the snapshot',
+		displayName: 'URLs',
+		name: 'urls',
+		type: 'json',
+		default: '[{"url":"https://www.linkedin.com/in/bulentakar"}]',
+		description: 'The URLs to trigger the snapshot',
 		required: true,
 		displayOptions: {
 			show: {
@@ -1727,7 +1726,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		routing: {
 			send: {
 				type: 'body',
-				property: 'url',
 			},
 		},
 	},

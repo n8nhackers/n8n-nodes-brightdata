@@ -82,7 +82,17 @@ export class BrightData implements INodeType {
 
 		// Retrieve the routing info defined for the current operation from the node description
 		if (resource === 'marketplaceDataset') {
-			if (operation === 'monitorProgressSnapshot') {
+			if (operation === 'listDatasets') {
+				for (let i = 0; i < items.length; i++) {
+					const responseData = await brightdataApiRequest.call(
+						this,
+						'GET',
+						'/datasets/list',
+						{},
+					);
+					returnData.push(responseData);
+				}
+			} else if (operation === 'monitorProgressSnapshot') {
 				for (let i = 0; i < items.length; i++) {
 					const snapshot_id = this.getNodeParameter('snapshot_id', i) as string;
 
@@ -93,7 +103,7 @@ export class BrightData implements INodeType {
 						const responseData = await brightdataApiRequest.call(
 							this,
 							'GET',
-							'/datasets/v3/progress/${snapshot_id}',
+							`/datasets/v3/progress/${snapshot_id}`,
 							{}
 						);
 						returnData.push(responseData);
@@ -130,18 +140,30 @@ export class BrightData implements INodeType {
 				}
 			} else if (operation === 'scrapeSnapshotByUrl') {
 				for (let i = 0; i < items.length; i++) {
-					const url = this.getNodeParameter('url', i) as string;
+					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
+					if (dataset === undefined) {
+						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
+					}
+					// Check if dataset_id is a string
+					const dataset_id = dataset.value;
+					const bodyString = this.getNodeParameter('urls', i) as string;
+					let body = null;
+					try {
+						body = JSON.parse(bodyString);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), 'Invalid JSON format for URLs');
+					}
 
-					if (!url) {
+					if (!body) {
 						throw new NodeOperationError(this.getNode(), 'URL is required');
 					}
 
-					const body: IDataObject = {
-						url,
+					const qs: IDataObject = {
+						dataset_id,
 					};
 
 					try {
-						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/scrape', body);
+						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/scrape', body, qs);
 						returnData.push(responseData);
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
@@ -149,19 +171,32 @@ export class BrightData implements INodeType {
 				}
 			} else if (operation === 'triggerSnapshotByUrl') {
 				for (let i = 0; i < items.length; i++) {
-					const url = this.getNodeParameter('url', i) as string;
-					if (!url) {
+					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
+					if (dataset === undefined) {
+						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
+					}
+					// Check if dataset_id is a string
+					const dataset_id = dataset.value;
+					const bodyString = this.getNodeParameter('urls', i) as string;
+					let body = null;
+					try {
+						body = JSON.parse(bodyString);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), 'Invalid JSON format for URLs');
+					}
+
+					if (!body) {
 						throw new NodeOperationError(this.getNode(), 'URL is required');
 					}
-					const endpoint = this.getNodeParameter('endpoint', i) as string;
 
-					const body: IDataObject = {
-						url,
+					const endpoint = this.getNodeParameter('endpoint', i) as string;
+					const qs: IDataObject = {
+						dataset_id,
 						endpoint,
 					};
 
 					try {
-						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/trigger', body);
+						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/trigger', body, qs);
 						returnData.push(responseData);
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
@@ -240,7 +275,7 @@ export class BrightData implements INodeType {
 						const responseData = await brightdataApiRequest.call(
 							this,
 							'GET',
-							`/datasets/snapshots/${snapshot_id}/content`,
+							`/datasets/v3/snapshot/${snapshot_id}`,
 							{},
 							qs,
 						);
@@ -256,7 +291,7 @@ export class BrightData implements INodeType {
 						const responseData = await brightdataApiRequest.call(
 							this,
 							'GET',
-							`/datasets/snapshots/${snapshot_id}/metadata`,
+							`/datasets/snapshots/${snapshot_id}`,
 							{},
 						);
 						returnData.push(responseData);
