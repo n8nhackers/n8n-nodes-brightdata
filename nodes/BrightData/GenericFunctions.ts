@@ -41,6 +41,7 @@ export async function brightdataApiRequest(
 	}
 
 	options.url += endpoint;
+	console.log('Request to BrightData API:', options);
 
 	try {
 		const response = await this.helpers.requestWithAuthentication.call(this, 'brightdataApi', options);

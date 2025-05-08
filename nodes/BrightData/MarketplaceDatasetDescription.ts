@@ -498,6 +498,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			},
 		},
 	},
+
 	{
 		displayName: 'Filter Type',
 		name: 'filter_type',

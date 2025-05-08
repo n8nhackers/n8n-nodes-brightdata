@@ -221,15 +221,45 @@ export class BrightData implements INodeType {
 					}
 					// Check if dataset_id is a string
 					const dataset_id = dataset.value;
-					const records_limit = this.getNodeParameter('records_limit', i) as number;
-					const filter = this.getNodeParameter('filter', i) as IDataObject;
-					console.log('filter', filter);
 
-					const body: IDataObject = {
+					const records_limit = this.getNodeParameter('records_limit', i) as number;
+					const filterType = this.getNodeParameter('filter_type', i) as string;
+
+					let body: IDataObject = {
+						records_limit ,
 						dataset_id,
-						records_limit,
-						filter,
 					};
+
+					if (filterType === 'filter_single') {
+						const fieldName = this.getNodeParameter('field_name', i) as string;
+						const operator = this.getNodeParameter('field_operator', i) as string;
+						const fieldValue = this.getNodeParameter('field_value', i) as string;
+						body.filter = {
+							name: fieldName,
+							operator,
+							value: fieldValue,
+						}
+
+					} else if (filterType === 'filters_group') {
+						let filtersGroup: IDataObject;
+						try {
+							filtersGroup = JSON.parse(this.getNodeParameter('filters_group', i) as string);
+						} catch (error) {
+							throw new NodeOperationError(this.getNode(), 'Invalid JSON format for filters group');
+						}
+						body.filter = filtersGroup;
+					} else if (filterType === 'csv_filter') {
+						body.filter = this.getNodeParameter('csv_filter', i) as string;
+					} else if (filterType === 'json_filter') {
+						let jsonFilter: IDataObject | IDataObject[];
+						try {
+							jsonFilter = JSON.parse(this.getNodeParameter('json_filter', i) as string);
+						} catch (error) {
+							throw new NodeOperationError(this.getNode(), 'Invalid JSON format for JSON filter');
+						}
+						body.filter = jsonFilter;
+					}
+
 					try {
 						const responseData = await brightdataApiRequest.call(
 							this,
