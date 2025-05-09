@@ -126,6 +126,7 @@ This workflow is useful for automating product deal recommendations based on use
 
 # Changelog
 Here you can find the list of changes applied to this node:
+- 0.1.22: Return clear messages on API errors + improve filter Dataset 
 - 0.1.21: Add getSnapshots + Trigger snapshots to generate snapshots on demand
 - 0.1.20: Added support to use Bright Data as an AI Agent tool
 - 0.1.19: Added support for Marketplace DataSet endpoints
