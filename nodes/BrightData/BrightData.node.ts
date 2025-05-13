@@ -90,7 +90,7 @@ export class BrightData implements INodeType {
 						'/datasets/list',
 						{},
 					);
-					returnData.push(responseData);
+					returnData.push({items: responseData});
 				}
 			} else if (operation === 'monitorProgressSnapshot') {
 				for (let i = 0; i < items.length; i++) {
