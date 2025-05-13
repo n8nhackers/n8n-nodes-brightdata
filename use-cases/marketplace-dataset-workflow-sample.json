@@ -54,8 +54,7 @@
     },
     {
       "parameters": {
-        "resource": "marketplaceDataset",
-        "operation": "scrapeSnapshotByUrl",
+        "resource": "webScrapper",
         "dataset_id": {
           "__rl": true,
           "value": "gd_l1viktl72bvl7bjuj0",
@@ -81,14 +80,15 @@
     },
     {
       "parameters": {
-        "resource": "marketplaceDataset",
+        "resource": "webScrapper",
         "operation": "triggerSnapshotByUrl",
         "dataset_id": {
           "__rl": true,
           "value": "gd_l1viktl72bvl7bjuj0",
           "mode": "list",
           "cachedResultName": "LinkedIn people profiles"
-        }
+        },
+        "notify": "https://brightdata-test.free.beeceptor.com"
       },
       "type": "n8n-nodes-brightdata.brightData",
       "typeVersion": 1,
@@ -108,14 +108,15 @@
     },
     {
       "parameters": {
-        "resource": "marketplaceDataset",
+        "resource": "webScrapper",
         "operation": "triggerSnapshotByUrl",
         "dataset_id": {
           "__rl": true,
           "value": "gd_l1viktl72bvl7bjuj0",
           "mode": "list",
           "cachedResultName": "LinkedIn people profiles"
-        }
+        },
+        "notify": "https://brightdata-test.free.beeceptor.com"
       },
       "type": "n8n-nodes-brightdata.brightData",
       "typeVersion": 1,
@@ -179,9 +180,9 @@
     },
     {
       "parameters": {
-        "resource": "marketplaceDataset",
-        "operation": "monitorProgressSnapshot",
-        "snapshot_id": "={{ $json.snapshot_id }}"
+        "resource": "webScrapper",
+        "snapshot_id": "={{ $json.snapshot_id }}",
+        "operation": "monitorProgressSnapshot"
       },
       "type": "n8n-nodes-brightdata.brightData",
       "typeVersion": 1,
@@ -697,7 +698,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "e79dd936-9e7d-4a84-a868-0f98e87749ef",
+  "versionId": "938de2ea-5aee-441e-8428-6e3588e622eb",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"
