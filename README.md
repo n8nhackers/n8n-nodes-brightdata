@@ -154,7 +154,7 @@ Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy t
 # Changelog
 
 Here you can find the list of changes applied to this node:
-
+- 0.1.24: Return listDatasets in items output property
 - 0.1.23: Add notify webhook to "Marketplace Dataset API/Trigger Snapshot by URL"
 - 0.1.22: Return clear messages on API errors + improve filter Dataset
 - 0.1.21: Add getSnapshots + Trigger snapshots to generate snapshots on demand
