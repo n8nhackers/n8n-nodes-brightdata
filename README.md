@@ -25,6 +25,7 @@ This node currently supports the next Resources:
 Bright Data’s Marketplace DataSet API allows access to a centralized platform providing regularly updated, ethically sourced datasets from multiple domains, offering flexible solutions for data customization and acquisition.
 
 The next operations are available:
+
 - Deliver Snapshot
 - Filter Dataset
 - Get Dataset Metadata
@@ -34,6 +35,7 @@ The next operations are available:
 - List Datasets
 
 Ideal for:
+
 - Access to datasets across 120+ domains.
 - High-quality, ethically sourced data ensuring accuracy and compliance.
 - Regular updates from publicly available information.
@@ -41,20 +43,21 @@ Ideal for:
 - Flexible purchase options with comprehensive customization.
 - Suitable for various fields like social media, real estate, B2B data, and AI training.
 
-
 ### Web Unlocker
 
-Bright Data’s Web Unlocker API makes data collection easy by managing proxies and avoiding blocks. 
+Bright Data’s Web Unlocker API makes data collection easy by managing proxies and avoiding blocks.
 
 Just send an API request with the target website, and get clean HTML/JSON responses.
 
 The Web Unlocker handles:
+
 - Optimal proxy selection
 - Custom headers
 - Fingerprinting
 - CAPTCHAs
 
 Ideal for:
+
 - Scraping any website without blocks
 - Emulating real-user behavior
 - Teams without proxy infrastructure
@@ -66,15 +69,16 @@ Please, follow [documentation](https://docs.brightdata.com/scraping-automation/w
 #### Usage
 
 - Resource: choose Unlocker API
-	- Operation: choose "Send a Request".
-		- Properties:
-			- zone: Choose between your existing zone names.
-			- url: The target URL you wish to access via Web Unlocker API.
-			- method: The method to call the target URL.
-			- format: Defines the response format. Use raw to receive the raw response from the target site. JSON is simpler for managing the output.
-			- country: The country you will use to access the target URL.
+  - Operation: choose "Send a Request".
+    - Properties:
+      - zone: Choose between your existing zone names.
+      - url: The target URL you wish to access via Web Unlocker API.
+      - method: The method to call the target URL.
+      - format: Defines the response format. Use raw to receive the raw response from the target site. JSON is simpler for managing the output.
+      - country: The country you will use to access the target URL.
 
-### TL;DR
+### TL;DR - WebUnlocker
+
 ![Get deals of the day](images/workflow-sample.png?raw=true "Get deals of the day")
 
 Don't want to read? Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy the URL of [Get deals of the day](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/workflow-sample.json "Get deals of the day") and paste into "Import for URL" submenu at n8n.
@@ -86,19 +90,19 @@ This workflow is useful for automating product deal recommendations based on use
 #### Workflow Overview:
 
 1. **User Interaction via Form**:
-	- The user submits a form where they can select categories (such as appliances, cell phones, etc.) and provide their email address. This triggers the workflow to gather personalized deals based on their input.
+   - The user submits a form where they can select categories (such as appliances, cell phones, etc.) and provide their email address. This triggers the workflow to gather personalized deals based on their input.
 2. **Data Extraction**:
-	- Once the form is submitted, the workflow calls **Bright Data** community node to scrape data from the MediaMarkt website (`https://www.mediamarkt.es/es/campaign/campanas-y-ofertas`) using a proxy service. The data is retrieved in JSON format.
+   - Once the form is submitted, the workflow calls **Bright Data** community node to scrape data from the MediaMarkt website (`https://www.mediamarkt.es/es/campaign/campanas-y-ofertas`) using a proxy service. The data is retrieved in JSON format.
 3. **HTML Content Extraction**:
-	- The raw HTML content from the website is extracted, focusing on the title and body, which are key to processing the content for recommendation.
+   - The raw HTML content from the website is extracted, focusing on the title and body, which are key to processing the content for recommendation.
 4. **Recommendation Generation using OpenAI**:
-	- The extracted data is processed through **OpenAI** (GPT-4o-mini) to generate a list of recommended deals. This involves categorizing deals based on the user-selected categories, and filtering or translating content if necessary. The deal list includes properties like name, description, price, and a link.
+   - The extracted data is processed through **OpenAI** (GPT-4o-mini) to generate a list of recommended deals. This involves categorizing deals based on the user-selected categories, and filtering or translating content if necessary. The deal list includes properties like name, description, price, and a link.
 5. **Data Structuring**:
-	- The generated list of deals is split into individual deal items using **SplitOut**.
+   - The generated list of deals is split into individual deal items using **SplitOut**.
 6. **Document Creation**:
-	- Using **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
+   - Using **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)** community node, an HTML template is populated with the recommended deals and structured into a user-friendly format.
 7. **Email Delivery**:
-	- The document containing the recommended deals is sent to the user's email via **SMTP email send** with a personalized message that includes the list of deals.
+   - The document containing the recommended deals is sent to the user's email via **SMTP email send** with a personalized message that includes the list of deals.
 
 #### Workflow Connections:
 
@@ -124,10 +128,35 @@ This workflow is useful for automating product deal recommendations based on use
 - **[Bright Data](https://www.npmjs.com/package/n8n-nodes-brightdata)**: For scrapping data from MediaMarkt.
 - **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)**: For generating html output using templates.
 
+### TL;DR - Marketplace Dataset
+![Marketplace Datasets](images/marketplace-dataset-workflow-sample.png?raw=true "Marketplace Datasets")
+
+New Marketplace Dataset API allows to create custom snapshots by filtering existing Bright Data datasets (more than [160 datasets](https://docs.brightdata.com/datasets/introduction)).
+
+Datasets are updated by Bright Data, so you don't have to scrape anything.
+
+Your can get a list of records from the full dataset without scrapping the records by yourself. This is faster and cheaper than adquiring data from zero.
+You can use datasets to build custom AI Agents like:
+- Real Estate Agent to search houses to buy
+- Candidates Agent to search future workers
+
+Current existing datasets allow to get data from:
+- LinkedIn
+- Instagram
+- Facebook
+- Airbnb
+- Crunchbase
+- And many more (use operation 'List Datasets' to get all)
+
+Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy the URL of [Get Marketplace Functions](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/marketplace-dataset-workflow-sample.json) and paste into "Import for URL" submenu at n8n.
+
+
 # Changelog
+
 Here you can find the list of changes applied to this node:
+
 - 0.1.23: Add notify webhook to "Marketplace Dataset API/Trigger Snapshot by URL"
-- 0.1.22: Return clear messages on API errors + improve filter Dataset 
+- 0.1.22: Return clear messages on API errors + improve filter Dataset
 - 0.1.21: Add getSnapshots + Trigger snapshots to generate snapshots on demand
 - 0.1.20: Added support to use Bright Data as an AI Agent tool
 - 0.1.19: Added support for Marketplace DataSet endpoints
@@ -138,6 +167,7 @@ Here you can find the list of changes applied to this node:
 To make this node even better, please let us know, [how you use it](mailto:support@n8nhackers.com). Commits are always welcome.
 
 You can test this node following the next instructions:
+
 ```sh
 git clone git@github.com:n8nhackers/n8n-nodes-brightdata.git
 cd n8n-nodes-brightdata
@@ -152,6 +182,7 @@ npm link n8n-nodes-brightdata
 cd ..
 n8n start
 ```
+
 # Issues
 
 If you have any issues, please [let us know on GitHub](https://github.com/n8nhackers/n8n-nodes-brightdata/issues).

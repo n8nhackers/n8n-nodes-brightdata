@@ -1,0 +1,707 @@
+{
+  "name": "Bright Data: Marketplace Dataset - Create Snapshot",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -280
+      ],
+      "id": "48d07269-72f1-4f39-ad1b-921c25ebbed2",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset",
+        "operation": "getDatasetMetadata",
+        "dataset_id": {
+          "__rl": true,
+          "value": "gd_l1viktl72bvl7bjuj0",
+          "mode": "list",
+          "cachedResultName": "LinkedIn people profiles"
+        }
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        400,
+        -340
+      ],
+      "id": "465809cc-101b-414f-8d4f-c322c6d328aa",
+      "name": "BrightData1",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        400,
+        -80
+      ],
+      "id": "a900ea2c-33b5-412e-bdc1-29efe900fe9c",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset",
+        "operation": "scrapeSnapshotByUrl",
+        "dataset_id": {
+          "__rl": true,
+          "value": "gd_l1viktl72bvl7bjuj0",
+          "mode": "list",
+          "cachedResultName": "LinkedIn people profiles"
+        }
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -280
+      ],
+      "id": "985fc112-a5d2-4a9e-b89e-c6e6d5290d62",
+      "name": "BrightData: Get LinkedIn Profile by URL (Direct)",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset",
+        "operation": "triggerSnapshotByUrl",
+        "dataset_id": {
+          "__rl": true,
+          "value": "gd_l1viktl72bvl7bjuj0",
+          "mode": "list",
+          "cachedResultName": "LinkedIn people profiles"
+        }
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        100,
+        140
+      ],
+      "id": "e916c7f6-a544-4266-9313-1babcf32f827",
+      "name": "BrightData: Snapshot By LinkedIn URL (webhook)",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset",
+        "operation": "triggerSnapshotByUrl",
+        "dataset_id": {
+          "__rl": true,
+          "value": "gd_l1viktl72bvl7bjuj0",
+          "mode": "list",
+          "cachedResultName": "LinkedIn people profiles"
+        }
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -80
+      ],
+      "id": "c8128a1d-3666-402d-8137-6b6b0d45811e",
+      "name": "BrightData: Snapshot By LinkedIn URL",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        -40
+      ],
+      "id": "a2e81310-f5d7-42ee-b7af-1e4d0170408f",
+      "name": "Wait",
+      "webhookId": "4fd7218e-59c2-4f49-8462-dcdda14b2a26"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f2f61f2e-2a2b-4934-a07b-a07c58d77d8b",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ready",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        900,
+        -60
+      ],
+      "id": "a22ede5d-adad-4a37-9b96-d747857702e0",
+      "name": "Snapshot is ready?"
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset",
+        "operation": "monitorProgressSnapshot",
+        "snapshot_id": "={{ $json.snapshot_id }}"
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -60
+      ],
+      "id": "9f5f3696-c361-4a66-9429-339478b61725",
+      "name": "BrightData: Snapshot Progress",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset",
+        "operation": "getSnapshotContent",
+        "snapshot_id": "={{ $json.snapshot_id }}"
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -280
+      ],
+      "id": "304dc334-c99b-4b6a-b7ea-b3ce258eb819",
+      "name": "BrightData: Snapshot Data",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "marketplaceDataset"
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -500
+      ],
+      "id": "fa1ec5f7-4b4d-478a-b622-eea0fd3faed9",
+      "name": "BrightData",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "BrightData: Get LinkedIn Profile by URL (Direct)": [
+      {
+        "json": {
+          "input": {
+            "url": "https://www.linkedin.com/in/bulentakar"
+          },
+          "id": "bulentakar",
+          "name": "Bulent Akar",
+          "city": "Istanbul, Istanbul, Türkiye",
+          "country_code": "TR",
+          "about": "Specialties: Information Technology, Business and Product Development, IT-Business…",
+          "posts": [
+            {
+              "title": "🤖 Building for AI vs. Building with AI — Know the Difference It’s 2025, and nearly every product team is “doing AI.” But there’s a fundamental…",
+              "attribution": "Posted by Bulent Akar",
+              "img": "https://static.licdn.com/aero-v1/sc/h/53n89ecoxpr1qrki1do3alazb",
+              "link": "https://www.linkedin.com/posts/bulentakar_productmanagement-softwareengineering-activity-7325019357162401792-q_cY",
+              "interaction": "Posted by Bulent Akar",
+              "id": "q_cY"
+            }
+          ],
+          "current_company": {
+            "link": "https://tr.linkedin.com/company/sahibinden-com?trk=public_profile_topcard-current-company",
+            "name": "sahibinden.com",
+            "company_id": "sahibinden-com"
+          },
+          "experience": null,
+          "url": "https://www.linkedin.com/in/bulentakar",
+          "people_also_viewed": [
+            {
+              "profile_link": "https://tr.linkedin.com/in/%C3%B6zg%C3%BCr-r%C4%B1za-kir-8038088?trk=public_profile_browsemap-profile",
+              "name": "Özgür Rıza KIR",
+              "about": "CTO at DOKO & Konfides",
+              "location": "Istanbul"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/doganaydin?trk=public_profile_browsemap-profile",
+              "name": "Dogan Aydin",
+              "about": null,
+              "location": "Istanbul, Türkiye"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/bulent-kizil-1737471a?trk=public_profile_browsemap-profile",
+              "name": "Bulent KIZIL",
+              "about": "CTO at ORBIT",
+              "location": "Istanbul"
+            },
+            {
+              "profile_link": "https://de.linkedin.com/in/fikrettoydemir?trk=public_profile_browsemap-profile",
+              "name": "Fikret Toydemir",
+              "about": null,
+              "location": "Berlin"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/hakantuzun?trk=public_profile_browsemap-profile",
+              "name": "Hakan Tüzün",
+              "about": "CTO at Link Bilgisayar A.S.",
+              "location": "Istanbul"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/goktugyildirim?trk=public_profile_browsemap-profile",
+              "name": "Göktuğ Yıldırım",
+              "about": "CTO",
+              "location": "Istanbul"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/aycangulez?trk=public_profile_browsemap-profile",
+              "name": "Aycan Gulez",
+              "about": "CTO at Faradai",
+              "location": "Istanbul, Türkiye"
+            },
+            {
+              "profile_link": "https://ee.linkedin.com/in/cenk-okan-%C3%B6zpay-2000?trk=public_profile_browsemap-profile",
+              "name": "Cenk Okan Özpay",
+              "about": "Smart Manufacturing",
+              "location": "Tallinn"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/yakup-%C3%BCnal-6732094?trk=public_profile_browsemap-profile",
+              "name": "Yakup Ünal",
+              "about": "Group CIO / Executive Committee Member",
+              "location": "Istanbul"
+            },
+            {
+              "profile_link": "https://tr.linkedin.com/in/guclukaya?trk=public_profile_browsemap-profile",
+              "name": "Guclu Kaya",
+              "about": null,
+              "location": "Istanbul"
+            }
+          ],
+          "educations_details": "Koç University",
+          "education": [
+            {
+              "title": "Koç University",
+              "url": "https://tr.linkedin.com/school/kocuniversity/",
+              "start_year": "2006",
+              "end_year": "2007",
+              "description": null,
+              "description_html": null,
+              "institute_logo_url": null
+            },
+            {
+              "start_year": "1993",
+              "end_year": "1995",
+              "description": null,
+              "description_html": null,
+              "institute_logo_url": null
+            },
+            {
+              "start_year": "1987",
+              "end_year": "1991",
+              "description": null,
+              "description_html": null,
+              "institute_logo_url": null
+            },
+            {
+              "start_year": "1984",
+              "end_year": "1987",
+              "description": null,
+              "description_html": null,
+              "institute_logo_url": null
+            }
+          ],
+          "avatar": "https://media.licdn.com/dms/image/v2/C4D03AQFF9lj0bC01rg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1536039534259?e=2147483647&v=beta&t=iOLt9KbsTMPi32g-j_qwSSRlGhZgD9GrUVJMUDh4Zpg",
+          "followers": 10630,
+          "connections": 500,
+          "current_company_company_id": "sahibinden-com",
+          "current_company_name": "sahibinden.com",
+          "organizations": [
+            {
+              "title": "ETID (E-commerce Association)",
+              "membership_type": "Member",
+              "start_date": "Oct 2015",
+              "end_date": "Present",
+              "membership_number": null
+            },
+            {
+              "title": "TUBISAD (Informatics Industry Association)",
+              "membership_type": "Member",
+              "start_date": "Oct 2015",
+              "end_date": "Present",
+              "membership_number": null
+            },
+            {
+              "title": "The Union of Chambers and Commodity Exchanges of Turkey (TOBB) - Software Council",
+              "membership_type": "Member",
+              "start_date": "Oct 2010",
+              "end_date": "Present",
+              "membership_number": null
+            }
+          ],
+          "location": "Istanbul",
+          "input_url": "https://www.linkedin.com/in/bulentakar",
+          "linkedin_id": "bulentakar",
+          "activity": [
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/mehmet-%C3%B6zkan-b04863_de%C4%9Ferli-dostlar-k%C4%B1ymetli-tecr%C3%BCbeler-edindi%C4%9Fim-activity-7326309160180965378-FbML",
+              "title": "Değerli dostlar; Kıymetli tecrübeler edindiğim, dolu dolu geçen 33 yılın ardından, 30 Nisan 2025 itibarıyla emekli olarak çalışma hayatına ara…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQHr3uGUHacGbA/feedshare-shrink_800/B4DZaxHV84HsAk-/0/1746728219199?e=2147483647&v=beta&t=EMFxEasLe0x10lYr7xvBB8mWYkVwJWbvuOEmIuSp4LA",
+              "id": "7326309160180965378"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/sinaafra_turkiye-entrepreneurship-foundation-fellow-activity-7325443786526937091-Faz8",
+              "title": "Turkiye Entrepreneurship Foundation Fellow başvuruları açıldı. Geçen sene 150 bin başvuru almıştık. 18-24 yaş arasındaysanız, lütfen başvurun…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQHRVxczTFMI4A/feedshare-shrink_2048_1536/B4DZak0TWVG8Ao-/0/1746521897579?e=2147483647&v=beta&t=Ula_XfPQh9k0wX8GSUKvuNIjUSob5SJkdfi60uMW0e4",
+              "id": "7325443786526937091"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/burcu-bati-b5975b13_ekonomizirvesi25-istanbul%C3%BCniversitesi-activity-7325878319181127681-2jJy",
+              "title": "🎓 Dün, İstanbul Üniversitesi İktisat Kulübü tarafından düzenlenen 25. Ekonomi Zirvesi’nde gençlerle bir araya gelmek benim için büyük bir mutluluktu…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQEvSjUJn9D9Kg/feedshare-shrink_800/B4DZaq_gcDHEAg-/0/1746625498701?e=2147483647&v=beta&t=8kDXmKreI9O6gbEgqRWeD3VuEOCMsI6zC8Ceov6tQfg",
+              "id": "7325878319181127681"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/yonca-kurt-4603a348_bug%C3%BCn-son-dersti-bir-ap-computer-science-activity-7325685318022524928-Dm9q",
+              "title": "Bugün son dersti… Bir AP Computer Science A sınavına hazırlık sürecini daha tamamladık. Eylül ayında başladık… Bugün son dersten çıktık. Yarın sınav…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQH-w9vK-EqUqQ/feedshare-shrink_800/B4DZaoGd1ZGcAk-/0/1746576992894?e=2147483647&v=beta&t=tOm9PRb6nYzu9GeLRr8wVx07_BiRWdaWIOUXQOAY1Bs",
+              "id": "7325685318022524928"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/beyzakendirli_sahibindencom%C5%9Firketinde-senior-data-activity-7325153169284481024-Osyx",
+              "title": "sahibinden.com şirketinde “Senior Data & Analytics Expert” olarak çalışmaya başladığımı paylaşmaktan mutluluk duyuyorum! 🫶🏻",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQEm-fiLc5J7Ag/feedshare-shrink_800/B4DZagr.jnG0Ao-/0/1746452606851?e=2147483647&v=beta&t=ka5xvuMUzPGThJUtNxs2sWY2Xk0mENBeHoGpm-e2ggY",
+              "id": "7325153169284481024"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://www.linkedin.com/posts/evren-tan_a-simple-java-cache-app-using-weakhashmap-activity-7325241509639794688-oLQC",
+              "title": "🚀 Turning theory into practice ⚙️ After diving deep into Java’s WeakHashMap in my previous article, I decided to turn theory into practice. I built…",
+              "img": "https://media.licdn.com/dms/image/sync/v2/D4D27AQFjFLh6lDn_CQ/articleshare-shrink_1280_800/B4DZah7AkvH0AQ-/0/1746473323123?e=2147483647&v=beta&t=Kmbkuy1__nbbfYU-e53g3Ki1vL_H-1sIEpQMnEldFxM",
+              "id": "7325241509639794688"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/fast-company-t%C3%BCrkiye-580210199_s%C3%BCrd%C3%BCr%C3%BClebilirlikliderleri50-activity-7325053204826583040--Pzz",
+              "title": "Güntulu Peker: \"Kullandığınız sunucular, veri merkezleri, internet alt yapıları da karbon ayak izi oluşturabiliyor. Geleneksel üretimden kaynaklanan…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQHdokAL_80L3w/feedshare-shrink_2048_1536/B4DZafRDkaG0As-/0/1746428775839?e=2147483647&v=beta&t=qsbrefgorj795gI-U5SyuncyxwfQuzlcLMepd8Ad0DY",
+              "id": "7325053204826583040"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/mertbaki_deliverect-global-food-delivery-in-2025-activity-7325541463637782529-L24W",
+              "title": "Şehirleşmenin ve yenilikçi çözümlerin etkisiyle her geçen gün daha fazla insana dokunan küresel yemek teslimat pazarı, teknolojinin ve değişen…",
+              "img": "https://static.licdn.com/aero-v1/sc/h/53n89ecoxpr1qrki1do3alazb",
+              "id": "2025"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://www.linkedin.com/posts/oksanalukyanenko_uber-to-buy-85-stake-in-turkish-food-delivery-activity-7325641536254164993-n9tV",
+              "title": "Another consolidation in food delivery—just about Turkey, or something more? Uber is acquiring 85% of Trendyol Go for $700M. At first glance, this…",
+              "img": "https://media.licdn.com/dms/image/v2/D5610AQFb4QraWHUIsA/image-shrink_800/B56Zal1quxHsAc-/0/1746539034367?e=2147483647&v=beta&t=VgyeewXGd1p9pdUTj3gsGu4nGbWK_2kl0clsTcEmnuo",
+              "id": "85"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/g%C3%BCntulu-peker-3572541_sahibinden-s%C3%BCrd%C3%BCr%C3%BClebilirlik-sustainability-activity-7325504840678166528-nlI9",
+              "title": "🌱 Üretmek yerine paylaşmak, atmak yerine tamir etmek, sıfır yerine ikinci el demek… Fast Company Türkiye’nin düzenlediği Sürdürülebilirlik…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQF-KQHkczWJgQ/feedshare-shrink_800/B4DZalrzPtH0Ak-/0/1746536454603?e=2147483647&v=beta&t=447Br7crORq-S5dmhyDzl6_5r_z9ja08Ccu05FOyugU",
+              "id": "7325504840678166528"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/sahibinden-com_sahibinden-s%C3%BCrd%C3%BCr%C3%BClebilirlik-sustainability-activity-7325520874965516288-mMJd",
+              "title": "İnsan ve Sürdürülebilirlik Genel Müdür Yardımcımız Güntulu Peker, Fast Company Türkiye tarafından düzenlenen “Sürdürülebilirlik Liderleri”…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQHMCozPSaSXTQ/feedshare-shrink_800/B4DZal6YhDGwAo-/0/1746540277114?e=2147483647&v=beta&t=4YmmAClozPzm146UOd_c7MA4OCRMFXtHFixqXSRyspA",
+              "id": "7325520874965516288"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/sahibinden-com_sahibinden-cybersecurity-enbantec2025-activity-7325076913100673025-G4GW",
+              "title": "Bilgi Güvenliği Direktörümüz Erkan Sertoğlu, ENBANTEC Siber Güvenlik Konferansı’nda konuşmacı olarak yer aldı. Sertoğlu konuşmasında, siber güvenlik…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQFmed6gCGtZNQ/feedshare-shrink_800/B4DZafmolwHEAk-/0/1746434428090?e=2147483647&v=beta&t=i1RDHwckLFqM1hNNxV0jI4Vh81dSjTi1CTb3cDf_OHY",
+              "id": "7325076913100673025"
+            },
+            {
+              "interaction": "Posted by Bulent Akar",
+              "link": "https://www.linkedin.com/posts/bulentakar_productmanagement-softwareengineering-activity-7325019357162401792-q_cY",
+              "title": "🤖 Building for AI vs. Building with AI — Know the Difference It’s 2025, and nearly every product team is “doing AI.” But there’s a fundamental…",
+              "img": "https://static.licdn.com/aero-v1/sc/h/53n89ecoxpr1qrki1do3alazb",
+              "id": "7325019357162401792"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://www.linkedin.com/posts/sinaafra_trvc-08-sina-afras-take-on-the-turkish-activity-7323232658698719233-FFEZ",
+              "title": "Excited to share my talk with the Turkish VC Podcast, hosted by Jonas Yunus Celebiler. Our talk delves into the Turkish entrepreneurial ecosystem…",
+              "img": "https://media.licdn.com/dms/image/sync/v2/D4D27AQEsj7Ger0VKsA/articleshare-shrink_800/B4DZaFXexgHwAM-/0/1745994247785?e=2147483647&v=beta&t=E4kO3JZjxeqIpNvXiH5s_aNtMseg_XVaLtMhTsr9xW4",
+              "id": "08"
+            },
+            {
+              "interaction": "Liked by Bulent Akar",
+              "link": "https://tr.linkedin.com/posts/mehmetalitombalak_sevgili-beltan-bu-defa-kalbe-dokunan-bir-activity-7323651690690199552-HKYp",
+              "title": "Sevgili Beltan, Bu defa kalbe dokunan bir paylaşım yaptın. Ve düşündürdün: Teknoloji yarışı, sadece görebilenlerin oynadığı bir oyun mu? Teknoloji…",
+              "img": "https://static.licdn.com/aero-v1/sc/h/53n89ecoxpr1qrki1do3alazb",
+              "id": "7323651690690199552"
+            }
+          ],
+          "linkedin_num_id": "7681901",
+          "banner_image": "https://media.licdn.com/dms/image/v2/D5616AQGzvKqYWcKNVg/profile-displaybackgroundimage-shrink_200_800/profile-displaybackgroundimage-shrink_200_800/0/1732733836749?e=2147483647&v=beta&t=_4gSzjk8dF75_j8G8x1SKUCjG13elIRGkJW9PCsw9_0",
+          "honors_and_awards": null,
+          "similar_profiles": [
+            {
+              "url": "https://tr.linkedin.com/in/%C3%B6zg%C3%BCr-r%C4%B1za-kir-8038088",
+              "name": "Özgür Rıza KIR",
+              "title": "CTO at DOKO & Konfides",
+              "url_text": "https://tr.linkedin.com/in/özgür-rıza-kir-8038088"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/doganaydin",
+              "name": "Dogan Aydin",
+              "title": null,
+              "url_text": "https://tr.linkedin.com/in/doganaydin"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/bulent-kizil-1737471a",
+              "name": "Bulent KIZIL",
+              "title": "CTO at ORBIT",
+              "url_text": "https://tr.linkedin.com/in/bulent-kizil-1737471a"
+            },
+            {
+              "url": "https://de.linkedin.com/in/fikrettoydemir",
+              "name": "Fikret Toydemir",
+              "title": null,
+              "url_text": "https://de.linkedin.com/in/fikrettoydemir"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/hakantuzun",
+              "name": "Hakan Tüzün",
+              "title": "CTO at Link Bilgisayar A.S.",
+              "url_text": "https://tr.linkedin.com/in/hakantuzun"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/goktugyildirim",
+              "name": "Göktuğ Yıldırım",
+              "title": "CTO",
+              "url_text": "https://tr.linkedin.com/in/goktugyildirim"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/aycangulez",
+              "name": "Aycan Gulez",
+              "title": "CTO at Faradai",
+              "url_text": "https://tr.linkedin.com/in/aycangulez"
+            },
+            {
+              "url": "https://ee.linkedin.com/in/cenk-okan-%C3%B6zpay-2000",
+              "name": "Cenk Okan Özpay",
+              "title": "Smart Manufacturing",
+              "url_text": "https://ee.linkedin.com/in/cenk-okan-özpay-2000"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/yakup-%C3%BCnal-6732094",
+              "name": "Yakup Ünal",
+              "title": "Group CIO / Executive Committee Member",
+              "url_text": "https://tr.linkedin.com/in/yakup-ünal-6732094"
+            },
+            {
+              "url": "https://tr.linkedin.com/in/guclukaya",
+              "name": "Guclu Kaya",
+              "title": null,
+              "url_text": "https://tr.linkedin.com/in/guclukaya"
+            }
+          ],
+          "default_avatar": false,
+          "memorialized_account": false,
+          "bio_links": [],
+          "timestamp": "2025-05-13T09:52:17.513Z"
+        }
+      }
+    ],
+    "BrightData: Snapshot By LinkedIn URL": [
+      {
+        "json": {
+          "snapshot_id": "s_mamc7lx2vn8iz3bqy"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "BrightData1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BrightData: Get LinkedIn Profile by URL (Direct)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BrightData: Snapshot By LinkedIn URL",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BrightData: Snapshot By LinkedIn URL (webhook)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BrightData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "BrightData: Snapshot Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "BrightData: Snapshot Progress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BrightData: Get LinkedIn Profile by URL (Direct)": {
+      "main": [
+        []
+      ]
+    },
+    "BrightData: Snapshot By LinkedIn URL": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Snapshot is ready?": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BrightData: Snapshot Progress": {
+      "main": [
+        [
+          {
+            "node": "Snapshot is ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BrightData": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e79dd936-9e7d-4a84-a868-0f98e87749ef",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"
+  },
+  "id": "2T7VYQDgy1haLsmk",
+  "tags": []
+}
