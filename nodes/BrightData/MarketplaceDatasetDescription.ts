@@ -101,9 +101,6 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
 const marketplaceDatasetParameters: INodeProperties[] = [
 
-
-
-
 	{
 		displayName: 'Dataset',
 		name: 'dataset_id',
@@ -130,10 +127,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				resource: ['marketplaceDataset'],
 				operation: [
 					'getDatasetMetadata',
-					'filterDataset',
-					'getSnapshots',
-					'scrapeSnapshotByUrl',
-					'triggerSnapshotByUrl',
+					'filterDataset'
 				],
 			},
 		},
