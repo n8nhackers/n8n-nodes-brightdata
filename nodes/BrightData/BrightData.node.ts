@@ -188,11 +188,12 @@ export class BrightData implements INodeType {
 					if (!body) {
 						throw new NodeOperationError(this.getNode(), 'URL is required');
 					}
-
+					const notify = this.getNodeParameter('notify', i) as string;
 					const endpoint = this.getNodeParameter('endpoint', i) as string;
 					const qs: IDataObject = {
 						dataset_id,
 						endpoint,
+						notify
 					};
 
 					try {

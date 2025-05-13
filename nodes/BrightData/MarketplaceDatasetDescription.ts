@@ -803,8 +803,10 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				},
 			},
 		},
-		required: true,
 	},
+
+
+
 
 	{
 		displayName: 'Filename Template',
@@ -1747,6 +1749,26 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			send: {
 				type: 'query',
 				property: 'endpoint',
+			},
+		},
+	},
+
+	{
+		displayName: 'Notify',
+		name: 'notify',
+		type: 'string',
+		default: '',
+		description: 'The URL to notify when the collection is finished',
+		displayOptions: {
+			show: {
+				resource: ['marketplaceDataset'],
+				operation: ['triggerSnapshotByUrl'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'query',
+				property: 'notify',
 			},
 		},
 	},
