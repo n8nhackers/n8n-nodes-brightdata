@@ -17,6 +17,7 @@ import {
 	marketplaceDatasetOperations,
 	marketplaceDatasetFields,
 } from './MarketplaceDatasetDescription';
+import { webScrapperOperations, webScrapperFields } from './WebScrapperDescription';
 
 export class BrightData implements INodeType {
 	description: INodeTypeDescription = {
@@ -48,13 +49,18 @@ export class BrightData implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{
-						name: 'Web Unlocker',
-						value: 'webUnlocker',
-					},
+
 					{
 						name: 'Marketplace Dataset',
 						value: 'marketplaceDataset',
+					},
+					{
+						name: 'Web Scrapper',
+						value: 'webScrapper',
+					},
+					{
+						name: 'Web Unlocker',
+						value: 'webUnlocker',
 					},
 				],
 				default: 'webUnlocker',
@@ -63,6 +69,8 @@ export class BrightData implements INodeType {
 			...webUnlockerFields,
 			...marketplaceDatasetOperations,
 			...marketplaceDatasetFields,
+			...webScrapperOperations,
+			...webScrapperFields,
 		],
 	};
 

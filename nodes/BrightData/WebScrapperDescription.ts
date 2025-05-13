@@ -1,7 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 
 // When the resource `` is selected, this `operation` parameter will be shown.
-export const marketplaceDatasetOperations: INodeProperties[] = [
+export const webScrapperOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
@@ -9,100 +9,90 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 			},
 		},
 		options: [
-
 			{
-				name: 'Filter Dataset',
-				value: 'filterDataset',
-				action: 'Create a dataset snapshot based on a provided filter',
+				name: 'Deliver Snapshot',
+				value: 'deliverSnapshot',
+				action: 'Deliver the dataset snapshot',
 				routing: {
 					request: {
 						method: 'POST',
-						url: '/datasets/filter',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/deliver',
 						body: {
-							records_limit: '={{$parameter["records_limit"]}}',
-							filter: '={{$parameter["filter"]}}',
+							deliver: '={{$parameter["deliver"]}}',
+							compress: '={{$parameter["compress"] || false}}',
+						},
+					},
+				},
+			},
+
+
+			{
+				name: 'Get Snapshots',
+				value: 'getSnapshots',
+				action: 'Get filtered snapshots',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/v3/snapshots',
+						qs: {
+							dataset_id: '={{$parameter["dataset_id"]}}'
+						},
+					},
+				},
+			},
+
+			{
+				name: 'Monitor Progress Snapshot',
+				value: 'monitorProgressSnapshot',
+				action: 'Monitor the progress of a snapshot',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/v3/progress/{{$parameter["snapshot_id"]}}',
+					},
+				},
+			},
+
+			{
+				name: 'Scrape Snapshot By URL',
+				value: 'scrapeSnapshotByUrl',
+				action: 'Create a snapshot by URL',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/v3/scrape',
+						qs: {
+							dataset_id: '={{$parameter["dataset_id"]}}'
+						},
+					},
+				},
+			},
+			{
+				name: 'Trigger Snapshot By URL',
+				value: 'triggerSnapshotByUrl',
+				action: 'Trigger a snapshot by URL',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/v3/trigger',
+						qs: {
 							dataset_id: '={{$parameter["dataset_id"]}}',
 						},
 					},
 				},
 			},
-			{
-				name: 'Get Dataset Metadata',
-				value: 'getDatasetMetadata',
-				action: 'Retrieve detailed metadata for a specific dataset',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '=/datasets/{{$parameter["dataset_id"]}}/metadata',
-					},
-				},
-			},
-			{
-				name: 'Get Snapshot Content',
-				value: 'getSnapshotContent',
-				action: 'Get dataset snapshot content',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/content',
-						qs: {
-							format: '={{$parameter["format"]}}',
-							compress: '={{$parameter["compress"] || false}}',
-							batch_size: '={{$parameter["batch_size"]}}',
-							part: '={{$parameter["part"]}}',
-						},
-					},
-				},
-			},
-			{
-				name: 'Get Snapshot Metadata',
-				value: 'getSnapshotMetadata',
-				action: 'Get dataset snapshot metadata',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/metadata',
-					},
-				},
-			},
-			{
-				name: 'Get Snapshot Parts',
-				value: 'getSnapshotParts',
-				action: 'Get dataset snapshot delivery parts',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/parts',
-					},
-				},
-			},
-
-			{
-				name: 'List Datasets',
-				value: 'listDatasets',
-				action: 'Retrieve a list of available datasets',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '/datasets/list',
-					},
-				},
-			},
 		],
-		default: 'listDatasets',
+		default: 'scrapeSnapshotByUrl',
 	},
 ];
 
 // Here we define what to show when the `get` operation is selected.
 // We do that by adding `operation: ["get"]` to `displayOptions.show`
-const marketplaceDatasetParameters: INodeProperties[] = [
-
-
-
+const webScrapperParameters: INodeProperties[] = [
 
 	{
 		displayName: 'Dataset',
@@ -127,7 +117,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Select the DataSet',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: [
 					'getDatasetMetadata',
 					'filterDataset',
@@ -146,7 +136,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['listSnapshots'],
 			},
 		},
@@ -160,7 +150,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: 'ready',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['listSnapshots', 'getSnapshots'],
 			},
 		},
@@ -237,7 +227,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Number of snapshots to skip',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['getSnapshots'],
 			},
 		},
@@ -260,7 +250,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Max number of results to return',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['getSnapshots'],
 			},
 		},
@@ -280,7 +270,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Start date to filter snapshots (ISO 8601 format)',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['getSnapshots'],
 			},
 		},
@@ -300,7 +290,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'End date to filter snapshots (ISO 8601 format)',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['getSnapshots'],
 			},
 		},
@@ -1654,7 +1644,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['triggerSnapshotByUrl', 'scrapeSnapshotByUrl'],
 			},
 		},
@@ -1673,7 +1663,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'The endpoint to send the data obtained from the snapshot',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['triggerSnapshotByUrl'],
 			},
 		},
@@ -1693,7 +1683,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'The URL to notify when the collection is finished',
 		displayOptions: {
 			show: {
-				resource: ['marketplaceDataset'],
+				resource: ['webScrapper'],
 				operation: ['triggerSnapshotByUrl'],
 			},
 		},
@@ -1707,4 +1697,4 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 
 ];
 
-export const marketplaceDatasetFields: INodeProperties[] = [...marketplaceDatasetParameters];
+export const webScrapperFields: INodeProperties[] = [...webScrapperParameters];
