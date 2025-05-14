@@ -122,8 +122,8 @@ const webScrapperParameters: INodeProperties[] = [
 					'getDatasetMetadata',
 					'filterDataset',
 					'getSnapshots',
-					'scrapeSnapshotByUrl',
-					'triggerSnapshotByUrl',
+					'scrapeByUrl',
+					'triggerCollectionByUrl',
 				],
 			},
 		},
@@ -1645,7 +1645,7 @@ const webScrapperParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['webScrapper'],
-				operation: ['triggerSnapshotByUrl', 'scrapeSnapshotByUrl'],
+				operation: ['triggerCollectionByUrl', 'scrapeByUrl'],
 			},
 		},
 		routing: {
@@ -1664,7 +1664,7 @@ const webScrapperParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['webScrapper'],
-				operation: ['triggerSnapshotByUrl'],
+				operation: ['triggerCollectionByUrl'],
 			},
 		},
 		routing: {
@@ -1684,7 +1684,7 @@ const webScrapperParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['webScrapper'],
-				operation: ['triggerSnapshotByUrl'],
+				operation: ['triggerCollectionByUrl'],
 			},
 		},
 		routing: {
