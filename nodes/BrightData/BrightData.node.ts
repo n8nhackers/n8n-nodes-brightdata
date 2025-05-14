@@ -317,11 +317,15 @@ export class BrightData implements INodeType {
 						const responseData = await brightdataApiRequest.call(
 							this,
 							'GET',
-							`/datasets/v3/snapshot/${snapshot_id}`,
+							// `/datasets/v3/snapshots/${snapshot_id}`,
+							`/datasets/snapshots/${snapshot_id}/download`,
 							{},
 							qs,
 						);
-						returnData.push(responseData);
+
+						returnData.push({
+							items: responseData,
+						});
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
 					}
