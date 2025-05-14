@@ -146,7 +146,7 @@ export class BrightData implements INodeType {
 						throw new NodeOperationError(this.getNode(), error);
 					}
 				}
-			} else if (operation === 'scrapeSnapshotByUrl') {
+			} else if (operation === 'scrapeByUrl') {
 				for (let i = 0; i < items.length; i++) {
 					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
 					if (dataset === undefined) {
@@ -177,7 +177,7 @@ export class BrightData implements INodeType {
 						throw new NodeOperationError(this.getNode(), error);
 					}
 				}
-			} else if (operation === 'triggerSnapshotByUrl') {
+			} else if (operation === 'triggerCollectionByUrl') {
 				for (let i = 0; i < items.length; i++) {
 					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
 					if (dataset === undefined) {
