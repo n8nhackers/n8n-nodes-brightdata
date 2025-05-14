@@ -92,6 +92,20 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 					},
 				},
 			},
+
+			{
+				name: 'List Snapshots',
+				value: 'listSnapshots',
+				action: 'Get dataset snapshots',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/datasets/snapshots',
+					},
+				},
+			},
+
+
 		],
 		default: 'listDatasets',
 	},
@@ -127,7 +141,8 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				resource: ['marketplaceDataset'],
 				operation: [
 					'getDatasetMetadata',
-					'filterDataset'
+					'filterDataset',
+					'listSnapshots'
 				],
 			},
 		},
@@ -155,7 +170,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['marketplaceDataset'],
-				operation: ['listSnapshots', 'getSnapshots'],
+				operation: ['listSnapshots'],
 			},
 		},
 		options: [
@@ -223,89 +238,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'The status of the snapshot to filter the snapshots',
 	},
 
-	{
-		displayName: 'Skip',
-		name: 'skip',
-		type: 'number',
-		default: 0,
-		description: 'Number of snapshots to skip',
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['getSnapshots'],
-			},
-		},
-		routing: {
-			request: {
-				qs: {
-					skip: '={{$value}}',
-				},
-			},
-		},
-	},
-	{
-		displayName: 'Limit',
-		name: 'limit',
-		type: 'number',
-		typeOptions: {
-			minValue: 1,
-		},
-		default: 50,
-		description: 'Max number of results to return',
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['getSnapshots'],
-			},
-		},
-		routing: {
-			request: {
-				qs: {
-					limit: '={{$value}}',
-				},
-			},
-		},
-	},
-	{
-		displayName: 'From Date',
-		name: 'from_date',
-		type: 'dateTime',
-		default: '',
-		description: 'Start date to filter snapshots (ISO 8601 format)',
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['getSnapshots'],
-			},
-		},
-		routing: {
-			request: {
-				qs: {
-					from_date: '={{$value}}',
-				},
-			},
-		},
-	},
-	{
-		displayName: 'To Date',
-		name: 'to_date',
-		type: 'dateTime',
-		default: '',
-		description: 'End date to filter snapshots (ISO 8601 format)',
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['getSnapshots'],
-			},
-		},
-		routing: {
-			request: {
-				qs: {
-					to_date: '={{$value}}',
-				},
-			},
-		},
-	},
 
 	{
 		displayName: 'Snapshot ID',
@@ -319,7 +251,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 					'getSnapshotParts',
 					'getSnapshotContent',
 					'deliverSnapshot',
-					'monitorProgressSnapshot',
 				],
 			},
 		},
