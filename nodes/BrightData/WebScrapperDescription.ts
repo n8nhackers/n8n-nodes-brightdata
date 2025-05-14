@@ -72,9 +72,9 @@ export const webScrapperOperations: INodeProperties[] = [
 				},
 			},
 			{
-				name: 'Trigger Snapshot By URL',
-				value: 'triggerSnapshotByUrl',
-				action: 'Trigger a snapshot by URL',
+				name: 'Trigger Collection By URL',
+				value: 'triggerCollectionByUrl',
+				action: 'Trigger a collection and generate a snapshot by URL',
 				routing: {
 					request: {
 						method: 'POST',
