@@ -58,9 +58,9 @@ export const webScrapperOperations: INodeProperties[] = [
 			},
 
 			{
-				name: 'Scrape Snapshot By URL',
-				value: 'scrapeSnapshotByUrl',
-				action: 'Create a snapshot by URL',
+				name: 'Scrape By URL',
+				value: 'scrapeByUrl',
+				action: 'Scrape data synchronously by URL',
 				routing: {
 					request: {
 						method: 'POST',
@@ -86,7 +86,7 @@ export const webScrapperOperations: INodeProperties[] = [
 				},
 			},
 		],
-		default: 'scrapeSnapshotByUrl',
+		default: 'scrapeByUrl',
 	},
 ];
 
