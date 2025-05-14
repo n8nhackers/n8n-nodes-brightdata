@@ -85,22 +85,15 @@ export class BrightData implements INodeType {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: IDataObject[] = [];
-		const resource = this.getNodeParameter('resource', 0) as string;
+		const resource = this.getNodeParameter('resource', 0) as 'marketplaceDataset' | 'webScrapper' | 'webUnlocker';
 		const operation = this.getNodeParameter('operation', 0) as string;
 
+		console.log('Resource:', resource);
+		console.log('Operation:', operation);
+
 		// Retrieve the routing info defined for the current operation from the node description
-		if (resource === 'marketplaceDataset') {
-			if (operation === 'listDatasets') {
-				for (let i = 0; i < items.length; i++) {
-					const responseData = await brightdataApiRequest.call(
-						this,
-						'GET',
-						'/datasets/list',
-						{},
-					);
-					returnData.push({items: responseData});
-				}
-			} else if (operation === 'monitorProgressSnapshot') {
+		if (resource === 'webScrapper') {
+			if (operation === 'monitorProgressSnapshot') {
 				for (let i = 0; i < items.length; i++) {
 					const snapshot_id = this.getNodeParameter('snapshot_id', i) as string;
 
@@ -152,17 +145,22 @@ export class BrightData implements INodeType {
 					if (dataset === undefined) {
 						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
 					}
+
 					// Check if dataset_id is a string
 					const dataset_id = dataset.value;
+
+					console.log('Dataset ID:', dataset_id);
 					const bodyString = this.getNodeParameter('urls', i) as string;
 					let body = null;
 					try {
 						body = JSON.parse(bodyString);
 					} catch (error) {
+						console.log('Error parsing JSON:', error);
 						throw new NodeOperationError(this.getNode(), 'Invalid JSON format for URLs');
 					}
 
 					if (!body) {
+						console.log('Body is null or undefined');
 						throw new NodeOperationError(this.getNode(), 'URL is required');
 					}
 
@@ -171,7 +169,9 @@ export class BrightData implements INodeType {
 					};
 
 					try {
+						console.log('Body:', body, 'qs:', qs);
 						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/scrape', body, qs);
+						console.log('Response:', responseData);
 						returnData.push(responseData);
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
@@ -211,16 +211,17 @@ export class BrightData implements INodeType {
 						throw new NodeOperationError(this.getNode(), error);
 					}
 				}
-			} else if (operation === 'getSnapshot') {
+			}
+		} else if (resource === 'marketplaceDataset') {
+			if (operation === 'listDatasets') {
 				for (let i = 0; i < items.length; i++) {
-					try {
-						const responseData = await brightdataApiRequest.call(this, 'GET', '/datasets/list', {});
-						returnData.push({
-							datasets: responseData,
-						});
-					} catch (error) {
-						throw new NodeOperationError(this.getNode(), error);
-					}
+					const responseData = await brightdataApiRequest.call(
+						this,
+						'GET',
+						'/datasets/list',
+						{},
+					);
+					returnData.push({items: responseData});
 				}
 			} else if (operation === 'filterDataset') {
 				for (let i = 0; i < items.length; i++) {
