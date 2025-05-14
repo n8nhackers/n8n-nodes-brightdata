@@ -88,9 +88,6 @@ export class BrightData implements INodeType {
 		const resource = this.getNodeParameter('resource', 0) as 'marketplaceDataset' | 'webScrapper' | 'webUnlocker';
 		const operation = this.getNodeParameter('operation', 0) as string;
 
-		console.log('Resource:', resource);
-		console.log('Operation:', operation);
-
 		// Retrieve the routing info defined for the current operation from the node description
 		if (resource === 'webScrapper') {
 			if (operation === 'monitorProgressSnapshot') {
