@@ -13,6 +13,17 @@ export const marketplaceDatasetOperations: INodeProperties[] = [
 			},
 		},
 		options: [
+			{
+				name: "Deliver Snapshot",
+				value: 'deliverSnapshot',
+				action: 'Deliver the dataset snapshot',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/snapshots/{{$parameter["snapshot_id"]}}/deliver',
+					},
+				},
+			},
 
 			{
 				name: 'Filter Dataset',
@@ -246,6 +257,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: [
 					'getSnapshotMetadata',
 					'getSnapshotParts',
@@ -265,6 +277,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: 100,
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 			},
 		},
@@ -279,6 +292,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Whether compress the response in gzip format',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['getSnapshotContent'],
 			},
 		},
@@ -298,6 +312,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Number of records to include in each response batch',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['getSnapshotContent'],
 			},
 		},
@@ -317,6 +332,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Number of batch to return. The numbering starts from 1.',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['getSnapshotContent'],
 			},
 		},
@@ -351,6 +367,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Format of the response. Available options: JSON, JSONL, CSV.',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['getSnapshotContent'],
 			},
 		},
@@ -381,6 +398,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: 'filter_single',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 			},
 		},
@@ -396,6 +414,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 				filter_type: ['filter_single'],
 			},
@@ -470,6 +489,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 				filter_type: ['filter_single'],
 			},
@@ -493,6 +513,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 				filter_type: ['filter_single'],
 			},
@@ -521,6 +542,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '{"operator":"","filters":[{"name":"","operator":"","value":""}]}',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 				filter_type: ['filters_group'],
 			},
@@ -546,6 +568,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: 'industries:value\nAccounting\nAd Network\nAdvertising\n',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 				filter_type: ['csv_filter'],
 			},
@@ -570,6 +593,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['filterDataset'],
 				filter_type: ['json_filter'],
 			},
@@ -625,6 +649,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: 's3',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 			},
 		},
@@ -647,6 +672,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Webhook URL to deliver the snapshot',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['webhook'],
 			},
@@ -662,9 +688,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		},
 	},
 
-
-
-
 	{
 		displayName: 'Filename Template',
 		name: 'filename_template',
@@ -673,6 +696,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Template for the filename, including placeholders',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: [
 					'webhook',
@@ -722,6 +746,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Extension for the delivered file (JSON, JSONL, CSV)',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: [
 					'webhook',
@@ -758,6 +783,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Google PubSub topic ID',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['gcs_pubsub'],
 			},
@@ -781,6 +807,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['gcs_pubsub', 'gcs'],
 			},
@@ -808,6 +835,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['gcs_pubsub', 'gcs'],
 			},
@@ -834,6 +862,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Attributes to include in the PubSub message',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['gcs_pubsub'],
 			},
@@ -857,6 +886,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Name of the Azure container',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['azure'],
 			},
@@ -881,6 +911,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Name of the bucket',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3', 'ali_oss', 'gcs'],
 			},
@@ -903,6 +934,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3'],
 			},
@@ -931,6 +963,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3'],
 			},
@@ -956,6 +989,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['ali_oss'],
 			},
@@ -983,6 +1017,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['ali_oss'],
 			},
@@ -1009,6 +1044,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Azure storage account',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['azure'],
 			},
@@ -1037,6 +1073,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Azure storage key',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['azure'],
 			},
@@ -1065,6 +1102,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Azure SAS token for access',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['azure'],
 			},
@@ -1090,6 +1128,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3'],
 			},
@@ -1113,6 +1152,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3'],
 			},
@@ -1138,6 +1178,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Target path',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3', 'ali_oss', 'gcs', 'azure', 'sftp', 'snowflake'],
 			},
@@ -1161,6 +1202,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'AWS Region',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['s3', 'ali_oss'],
 			},
@@ -1186,6 +1228,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'SFTP server host',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1210,6 +1253,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'SFTP server port',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1232,6 +1276,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Remote path on the SFTP server to store the file',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1254,6 +1299,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'SFTP username',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1282,6 +1328,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'SFTP password',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1310,6 +1357,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'SSH key for SFTP authentication',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1338,6 +1386,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Passphrase for the SSH key, if any',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['sftp'],
 			},
@@ -1363,6 +1412,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1386,6 +1436,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1409,6 +1460,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1432,6 +1484,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1455,6 +1508,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1478,6 +1532,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1503,6 +1558,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1531,6 +1587,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 				deliver_type: ['snowflake'],
 			},
@@ -1558,6 +1615,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 		description: 'Whether compress the response in gzip format',
 		displayOptions: {
 			show: {
+				resource: ['marketplaceDataset'],
 				operation: ['deliverSnapshot'],
 			},
 		},
@@ -1566,66 +1624,6 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				body: {
 					compress: '={{$parameter["compress"]}}',
 				},
-			},
-		},
-	},
-
-	{
-		displayName: 'URLs',
-		name: 'urls',
-		type: 'json',
-		default: '[{"url":"https://www.linkedin.com/in/bulentakar"}]',
-		description: 'The URLs to trigger the snapshot',
-		required: true,
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['triggerSnapshotByUrl', 'scrapeSnapshotByUrl'],
-			},
-		},
-		routing: {
-			send: {
-				type: 'body',
-			},
-		},
-	},
-
-	{
-		displayName: 'Endpoint',
-		name: 'endpoint',
-		type: 'string',
-		default: 'https://brightdata-test.free.beeceptor.com',
-		description: 'The endpoint to send the data obtained from the snapshot',
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['triggerSnapshotByUrl'],
-			},
-		},
-		routing: {
-			send: {
-				type: 'query',
-				property: 'endpoint',
-			},
-		},
-	},
-
-	{
-		displayName: 'Notify',
-		name: 'notify',
-		type: 'string',
-		default: '',
-		description: 'The URL to notify when the collection is finished',
-		displayOptions: {
-			show: {
-				resource: ['marketplaceDataset'],
-				operation: ['triggerSnapshotByUrl'],
-			},
-		},
-		routing: {
-			send: {
-				type: 'query',
-				property: 'notify',
 			},
 		},
 	},

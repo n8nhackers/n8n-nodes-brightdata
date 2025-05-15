@@ -228,6 +228,195 @@ export class BrightData implements INodeType {
 						throw new NodeOperationError(this.getNode(), error);
 					}
 				}
+			} else if (operation === 'deliverSnapshot') {
+				for (let i = 0; i < items.length; i++) {
+					const notify = this.getNodeParameter('notify', i) as string;
+					const snapshot_id = this.getNodeParameter('snapshot_id', i) as string;
+					const deliver_type = this.getNodeParameter('deliver_type', i) as string;
+
+					let body: IDataObject = {
+						deliver: {
+							type: deliver_type,
+						},
+					};
+
+					let qs : IDataObject = {
+						notify
+					}
+
+					switch (deliver_type) {
+						case 'webhook': {
+							(body.deliver as IDataObject)['endpoint'] = this.getNodeParameter(
+								'endpoint',
+								i,
+							) as string;
+							// Common filename fields for webhook
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							break;
+						}
+						case 's3': {
+							(body.deliver as IDataObject)['bucket'] = this.getNodeParameter(
+								'bucket',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								'aws-access-key': this.getNodeParameter('aws-access-key', i) as string,
+								'aws-secret-key': this.getNodeParameter('aws-secret-key', i) as string,
+							};
+							const region = this.getNodeParameter('region', i) as string;
+							if (region) {
+								(body.deliver as IDataObject)['region'] = region;
+							}
+							const roleArn = this.getNodeParameter('role_arn', i) as string;
+							if (roleArn) {
+								((body.deliver as IDataObject)['credentials'] as IDataObject)['role_arn'] = roleArn;
+							}
+							const externalId = this.getNodeParameter('external_id', i) as string;
+							if (externalId) {
+								((body.deliver as IDataObject)['credentials'] as IDataObject)['external_id'] =
+									externalId;
+							}
+							break;
+						}
+						case 'ali_oss': {
+							(body.deliver as IDataObject)['bucket'] = this.getNodeParameter(
+								'bucket',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								'access-key': this.getNodeParameter('access-key', i) as string,
+								'secret-key': this.getNodeParameter('secret-key', i) as string,
+							};
+							const region = this.getNodeParameter('region', i) as string;
+							if (region) {
+								(body.deliver as IDataObject)['region'] = region;
+							}
+							break;
+						}
+						case 'gcs_pubsub': {
+							(body.deliver as IDataObject)['bucket'] = this.getNodeParameter(
+								'bucket',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								client_email: this.getNodeParameter('client_email', i) as string,
+								private_key: this.getNodeParameter('private_key', i) as string,
+							};
+							(body.deliver as IDataObject)['topic_id'] = this.getNodeParameter(
+								'topic_id',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['attributes'] = this.getNodeParameter(
+								'attributes',
+								i,
+							) as string;
+							break;
+						}
+						case 'gcs': {
+							(body.deliver as IDataObject)['bucket'] = this.getNodeParameter(
+								'bucket',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								client_email: this.getNodeParameter('client_email', i) as string,
+								private_key: this.getNodeParameter('private_key', i) as string,
+							};
+							break;
+						}
+						case 'azure': {
+							(body.deliver as IDataObject)['container'] = this.getNodeParameter(
+								'container',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								account: this.getNodeParameter('account', i) as string,
+								key: this.getNodeParameter('key', i) as string,
+								sas_token: this.getNodeParameter('sas_token', i) as string,
+							};
+							break;
+						}
+						case 'sftp': {
+							(body.deliver as IDataObject)['host'] = this.getNodeParameter('host', i) as string;
+							(body.deliver as IDataObject)['port'] = this.getNodeParameter('port', i) as number;
+							(body.deliver as IDataObject)['path'] = this.getNodeParameter('path', i) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								username: this.getNodeParameter('username', i) as string,
+								password: this.getNodeParameter('password', i) as string,
+								ssh_key: this.getNodeParameter('ssh_key', i) as string,
+								passphrase: this.getNodeParameter('passphrase', i) as string,
+							};
+							break;
+						}
+						case 'snowflake': {
+							(body.deliver as IDataObject)['database'] = this.getNodeParameter(
+								'database',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['schema'] = this.getNodeParameter(
+								'schema',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['stage'] = this.getNodeParameter('stage', i) as string;
+							(body.deliver as IDataObject)['role'] = this.getNodeParameter('role', i) as string;
+							(body.deliver as IDataObject)['warehouse'] = this.getNodeParameter(
+								'warehouse',
+								i,
+							) as string;
+							(body.deliver as IDataObject)['filename'] = {
+								template: this.getNodeParameter('filename_template', i) as string,
+								extension: this.getNodeParameter('filename_extension', i) as string,
+							};
+							(body.deliver as IDataObject)['credentials'] = {
+								account: this.getNodeParameter('credentials.account', i) as string,
+								user: this.getNodeParameter('credentials.user', i) as string,
+								password: this.getNodeParameter('credentials.password', i) as string,
+							};
+							break;
+						}
+						default:
+							break;
+					}
+
+					try {
+						const responseData = await brightdataApiRequest.call(
+							this,
+							'POST',
+							`/datasets/v3/deliver/${snapshot_id}`,
+							body,
+							qs,
+						);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
 			}
 		} else if (resource === 'marketplaceDataset') {
 			if (operation === 'listDatasets') {
