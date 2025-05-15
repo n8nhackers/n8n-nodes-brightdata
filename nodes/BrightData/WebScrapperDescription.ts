@@ -290,6 +290,8 @@ const webScrapperParameters: INodeProperties[] = [
 		description: 'The ID of the snapshot to operate on',
 	},
 
+
+
 	{
 		displayName: 'URLs',
 		name: 'urls',
@@ -308,6 +310,49 @@ const webScrapperParameters: INodeProperties[] = [
 				type: 'body',
 			},
 		},
+	},
+
+	{
+		displayName: 'Include Errors',
+		name: 'include_errors',
+		type: 'boolean',
+		default: false,
+		displayOptions: {
+			show: {
+				resource: ['webScrapper'],
+				operation: [
+					'scrapeByUrl',
+				],
+			},
+		},
+		required: true,
+		description: 'Whether to include errors in the response',
+	},
+
+	{
+		displayName: 'Format',
+		name: 'format',
+		type: 'options',
+		options: [
+			{
+				name: 'JSON',
+				value: 'json',
+			},
+			{
+				name: 'CSV',
+				value: 'csv',
+			},
+		],
+		default: 'json',
+		displayOptions: {
+			show: {
+				resource: ['webScrapper'],
+				operation: [
+					'scrapeByUrl',
+				],
+			},
+		},
+		description: 'The format of the data to be returned',
 	},
 
 	{

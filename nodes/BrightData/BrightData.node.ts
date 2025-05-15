@@ -148,6 +148,8 @@ export class BrightData implements INodeType {
 
 					console.log('Dataset ID:', dataset_id);
 					const bodyString = this.getNodeParameter('urls', i) as string;
+					const format = this.getNodeParameter('format', i) as string;
+					const include_errors = this.getNodeParameter('include_errors', i) as boolean;
 					let body = null;
 					try {
 						body = JSON.parse(bodyString);
@@ -163,13 +165,31 @@ export class BrightData implements INodeType {
 
 					const qs: IDataObject = {
 						dataset_id,
+						format,
+						include_errors,
 					};
 
 					try {
 						console.log('Body:', body, 'qs:', qs);
 						const responseData = await brightdataApiRequest.call(this, 'POST', '/datasets/v3/scrape', body, qs);
 						console.log('Response:', responseData);
-						returnData.push(responseData);
+						//detect data type. if
+						try {
+							//if is string
+							if (typeof responseData === 'object') {
+								const isArray = Array.isArray(responseData);
+								if (isArray) {
+									//if is array
+									returnData.push(...responseData);
+								}
+							} else if (typeof responseData === 'string') {
+								//if is string
+								returnData.push({ data: responseData });
+							}
+						} catch (error) {
+							console.log('Error parsing response:', error);
+							throw new NodeOperationError(this.getNode(), 'Error parsing response');
+						}
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
 					}
