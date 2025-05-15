@@ -121,6 +121,8 @@ const webScrapperParameters: INodeProperties[] = [
 		},
 	},
 
+
+
 	{
 		displayName: 'Status',
 		name: 'status',
@@ -293,6 +295,7 @@ const webScrapperParameters: INodeProperties[] = [
 				resource: ['webScrapper'],
 				operation: [
 					'monitorProgressSnapshot',
+					'deliverSnapshot',
 				],
 			},
 		},

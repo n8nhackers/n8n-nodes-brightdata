@@ -111,10 +111,13 @@ export class BrightData implements INodeType {
 				}
 			} else if (operation === 'getSnapshots') {
 				for (let i = 0; i < items.length; i++) {
-					const dataset_id = this.getNodeParameter('dataset_id', i) as string;
-					if (!dataset_id) {
+					const dataset = this.getNodeParameter('dataset_id', i) as { value: string };
+					if (dataset === undefined) {
 						throw new NodeOperationError(this.getNode(), 'Dataset ID is required');
 					}
+
+					// Check if dataset_id is a string
+					const dataset_id = dataset.value;
 					const qs: IDataObject = {
 						dataset_id,
 						status: this.getNodeParameter('status', i) as string,
