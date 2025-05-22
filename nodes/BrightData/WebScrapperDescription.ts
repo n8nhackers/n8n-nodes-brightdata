@@ -25,6 +25,17 @@ export const webScrapperOperations: INodeProperties[] = [
 				},
 			},
 			{
+				name: "Download Snapshot",
+				value: 'downloadSnapshot',
+				action: 'Download the snapshot content',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/datasets/v3/snapshot/{{$parameter["snapshot_id"]}}',
+					},
+				},
+			},
+			{
 				name: 'Get Snapshots',
 				value: 'getSnapshots',
 				action: 'Get filtered snapshots',
@@ -122,7 +133,6 @@ const webScrapperParameters: INodeProperties[] = [
 	},
 
 
-
 	{
 		displayName: 'Status',
 		name: 'status',
@@ -197,6 +207,34 @@ const webScrapperParameters: INodeProperties[] = [
 			},
 		],
 		description: 'The status of the snapshot to filter the snapshots',
+	},
+
+	{
+		displayName: 'Batch Size',
+		name: 'batch_size',
+		type: 'number',
+		default: 100,
+		displayOptions: {
+			show: {
+				resource: ['webScrapper'],
+				operation: ['downloadSnapshot'],
+			},
+		},
+		description: 'The number of records to download in each batch',
+	},
+
+	{
+		displayName: 'Part',
+		name: 'part',
+		type: 'number',
+		default: 1,
+		displayOptions: {
+			show: {
+				resource: ['webScrapper'],
+				operation: ['downloadSnapshot'],
+			},
+		},
+		description: 'The part number of the snapshot to download',
 	},
 
 	{
@@ -296,6 +334,7 @@ const webScrapperParameters: INodeProperties[] = [
 				operation: [
 					'monitorProgressSnapshot',
 					'deliverSnapshot',
+					'downloadSnapshot',
 				],
 			},
 		},
@@ -362,6 +401,7 @@ const webScrapperParameters: INodeProperties[] = [
 				resource: ['webScrapper'],
 				operation: [
 					'scrapeByUrl',
+					'downloadSnapshot',
 				],
 			},
 		},
@@ -1439,7 +1479,7 @@ const webScrapperParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['webScrapper'],
-				operation: ['deliverSnapshot'],
+				operation: ['deliverSnapshot', 'downloadSnapshot'],
 			},
 		},
 		routing: {

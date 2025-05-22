@@ -90,7 +90,38 @@ export class BrightData implements INodeType {
 
 		// Retrieve the routing info defined for the current operation from the node description
 		if (resource === 'webScrapper') {
-			if (operation === 'monitorProgressSnapshot') {
+			if (operation === 'downloadSnapshot') {
+				for (let i = 0; i < items.length; i++) {
+					const snapshot_id = this.getNodeParameter('snapshot_id', i) as string;
+					if (!snapshot_id) {
+						throw new NodeOperationError(this.getNode(), 'Snapshot ID is required');
+					}
+
+					const format = this.getNodeParameter('format', i) as string;
+					const compress = this.getNodeParameter('compress', i) as boolean;
+					const batch_size = this.getNodeParameter('batch_size', i) as number;
+					const part = this.getNodeParameter('part', i) as number;
+
+					const qs: IDataObject = {
+						format,
+						compress,
+						batch_size,
+						part,
+					};
+					try {
+						const responseData = await brightdataApiRequest.call(
+							this,
+							'GET',
+							`/datasets/v3/snapshot/${snapshot_id}`,
+							{},
+							qs,
+						);
+						returnData.push(responseData);
+					} catch (error) {
+						throw new NodeOperationError(this.getNode(), error);
+					}
+				}
+			} else if (operation === 'monitorProgressSnapshot') {
 				for (let i = 0; i < items.length; i++) {
 					const snapshot_id = this.getNodeParameter('snapshot_id', i) as string;
 
