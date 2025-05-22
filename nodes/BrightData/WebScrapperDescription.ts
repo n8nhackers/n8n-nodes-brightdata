@@ -432,7 +432,7 @@ const webScrapperParameters: INodeProperties[] = [
 		displayName: 'Notify',
 		name: 'notify',
 		type: 'string',
-		default: '',
+		default: 'https://brightdata-test.free.beeceptor.com',
 		description: 'The URL to notify when the collection is finished',
 		displayOptions: {
 			show: {
