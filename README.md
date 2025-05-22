@@ -129,6 +129,7 @@ This workflow is useful for automating product deal recommendations based on use
 - **[Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator)**: For generating html output using templates.
 
 ### TL;DR - Marketplace Dataset
+
 ![Marketplace Datasets](images/marketplace-dataset-workflow-sample.png?raw=true "Marketplace Datasets")
 
 New Marketplace Dataset API allows to create custom snapshots by filtering existing Bright Data datasets (more than [160 datasets](https://docs.brightdata.com/datasets/introduction)).
@@ -137,10 +138,12 @@ Datasets are updated by Bright Data, so you don't have to scrape anything.
 
 Your can get a list of records from the full dataset without scrapping the records by yourself. This is faster and cheaper than adquiring data from zero.
 You can use datasets to build custom AI Agents like:
+
 - Real Estate Agent to search houses to buy
 - Candidates Agent to search future workers
 
 Current existing datasets allow to get data from:
+
 - LinkedIn
 - Instagram
 - Facebook
@@ -150,16 +153,17 @@ Current existing datasets allow to get data from:
 
 Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy the URL of [Get Marketplace Functions](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/marketplace-dataset-workflow-sample.json) and paste into "Import for URL" submenu at n8n.
 
-
 ### TL;DR - More samples
 
 You can also use the next ready-to-use samples for your n8n (self-hosted version):
-- [Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Update_LinkedIn_Profiles_one_by_one_with_Bright_Data_and_Google_Sheets_with_no_scrapping.json)
-- [Create a Prospecting list for Commercial purposes with Google Search and Bright Data on-demand](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Create_a_Prospecting_list_for_Commercial_purposes_with_Google_Search_and_Bright_Data_on_demand.json)
+
+- [Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Update_LinkedIn_Profiles_one_by_one_with_Bright_Data_and_Google_Sheets_with_no_scrapping.json)![Update LinkedIn Profiles](images/Update_LinkedIn_Profiles_one_by_one_with_Bright_Data_and_Google_Sheets_with_no_scrapping.png?raw=true "Update LinkedIn Profiles")
+- [Create a Prospect list for Commercial purposes with Google Search and Bright Data on-demand](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Create_a_Prospect_list_for_Commercial_purposes_with_Google_Search_and_Bright_Data_on_demand.json)![Create a Prospect List](images/Create_a_Prospect_list_for_Commercial_purposes_with_Google_Search_and_Bright_Data_on_demand.png?raw=true "Create a Prospect List")
 
 # Changelog
 
 Here you can find the list of changes applied to this node:
+
 - 0.1.33: Add samples for WebScrapper/Scrape By URL and WebScrapper/Create Snapshot
 - 0.1.32: Fix equals on MarketplaceDataset/filterSnapshot
 - 0.1.31: Add webScrapper/downloadSnapshot
