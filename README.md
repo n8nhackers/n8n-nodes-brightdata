@@ -154,6 +154,7 @@ Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy t
 # Changelog
 
 Here you can find the list of changes applied to this node:
+- 0.1.32: Fix equals on MarketplaceDataset/filterSnapshot
 - 0.1.31: Add webScrapper/downloadSnapshot
 - 0.1.30: Add webScrapper/deliverSnapshot + Fix webScrapper/getSnapshots
 - 0.1.29: Fix error on Marketplace/Get Snapshot Content
