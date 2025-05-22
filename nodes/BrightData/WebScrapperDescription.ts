@@ -213,7 +213,7 @@ const webScrapperParameters: INodeProperties[] = [
 		displayName: 'Batch Size',
 		name: 'batch_size',
 		type: 'number',
-		default: 100,
+		default: 1000,
 		displayOptions: {
 			show: {
 				resource: ['webScrapper'],
