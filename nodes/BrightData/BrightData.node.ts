@@ -116,7 +116,8 @@ export class BrightData implements INodeType {
 							{},
 							qs,
 						);
-						returnData.push(responseData);
+						// console.log('Response:', JSON.stringify(responseData, null, 2));
+						returnData.push({items: responseData});
 					} catch (error) {
 						throw new NodeOperationError(this.getNode(), error);
 					}
