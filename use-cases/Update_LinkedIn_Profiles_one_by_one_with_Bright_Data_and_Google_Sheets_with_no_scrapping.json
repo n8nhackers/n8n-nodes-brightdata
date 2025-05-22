@@ -1,0 +1,656 @@
+{
+  "name": "Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1220,
+        180
+      ],
+      "id": "1fe42863-c218-4804-81bd-33ccde1af967",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "content": "# Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping",
+        "height": 520,
+        "width": 2240
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1320,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "a729db8f-4a08-4e98-afc9-3da9c8dd2602",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -460,
+        0
+      ],
+      "id": "57ac8676-5bc5-4c71-b710-d863104325fa",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "sendTo": "miquel@n8nhackers.com",
+        "subject": "=LinkedIn update process",
+        "message": "={{ $json.count_id }} profiles were updated!",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        520,
+        -60
+      ],
+      "id": "bde503a5-c291-423a-b7ba-4adc40a482e5",
+      "name": "Gmail",
+      "webhookId": "5e3223f1-2f72-49e0-87a4-39f89e40b1a2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4keJHSrvxbTMBL3v",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1220,
+        0
+      ],
+      "id": "a6d6bca6-b3c4-416d-abd5-6a1a5e137be2",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8b34893b-01ff-449e-9cb1-b3231d94b797",
+              "leftValue": "={{$json.processed + \"\" }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -680,
+        0
+      ],
+      "id": "7ff59e87-db1a-4da7-bf08-65b25ff3ebb2",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1vq7cNUv4_8zzqWXjEq6Hd0VVDKOF-jh_hAnQWdu85a4/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "WebScrapper",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vq7cNUv4_8zzqWXjEq6Hd0VVDKOF-jh_hAnQWdu85a4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "processed": "true",
+            "fullname": "={{ $json.name }}",
+            "location": "={{ $json.city }}",
+            "country": "={{ $json.country_code }}",
+            "current_company": "={{ $json.current_company_name }}",
+            "followers": "={{ $json.followers }}",
+            "connections": "={{ $json.connections }}",
+            "about": "={{ $json.about }}",
+            "profile_avatar": "={{ $json.avatar }}",
+            "languages": "={{ $json.languages.map(item => item.title).join(\",\")}}",
+            "linkedin_uri": "={{ $json.url }}"
+          },
+          "matchingColumns": [
+            "linkedin_uri"
+          ],
+          "schema": [
+            {
+              "id": "linkedin_uri",
+              "displayName": "linkedin_uri",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "profile_avatar",
+              "displayName": "profile_avatar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "profile_image",
+              "displayName": "profile_image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fullname",
+              "displayName": "fullname",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "current_company",
+              "displayName": "current_company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "about",
+              "displayName": "about",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "languages",
+              "displayName": "languages",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "followers",
+              "displayName": "followers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "connections",
+              "displayName": "connections",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "processed",
+              "displayName": "processed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        100
+      ],
+      "id": "ad42db7d-2e33-43aa-9163-ef0a545fa359",
+      "name": "Update LinkedIn Uri Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nxwxNRn4uj5h6qZq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "field": "processed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        220,
+        -60
+      ],
+      "id": "ea884cb5-d6e4-4fb0-a8cb-badf20f767ad",
+      "name": "Summarize total records"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1vq7cNUv4_8zzqWXjEq6Hd0VVDKOF-jh_hAnQWdu85a4/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "WebScrapper",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vq7cNUv4_8zzqWXjEq6Hd0VVDKOF-jh_hAnQWdu85a4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -880,
+        0
+      ],
+      "id": "75e33f8b-c9db-4d55-8037-7c2f83d4e161",
+      "name": "Read All Rows",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nxwxNRn4uj5h6qZq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "webScrapper",
+        "dataset_id": {
+          "__rl": true,
+          "value": "gd_l1viktl72bvl7bjuj0",
+          "mode": "list",
+          "cachedResultName": "LinkedIn people profiles"
+        },
+        "urls": "=[{\"url\":\"{{$json.linkedin_uri}}\"}]"
+      },
+      "type": "n8n-nodes-brightdata.brightData",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        100
+      ],
+      "id": "aebfc72b-9b63-479d-8767-04a78ec2ad9b",
+      "name": "BrightData/Scrape By URL",
+      "credentials": {
+        "brightdataApi": {
+          "id": "jk945kIuAFAo9bcg",
+          "name": "BrightData account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "BrightData/Scrape By URL": [
+      {
+        "json": {
+          "id": "dvirsharon",
+          "name": "Dvir Sharon",
+          "city": "Rishon LeZion, Center District, Israel",
+          "country_code": "IL",
+          "about": "I am an experienced growth marketer with expertise in creating and implementing…",
+          "current_company": {
+            "link": "https://il.linkedin.com/company/bright-data?trk=public_profile_topcard-current-company",
+            "name": "Bright Data",
+            "company_id": "bright-data",
+            "location": null
+          },
+          "experience": null,
+          "url": "https://www.linkedin.com/in/dvirsharon/",
+          "educations_details": "The College of Management Academic Studies",
+          "education": [
+            {
+              "title": "The College of Management Academic Studies",
+              "url": "https://il.linkedin.com/school/the-college-of-management/",
+              "start_year": "2017",
+              "end_year": "2020",
+              "description": null,
+              "description_html": null,
+              "institute_logo_url": null
+            }
+          ],
+          "recommendations_count": 2,
+          "avatar": "https://media.licdn.com/dms/image/v2/D4D03AQHSZIej8XoAmg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1672262540985?e=2147483647&v=beta&t=HTsLSNbRFyp3aXsF2ptuZezeNd2jJlhYqG2CAqH_-co",
+          "languages": [
+            {
+              "subtitle": "-",
+              "title": "Hebrew"
+            },
+            {
+              "subtitle": "-",
+              "title": "English"
+            }
+          ],
+          "certifications": [
+            {
+              "meta": "Issued May 2023 Credential ID 64687994adc3f See credential",
+              "subtitle": "Experiment Nation",
+              "title": "Experiment Nation Certified CRO",
+              "credential_url": "https://experimentnation.com/2023/05/20/dvir-sharon-is-an-experiment-nation-certified-cro/?trk=public_profile_see-credential",
+              "credential_id": "64687994adc3f"
+            },
+            {
+              "meta": "Issued Jul 2021 Credential ID AerRpQCxciXtju5ops1cameVwZaJ See credential",
+              "subtitle": "LinkedIn",
+              "title": "Become a Project Manager",
+              "credential_url": "https://www.linkedin.com/learning/certificates/615d4469497d8c9c777f5c9b83b70dbdfdf2b57e53836339a46be9918bf63e9c?trk=public_profile_see-credential",
+              "credential_id": "AerRpQCxciXtju5ops1cameVwZaJ"
+            },
+            {
+              "meta": "Issued Apr 2021 Credential ID AbVM2QPZYpiY8q2sAz7ILqItQRx3 See credential",
+              "subtitle": "LinkedIn",
+              "title": "Become a Digital Marketing Specialist",
+              "credential_url": "https://www.linkedin.com/learning/certificates/3ce1fa31ee0c07a07ccd1e703f19217315ec51fd095c31f2c4e7f41ad9656ef4?trk=public_profile_see-credential",
+              "credential_id": "AbVM2QPZYpiY8q2sAz7ILqItQRx3"
+            },
+            {
+              "meta": "Issued May 2022 Expires May 2023 Credential ID 56664544 See credential",
+              "subtitle": "Google Digital Academy (Skillshop)",
+              "title": "Google Analytics Individual Qualification",
+              "credential_url": "https://skillshop.exceedlms.com/student/award/nMW2CPPgBkzddXFzrv6wexnG?trk=public_profile_see-credential",
+              "credential_id": "56664544"
+            },
+            {
+              "meta": "See credential",
+              "subtitle": "Appcues",
+              "title": "User Onboarding 101",
+              "credential_url": "https://www.credly.com/badges/c5b104e4-a6e5-49a2-b65e-091453ad0407/public_url?trk=public_profile_see-credential",
+              "credential_id": null
+            }
+          ],
+          "recommendations": [
+            "Lakshay Kochhar “I had the pleasure of working with Dvir Sharon, who has consistently demonstrated exceptional expertise in managing multiple brands with a sharp focus on Conversion Rate Optimization. Dvir’s strategic mindset and data-driven approach have driven significant improvements in CRO metrics across diverse campaigns and industries. He combines deep analytical skills with a strong understanding of customer behavior, enabling him to craft optimization strategies that truly move the needle. His ability to juggle multiple brand requirements while maintaining quality and delivering measurable results is impressive.”",
+            "Ben Rotenberg “Dvir is the best professional I have had the pleasure of training. He is extremely smart and a natural problem solver. Dvir combines high-level creativity and exceptional technological capabilities. His self-learning abilities allow him to acquire any skill he needs and adapt to any challenge. I'm waiting for the day (which will not be far off) that I might have the opportunity to work for him and for him to train me.”"
+          ],
+          "volunteer_experience": [
+            {
+              "duration": "2023 - Present · 2 years",
+              "duration_short": "2 years",
+              "end_date": "Present",
+              "start_date": "2023",
+              "subtitle": "adplist.org",
+              "title": "Mentor"
+            },
+            {
+              "duration": "Dec 2022 - Present · 2 years 6 months",
+              "duration_short": "2 years 6 months",
+              "end_date": "Present",
+              "info": "Medito Foundation is a nonprofit dedicated to improving mental well-being, including helping people to cope better with depression, stress, anxiety, and any other negative states of mind.",
+              "start_date": "Dec 2022",
+              "subtitle": "Medito Foundation",
+              "title": "Volunteer"
+            }
+          ],
+          "followers": 2781,
+          "connections": 500,
+          "current_company_company_id": "bright-data",
+          "current_company_name": "Bright Data",
+          "location": "Rishon LeZion",
+          "input_url": "https://www.linkedin.com/in/dvirsharon/",
+          "linkedin_id": "dvirsharon",
+          "activity": [
+            {
+              "interaction": "Liked by Dvir Sharon",
+              "link": "https://www.linkedin.com/posts/adva-maimon-21495a120_gartnermagicquadrant-ai-activity-7331207466237480960-gLbG",
+              "title": "Big news alert! Workato has been recognized again in the Gartner® Magic Quadrant™ for iPaaS – 7th time as a Leader and 2nd time Furthest in Vision!…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D10AQEpj0-fzCAtcA/image-shrink_1280/B4DZb2uWGWGgAM-/0/1747896066714?e=2147483647&v=beta&t=uSwP6wOaDpHwKTjWBslyAKFojX1nEciBUsCHjoLiG1M",
+              "id": "7331207466237480960"
+            },
+            {
+              "interaction": "Liked by Dvir Sharon",
+              "link": "https://www.linkedin.com/posts/urirb_were-decisively-moving-beyond-simply-doing-activity-7331223835280588802-faT9",
+              "title": "We're decisively moving beyond simply \"doing the same things faster.\" We're exploring new possibilities, innovating continuously, and redefining…",
+              "img": "https://static.licdn.com/aero-v1/sc/h/53n89ecoxpr1qrki1do3alazb",
+              "id": "7331223835280588802"
+            },
+            {
+              "interaction": "Liked by Dvir Sharon",
+              "link": "https://www.linkedin.com/posts/ben-segal-39306311b_the-little-things-you-dont-think-about-before-activity-7331221952994369536-GWKH",
+              "title": "The little things you don’t think about before becoming a startup founder... On the left: my previous hypergrowth startup job kitchen. On the right:…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQH5FUixNwtNyw/feedshare-shrink_1280/B4DZb27gB_IAAk-/0/1747899515775?e=2147483647&v=beta&t=MagodtXIE-CDHxg8GmkGFJLFaZVjvqQaXV88Hi7u6YA",
+              "id": "7331221952994369536"
+            },
+            {
+              "interaction": "Liked by Dvir Sharon",
+              "link": "https://www.linkedin.com/posts/avi-chawla_chat-with-any-github-repository-100-open-source-activity-7330896530863718400-_KLh",
+              "title": "Chat with any GitHub repository! (100% open-source) Simply add \"talkto\" before \"github\" in a GitHub URL and instantly get a conversational…",
+              "img": "https://media.licdn.com/dms/image/v2/D5605AQHcngINm98kqw/videocover-high/B56ZbyTe_rH0Bo-/0/1747821928049?e=2147483647&v=beta&t=7asei59ESJq7haOXezu5AkQmxWjfOoqFYzGFgnoN9po",
+              "id": "100"
+            },
+            {
+              "interaction": "Liked by Dvir Sharon",
+              "link": "https://www.linkedin.com/posts/miquelcolomersalas_have-you-ever-had-to-document-an-n8n-workflow-activity-7331000836925423617-W2DK",
+              "title": "Have you ever had to document an n8n workflow for an international client? You start in English… but then they say: “Can you also send it in Korean?…",
+              "img": "https://media.licdn.com/dms/image/v2/D4D22AQFkSea4lI8d4g/feedshare-shrink_1280/B4DZbN06Z6G8Aw-/0/1747209922793?e=2147483647&v=beta&t=nJBMHgXwx0a39Ay3xGjobwz-Az2leE6bVoWb3ureoxg",
+              "id": "7331000836925423617"
+            },
+            {
+              "interaction": "Shared by Dvir Sharon",
+              "link": "https://www.linkedin.com/posts/dvirsharon_why-prompt-sets-are-the-new-prds-for-ai-activity-7330967877858058242-kwzn",
+              "title": "Why \"Prompt Sets Are The New PRDs\" for AI Products If you're not prototyping with AI, you're likely doing product development wrong. That's a bold…",
+              "img": "https://media.licdn.com/dms/image/v2/D4E22AQGELPiM4VLh6Q/feedshare-shrink_800/B4EZbzUbdjGQAo-/0/1747838943482?e=2147483647&v=beta&t=2F6XWGPlUF0IY9zOKtumc-e4z7ZAryJOQ83KilQ0pxA",
+              "id": "7330967877858058242"
+            }
+          ],
+          "linkedin_num_id": "896075575",
+          "banner_image": "https://media.licdn.com/dms/image/v2/D4E16AQG223QbitIlEw/profile-displaybackgroundimage-shrink_200_800/B4EZaaJYeoHIAc-/0/1746342873859?e=2147483647&v=beta&t=S6FgsCLGRQsx1yWFX57HOo-NFgBtxgOpB8BOBS5U96M",
+          "honors_and_awards": null,
+          "similar_profiles": [],
+          "default_avatar": false,
+          "memorialized_account": false,
+          "bio_links": [],
+          "timestamp": "2025-05-22T09:42:44.982Z",
+          "input": {
+            "url": "https://www.linkedin.com/in/dvirsharon/"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Summarize total records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "BrightData/Scrape By URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read All Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Read All Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update LinkedIn Uri Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize total records": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All Rows": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BrightData/Scrape By URL": {
+      "main": [
+        [
+          {
+            "node": "Update LinkedIn Uri Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f56e0f5c-f670-4e70-93c7-3c60ff55bfc1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"
+  },
+  "id": "dVNrDNuQ62OFSv0g",
+  "tags": []
+}

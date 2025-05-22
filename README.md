@@ -151,9 +151,16 @@ Current existing datasets allow to get data from:
 Install n8n-nodes-brightdata in your n8n from Settings / Community nodes. Copy the URL of [Get Marketplace Functions](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/marketplace-dataset-workflow-sample.json) and paste into "Import for URL" submenu at n8n.
 
 
+### TL;DR - More samples
+
+You can also use the next ready-to-use samples for your n8n (self-hosted version):
+- [Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Update_LinkedIn_Profiles_one_by_one_with_Bright_Data_and_Google_Sheets_with_no_scrapping.json)
+- [Create a Prospecting list for Commercial purposes with Google Search and Bright Data on-demand](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Create_a_Prospecting_list_for_Commercial_purposes_with_Google_Search_and_Bright_Data_on_demand.json)
+
 # Changelog
 
 Here you can find the list of changes applied to this node:
+- 0.1.33: Add samples for WebScrapper/Scrape By URL and WebScrapper/Create Snapshot
 - 0.1.32: Fix equals on MarketplaceDataset/filterSnapshot
 - 0.1.31: Add webScrapper/downloadSnapshot
 - 0.1.30: Add webScrapper/deliverSnapshot + Fix webScrapper/getSnapshots
