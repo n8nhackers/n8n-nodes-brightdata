@@ -483,11 +483,14 @@ export class BrightData implements INodeType {
 
 					if (filterType === 'filter_single') {
 						const fieldName = this.getNodeParameter('field_name', i) as string;
-						const operator = this.getNodeParameter('field_operator', i) as string;
+						let operator = this.getNodeParameter('field_operator', i) as string;
 						const fieldValue = this.getNodeParameter('field_value', i) as string;
+						if (operator == '==') {
+							operator = '=';
+						}
 						body.filter = {
 							name: fieldName,
-							operator,
+							operator: operator,
 							value: fieldValue,
 						}
 						console.log('Filter:', body.filter);

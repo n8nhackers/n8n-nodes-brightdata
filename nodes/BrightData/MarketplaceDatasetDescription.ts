@@ -442,7 +442,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 			},
 			{
 				name: 'Equals',
-				value: '=',
+				value: '==',
 			},
 			{
 				name: 'Greater Than',
@@ -485,7 +485,7 @@ const marketplaceDatasetParameters: INodeProperties[] = [
 				value: 'not_includes',
 			},
 		],
-		default: '=',
+		default: '==',
 		noDataExpression: true,
 		displayOptions: {
 			show: {
