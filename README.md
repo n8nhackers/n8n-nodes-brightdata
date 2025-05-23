@@ -165,6 +165,7 @@ You can also use the next ready-to-use samples for your n8n (self-hosted version
 # Changelog
 
 Here you can find the list of changes applied to this node:
+- 0.1.35: Add Sentry tracking for errors
 - 0.1.34: Add samples for AI Agents with Bright Data
 - 0.1.33: Add samples for WebScrapper/Scrape By URL and WebScrapper/Create Snapshot
 - 0.1.32: Fix equals on MarketplaceDataset/filterSnapshot
