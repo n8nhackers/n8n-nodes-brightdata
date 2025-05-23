@@ -44,7 +44,7 @@
       "parameters": {
         "sendTo": "miquel@n8nhackers.com",
         "subject": "=LinkedIn update process",
-        "message": "={{ $json.count_id }} profiles were updated!",
+        "message": "={{ $json.count_processed }} profiles were updated!",
         "options": {
           "appendAttribution": false
         }
@@ -646,7 +646,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "cfead673-8e86-4381-9258-a121d7007bb1",
+  "versionId": "1ccf299e-3727-4478-829a-19d5d76708d1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"
