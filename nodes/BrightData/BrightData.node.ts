@@ -1,4 +1,4 @@
-import './instrument';
+import './instrument.js';
 
 import {
 	INodeType,
