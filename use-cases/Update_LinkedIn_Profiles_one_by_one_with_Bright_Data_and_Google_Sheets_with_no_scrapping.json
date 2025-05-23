@@ -14,14 +14,14 @@
     },
     {
       "parameters": {
-        "content": "# Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping",
-        "height": 520,
-        "width": 2240
+        "content": "# Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping\n\n## TODO\n- Create a new Google Project (or reuse an existing one).\n- Create an OAuth2 credentials (or reuse an existing one) and complete client_id and client_secret to authorize access to Google Sheets and Gmail from your n8n. You need to add Google Sheets and Gmail API to your project.\n- Clone https://docs.google.com/spreadsheets/d/1vq7cNUv4_8zzqWXjEq6Hd0VVDKOF-jh_hAnQWdu85a4/edit?gid=0#gid=0 to another place.\n- Update Google Sheets with the new URI.\n- You need a valid Bright Data api key.\n",
+        "height": 740,
+        "width": 2020
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1320,
-        -160
+        -1280,
+        -380
       ],
       "typeVersion": 1,
       "id": "a729db8f-4a08-4e98-afc9-3da9c8dd2602",
@@ -646,7 +646,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "f56e0f5c-f670-4e70-93c7-3c60ff55bfc1",
+  "versionId": "cfead673-8e86-4381-9258-a121d7007bb1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"

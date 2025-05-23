@@ -1,5 +1,5 @@
 {
-  "name": "Create a Prospecting list for Commercial purposes with Google Search and Bright Data on-demand",
+  "name": "Create a Prospect list for Commercial purposes with Google Search and Bright Data on-demand",
   "nodes": [
     {
       "parameters": {},
@@ -14,14 +14,14 @@
     },
     {
       "parameters": {
-        "content": "# Create a Prospecting list for Commercial purposes with Google Search and Bright Data on-demand",
-        "height": 600,
-        "width": 2640
+        "content": "# Create a Prospecting list for Commercial purposes with Google Search and Bright Data on-demand\n\n## TODO\n- You need a valid Bright Data api key\n- Add your Bright Data credentials in nodes \"Get 10 Google Results\", \"Generate Collection with Profiles\", \"Get Snapshot Progress\" and \"Download Snapshot\"\n",
+        "height": 560,
+        "width": 2620
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1280,
-        -220
+        -1300,
+        -200
       ],
       "typeVersion": 1,
       "id": "f06a227a-b3b7-4289-975c-25cea9963769",
@@ -498,7 +498,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "1a72007d-39d3-4e0c-abe0-f8e9fae14e4d",
+  "versionId": "81c399cf-189b-4601-95a1-148d688d0366",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b1f85eae352fde76d801a1a612661df6824cc2e68bfd6741e31305160a737e6e"

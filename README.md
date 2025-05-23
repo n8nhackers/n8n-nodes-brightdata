@@ -159,11 +159,13 @@ You can also use the next ready-to-use samples for your n8n (self-hosted version
 
 - [Update LinkedIn Profiles one by one with Bright Data and Google Sheets with no scrapping](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Update_LinkedIn_Profiles_one_by_one_with_Bright_Data_and_Google_Sheets_with_no_scrapping.json)![Update LinkedIn Profiles](images/Update_LinkedIn_Profiles_one_by_one_with_Bright_Data_and_Google_Sheets_with_no_scrapping.png?raw=true "Update LinkedIn Profiles")
 - [Create a Prospect list for Commercial purposes with Google Search and Bright Data on-demand](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Create_a_Prospect_list_for_Commercial_purposes_with_Google_Search_and_Bright_Data_on_demand.json)![Create a Prospect List](images/Create_a_Prospect_list_for_Commercial_purposes_with_Google_Search_and_Bright_Data_on_demand.png?raw=true "Create a Prospect List")
+- [Precision Prospector with Bright Data](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Precision_Prospector_with_Bright_Data.json)![Precision Prospector with Bright Data](images/Precision_Prospector_with_Bright_Data.png?raw=true "Precision Prospector with Bright Data")
+- [Real Estate AI Agent with Bright Data](https://raw.githubusercontent.com/n8nhackers/n8n-nodes-brightdata/refs/heads/main/use-cases/Real_Estate_AI_Agent_with_Bright_Data.json)![Real Estate AI Agent with Bright Data](images/Real_Estate_AI_Agent_with_Bright_Data.png?raw=true "Real Estate AI Agent with Bright Data")
 
 # Changelog
 
 Here you can find the list of changes applied to this node:
-
+- 0.1.34: Add samples for AI Agents with Bright Data
 - 0.1.33: Add samples for WebScrapper/Scrape By URL and WebScrapper/Create Snapshot
 - 0.1.32: Fix equals on MarketplaceDataset/filterSnapshot
 - 0.1.31: Add webScrapper/downloadSnapshot
