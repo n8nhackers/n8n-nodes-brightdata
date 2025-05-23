@@ -24,13 +24,14 @@
   "main": "index.js",
   "scripts": {
     "clear": "rm -rf dist",
-    "build": "npm run clear && tsc && gulp build:icons",
+    "build": "npm run clear && tsc && gulp build:icons && yarn sentry:sourcemaps",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
     "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json",
-    "test": "jest"
+    "test": "jest",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org uproc --project n8n-nodes-brightdata ./dist && sentry-cli sourcemaps upload --org uproc --project n8n-nodes-brightdata ./dist"
   },
   "files": [
     "dist"
@@ -63,6 +64,7 @@
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "dependencies": {
+    "@sentry/cli": "^2.45.0",
     "@sentry/node": "^9.22.0"
   }
 }
