@@ -3,7 +3,6 @@ import './instrument'
 import {
 	INodeType,
 	INodeTypeDescription,
-	NodeConnectionType,
 	INodeExecutionData,
 	IExecuteFunctions,
 	NodeOperationError,
@@ -35,8 +34,8 @@ export class BrightData implements INodeType {
 			name: 'BrightData',
 		},
 		usableAsTool: true,
-		inputs: [NodeConnectionType.Main],
-		outputs: [NodeConnectionType.Main],
+		inputs: ['main'],
+		outputs: ['main'],
 		credentials: [
 			{
 				name: 'brightdataApi',
